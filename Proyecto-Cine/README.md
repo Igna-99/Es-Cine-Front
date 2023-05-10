@@ -1,29 +1,31 @@
 # Proyecto-Cine
 
-This template should help get you started developing with Vue 3 in Vite.
+***********************INTRODUCCION*************************
+El presente proyecto se basa en la gestion de reservas de peliculas de cine. Conteniendo una Home donde presente todas las propuestas de cine para que el USUARIO pueda acceder.
 
-## Recommended IDE Setup
+El usuario previamente debe registrarse en el FORMULARIO correspondiente (REGISTRO) para posteriormente, si sus credenciales son validas, poder loguearse (LOGIN), creando un espacio en memoria o Session que mantenga viva su ID o usuario mientras el navegador se encuentre abierto.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
+Las PELICULAS se clasifican por Genero (Terror, Comedia, Accion, etc), Duracion y si es apta para todo publico (+18)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
 
-```sh
-npm install
-```
+#######USUARIO/REGISTRO#########
+El usuario va a tener.
+    -Email
+    -Contraseña
+    -Nombre de usuario
+    -Fecha de nacimiento
+    -Nombre
+    -Apellido
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+#######USUARIO/LOGIN#######
+Se valida por email o nombre de usuario y contraseña
 
-### Compile and Minify for Production
+######PELICULA#######
+    -Titulo
+    -Genero
+    -Duracion
+    -Descripcion
 
-```sh
-npm run build
-```
