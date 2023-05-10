@@ -29,3 +29,9 @@ Se valida por email o nombre de usuario y contraseña
     -Duracion
     -Descripcion
 
+####SALAS####
+    -butacas
+
+####BUTACA####
+    -Tiene un estado que esta ocupado o no
+    -nroAsiento
