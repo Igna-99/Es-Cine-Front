@@ -1,15 +1,13 @@
 import { createApp } from 'vue'
-import App from './App.vue'
 import {createRouter, createWebHistory} from 'vue-router'
+import { createPinia } from 'pinia'
+
+import './assets/main.css'
 
 import App from "./App.vue"
 import Index from "./components/Index.vue"
-import './assets/main.css'
-
-
 import Pelicula from "./components/Pelicula.vue"
 import Welcome from "./components/TheWelcome.vue"
-import { createPinia } from 'pinia'
 
 
 
@@ -26,4 +24,4 @@ const router = createRouter({
 const pinia = createPinia();
 
 
-createApp(App).use(pinia).use(router).mount('#app')
+createApp(App).use(router).use(pinia).mount('#app')
