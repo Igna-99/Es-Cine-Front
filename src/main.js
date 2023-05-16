@@ -7,7 +7,6 @@ import './assets/main.css'
 import App from "./App.vue"
 import Index from "./components/Index.vue"
 import Pelicula from "./components/Pelicula.vue"
-import Welcome from "./components/TheWelcome.vue"
 
 
 
