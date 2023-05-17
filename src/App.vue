@@ -1,41 +1,63 @@
-<script setup>
-import Index from "./components/Index.vue"
+<script>
+import { useRouter } from 'vue-router'
+import { usrStore } from './components/store/usrStore'
+
+export default {
+  data() {
+    return {
+      store: usrStore(),
+    }
+  },
+  methods: {
+
+
+  },
+  created: async function () {
+    this.store.fetchDataPromise()
+
+    .then(() =>{
+       
+      })
+  }
+
+}
+
 </script>
 
 <template>
-  <p>este es el App</p>
 
-  <!-- <Index></Index> -->
-  <div>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark fixed-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <h1 class="navbar-brand">Cine ORT</h1>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/"> Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/usuarios"> Usuarios</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/reserva"> reserva</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="contenido">
     <RouterView></RouterView>
   </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.contenido{
+  margin-top: 56px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
