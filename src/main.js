@@ -7,12 +7,12 @@ import './assets/main.css'
 import App from "./App.vue"
 import Index from "./components/Index.vue"
 import Pelicula from "./components/Pelicula.vue"
-
-
+import ReservaView from "./views/ReservaView.vue"
 
 const routes = [
     { path : "/", component : Index},
-    { path : "/pelicula", component : Pelicula}
+    { path : "/pelicula", component : Pelicula},
+    { path: "/reserva", component: ReservaView,},
 ]
 
 const router = createRouter({
@@ -21,6 +21,5 @@ const router = createRouter({
 })
 
 const pinia = createPinia();
-
 
 createApp(App).use(router).use(pinia).mount('#app')

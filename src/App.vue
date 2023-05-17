@@ -5,7 +5,7 @@ import Index from "./components/Index.vue"
 <template>
   <p>este es el App</p>
 
-  <Index></Index>
+  <!-- <Index></Index> -->
   <div>
     <RouterView></RouterView>
   </div>
