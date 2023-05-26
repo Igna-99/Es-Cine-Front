@@ -11,13 +11,18 @@ import Pelicula from './components/Pelicula.vue'
 import ReservaView from "./views/ReservaView.vue"
 import UsuariosView from "./views/usr/Usuarios.vue"
 import DetallesUsuarioView from "./views/usr/DetallesUsuario.vue"
+import PeliculaGenero from "./views/PeliculaGenero.vue"
+
+
 
 const routes = [
     { path : "/", component : Home},
-    { path : "/pelicula", component : Pelicula},
+    { path : "/pelicula/:id", component : Pelicula},
     { path: "/reserva", component: ReservaView,},
     { path: "/usuarios", component: UsuariosView,},
     { path: "/detallesUsuario/:id", component: DetallesUsuarioView,},
+    { path: "/peliculasxgenero/:id", component: PeliculaGenero,},
+
 ]
 
 const router = createRouter({
