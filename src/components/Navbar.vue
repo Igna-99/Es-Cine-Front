@@ -76,15 +76,14 @@ li{
     margin-right: 70px;
 }
 .nav-links a:hover {
-
     font-weight: bold;
     color: #000!important;
      transform: scale(1);
      transition-delay: 0.1s;
-     box-shadow: 0 0 5px white,
-     0 0 15px white,
-     0 0 30px white;
-     background: white;
+     box-shadow: 0 0 5px rgb(143, 0, 0),
+     0 0 15px rgb(143, 0, 0),
+     0 0 30px rgb(143, 0, 0);
+     background: rgb(143, 0, 0);
 }
 
 

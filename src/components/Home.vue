@@ -29,11 +29,15 @@
 
     <div class="divi">
       <div v-for="genre in genres" :key="genre.id">
-        <router-link class="cartasgenero" :to="`/peliculasxgenero/${genre.id}`">
-          <div class="genero">
-            {{ genre.name }}
+        <div class="firstAnimation">
+          <div class="secondAnimation">
+            <router-link class="cartasgenero" :to="`/peliculasxgenero/${genre.id}`">
+              <div class="genero">
+                {{ genre.name }}
+              </div>
+            </router-link>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +76,7 @@ a {
 
 
 .cartasgenero {
-  border-radius: 10px;
+  border-radius: 5px;
   height: 148px;
   width: 250px;
   display: flex;
@@ -81,8 +85,8 @@ a {
   font-size: 20px;
   color: #fff;
   font-weight: 500;
-  border: 2px solid #4b4b4b;
-  background: linear-gradient(rgb(85, 85, 85), rgb(36, 36, 36));
+  /*border: 1px solid #ffffff;*/
+  background-color: rgb(41, 41, 41);
   box-shadow: rgba(0, 0, 0, 0.69) 0px 26px 30px -10px, rgba(0, 0, 0, 0.73) 0px 16px 10px -10px;
   font-family: "Montserrat", sans-serif;
   background-position: center;
@@ -91,40 +95,29 @@ a {
 }
 
 .cartasgenero:hover {
-  transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
-  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-  transition: all 0.4s;
+  background: rgb(255, 255, 255);
+  border-radius: 5px;
+  background-color: #474747;
+  transition: all .5s;
+  color : black;
 }
 
+.secondAnimation {
+  --hoverContorno: #959595;
+}
 
-/* ACCION ID:28*/
-/*AVENTURA ID:12*/
-/*ANIMACION ID:16*/
-/*COMEDY ID:35*/
-/*CRIME ID:80*/
-/*DOCUMENTARY ID:99*/
-/*DRAMA ID:18*/
-/*FAMILY ID:10571*/
-/*FANTASY ID:14*/
-/*HISTORY ID:36*/
-/*HORROR ID:27*/
-/*MUSIC ID:10402*/
-/*MYSTERY ID:9648*/
-/*ROMANCE ID:10749*/
-/*SCIENCE FICTION ID:878*/
-/*TV MOVIE ID:10770*/
-/*THRILLER ID:53*/
-/*WAR ID:10752*/
-/*WERTERN ID:37*/
-/*.cartasgenero:hover .genero{
-  width: 100%;
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
-}*/
-
+.secondAnimation:hover,
+.secondAnimation:focus {
+  -webkit-animation: cardAnimacion 1.4s;
+  animation: cardAnimacion 1.4s;
+  box-shadow: 0 0 0 0.8em rgba(255, 255, 255, 0);
+  border-radius: 5px;
+}
+@keyframes cardAnimacion {
+  0% {
+    box-shadow: 0 0 0 0 var(--hoverContorno);
+  }
+}
 .genero {
   text-transform: uppercase;
   color: #ffe6ff;
@@ -246,8 +239,8 @@ input {
 .cards .card {
   position: relative;
   height: 500px;
-  background-color: #444444;
-  border-radius: 10px;
+  background-color: #494949;
+  border-radius: 5px;
   padding: 30px 35px;
 }
 
