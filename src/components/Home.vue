@@ -53,7 +53,8 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   row-gap: 40px;
-  column-gap: 60px
+  column-gap: 60px;
+  margin-top: 50px;
 }
 
 @media (max-width: 1250px) {
@@ -205,7 +206,7 @@ input {
 
 .container {
   position: relative;
-  margin-top: 70px;
+  margin-top: 80px;
   width: 100%;
   height: 100%;
   max-width: 0px;
@@ -238,10 +239,10 @@ input {
 
 .cards .card {
   position: relative;
-  height: 500px;
+  height: 490px;
   background-color: #494949;
   border-radius: 5px;
-  padding: 30px 35px;
+  padding: 25px 30px;
 }
 
 .cards .card:hover {
