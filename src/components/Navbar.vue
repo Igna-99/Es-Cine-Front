@@ -79,7 +79,6 @@ li{
     font-weight: bold;
     color: #000!important;
      transform: scale(1);
-     transition-delay: 0.1s;
      box-shadow: 0 0 5px rgb(170, 170, 170),
      0 0 15px rgb(161, 161, 161),
      0 0 30px rgb(224, 224, 224);
