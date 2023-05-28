@@ -1,4 +1,5 @@
 <template>
+  <div class="genreName">{{ this.genreName }} </div>
   <div class="gri">
     <div v-for="pelicula in peliculas" :key="pelicula.id">
       <router-link :to="`/pelicula/${pelicula.id}`">
@@ -18,29 +19,46 @@
 </template>
 
 <style>
+
+.genreName{
+  margin: 0;
+  justify-content: center;
+  display: flex;
+  margin-top: 80px;
+  color:white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  overflow: hidden;
+  background: linear-gradient(90deg, #000, #fff, #000);
+  background-repeat: no-repeat;
+  background-size: 80%;
+  animation: animate 4s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+}
+
+@keyframes animate {
+  0% {
+    background-position: -200%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
 .back {
-  margin-top: 65px;
+  margin-top: 50px;
   background-color: transparent !important;
   border: none;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
 }
 
-.back svg {
-  width: 100px;
-}
-
-
-.sign svg {
-  width: 100px;
-}
-
-.sign svg path {
-  fill: white;
-}
-
 .gri {
-  margin-top: 65px;
+  margin-top: 50px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   row-gap: 40px;
@@ -68,7 +86,7 @@
 .flip-card-front img {
   max-width: 100%;
   max-height: 100%;
-  border-radius: 1rem;
+  border-radius: 5px;
 }
 
 .flip-card {
@@ -98,7 +116,7 @@
 
 .flip-card-front,
 .flip-card-back {
-  box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 20px 14px 0 rgba(0, 0, 0, 0.404);
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -107,8 +125,8 @@
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border: 1px solid rgb(253, 253, 253);
-  border-radius: 1rem;
+  /*border: 1px solid rgb(253, 253, 253);*/
+  border-radius: 5px;
 }
 
 
@@ -126,12 +144,13 @@ export default {
     return {
       id: '',
       peliculas: [],
-      loading: true
+      genreName: ''
     };
   },
   created() {
     this.id = this.$route.params.id;
     this.buscarPeliculas();
+    this.traerNombre();
   },
   methods: {
     buscarPeliculas() {
@@ -151,6 +170,25 @@ export default {
         });
     },
     getMoviePoster(posterPath) { return `https://image.tmdb.org/t/p/w500/${posterPath}` },
+
+    traerNombre(){
+      const url2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=6311677ef041038470aae345cd71bb78`;
+      fetch(url2)
+        .then(response => response.json())
+        .then(data => {
+          const genre = data.genres.find(genre => genre.id === parseInt(this.id));
+          if (genre) {
+            this.genreName = genre.name;
+          } else {
+            this.genreName = 'Género no encontrado';
+          }
+          console.log("GENERO NOMBER" + this.genreName)
+
+        })
+        .catch(error => {
+          console.error('Error en buscar nombre:', error);
+        });
+    },
   }
 };
 </script>
