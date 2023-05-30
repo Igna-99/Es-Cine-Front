@@ -179,6 +179,8 @@ export default {
           const genre = data.genres.find(genre => genre.id === parseInt(this.id));
           if (genre) {
             this.genreName = genre.name;
+            document.title = genre.name ;
+
           } else {
             this.genreName = 'Género no encontrado';
           }

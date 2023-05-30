@@ -276,7 +276,7 @@ input {
 .infos .name {
   color: var(--current-color1);
   transition: all .6s ease;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -386,7 +386,7 @@ export default {
         window.location.href = `/Pelicula?id=${peliculaId}`;
       })
     });
-
+    document.title = "Home"
     onMounted(fetchPopularMovies);
     onMounted(fetchGnre);
 
