@@ -3,9 +3,17 @@ import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
-      <Navbar />
+  <Navbar />
+
+  <div class="componentes">
+    <RouterView></RouterView>
+  </div>
 </template>
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+.componentes {
+  margin-top: 70px;
+}
 </style>
 

@@ -18,8 +18,7 @@
   </div>
 </template>
 
-<style>
-
+<style scoped>
 .genreName{
   margin: 0;
   justify-content: center;
@@ -30,6 +29,7 @@
   font-size: 30px;
   text-transform: uppercase;
   font-weight: 700;
+  background-clip: text; /* sin background-clip el -webkit-background-clip tira error ¯\_(ツ)_/¯ */
 
   overflow: hidden;
   background: linear-gradient(90deg, #000, #fff, #000);
