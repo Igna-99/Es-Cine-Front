@@ -89,4 +89,44 @@
 
 </script>
 
+<style scoped>
+
+    h2, p {
+        color: white;
+    }
+    .seat-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .seat-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    .seat {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .seat-selected {
+        background-color: #99ccff;
+    }
+
+    .seat-unavailable {
+        background-color: #f0f0f0;
+        cursor: not-allowed;
+    }
+
+    .button-container{
+        text-align: center;
+        padding: 50px;
+    }
+</style>
 

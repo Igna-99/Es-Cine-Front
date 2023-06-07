@@ -15,7 +15,6 @@ import DetallesUsuarioView from "./views/usr/DetallesUsuario.vue"
 import PeliculaGenero from "./views/PeliculaGenero.vue"
 
 
-
 const routes = [
     { path : "/", component : Home},
     { path : "/pelicula/:id", component : Pelicula},
