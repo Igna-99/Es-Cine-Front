@@ -9,16 +9,17 @@ import App from './App.vue'
 import Home from './components/Home.vue'
 import Pelicula from './components/Pelicula.vue'
 import ReservaView from "./views/ReservaView.vue"
+import SalaView from "./views/SalaView.vue"
 import loginUsuario from "./views/usr/loginUsuario.vue"
 import DetallesUsuarioView from "./views/usr/DetallesUsuario.vue"
 import PeliculaGenero from "./views/PeliculaGenero.vue"
-
 
 
 const routes = [
     { path : "/", component : Home},
     { path : "/pelicula/:id", component : Pelicula},
     { path: "/reserva", component: ReservaView,},
+    { path: "/salas", component: SalaView,},
     { path: "/login", component: loginUsuario,},
     { path: "/detallesUsuario/:id", component: DetallesUsuarioView,},
     { path: "/peliculasxgenero/:id", component: PeliculaGenero,},
