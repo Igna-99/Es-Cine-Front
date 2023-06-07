@@ -4,7 +4,14 @@
         <p>Selecciona tus asientos en la sala:</p>
         <div class="seat-container">
             <div v-for="(row, rowIndex) in seats" :key="rowIndex" class="seat-row">
-                <div v-for="(seat, seatIndex) in row" :key="seatIndex" :class="{seat: true, 'seat-selected': isSelected(seat), 'seat-unavailable': isUnavailable(seat),}" v-on:click="toggleSeat(seat)">
+                <div v-for="(seat, seatIndex) in row" 
+                    :key="seatIndex" 
+                    :class="{
+                        seat: true, 
+                        'seat-selected': isSelected(seat), 
+                        'seat-unavailable': isUnavailable(seat),
+                    }" 
+                    v-on:click="toggleSeat(seat)" >
                     {{ seat.name }}
                 </div>
             </div>
@@ -12,32 +19,40 @@
         <div class="button-container">
             <button v-on:click="submitReservation">Reservar</button>
         </div>
-        
+        <div class="reserved-seats">
+            <h3>Asientos reservados:</h3>
+            <ul>
+                <li v-for="seat in reservedSeats" :key="seat.name">{{ seat.name }}</li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script setup>
 
     import { reactive } from "vue";
+    import axios from 'axios';
 
     //reactive: cualquier cambio en el estado de los asientos se reflejará automáticamente en la vista.
     const seats = reactive([
         [
-            { name: "A1", selected: false, unavailable: false },
-            { name: "A2", selected: false, unavailable: false },
+            { name: "A1", selected: false, unavailable: false, },
+            { name: "A2", selected: false, unavailable: false, },
         ],
         [
-            { name: "B1", selected: false, unavailable: false },
-            { name: "B2", selected: false, unavailable: false },
-            { name: "B3", selected: false, unavailable: false },
+            { name: "B1", selected: false, unavailable: false, },
+            { name: "B2", selected: false, unavailable: false, },
+            { name: "B3", selected: false, unavailable: false, },
         ],
         [
-            { name: "C1", selected: false, unavailable: false },
-            { name: "C2", selected: false, unavailable: false },
-            { name: "C3", selected: false, unavailable: false },
-            { name: "C4", selected: false, unavailable: false },
+            { name: "C1", selected: false, unavailable: false, },
+            { name: "C2", selected: false, unavailable: false, },
+            { name: "C3", selected: false, unavailable: false, },
+            { name: "C4", selected: false, unavailable: false, },
         ],
     ]);
+
+    const reservedSeats = reactive([]);
 
     const isSelected = (seat) => seat.selected;
     const isUnavailable = (seat) => seat.unavailable;
@@ -46,11 +61,30 @@
         seat.selected = !seat.selected;
     };
 
-    const submitReservation = () => {
-        const selectedSeats = seats
-        .flatMap((row) => row.filter((seat) => seat.selected))
-        .map((seat) => seat.name);
+    const submitReservation = async () => {
+        let selectedSeats = seats.flatMap((row) => row.filter((seat) => seat.selected)).map((seat) => seat.name);
         console.log(selectedSeats);
+        const reservationData = {
+            seats: selectedSeats
+        };
+        try {
+            const response = await axios.post('https://646d3b2c9c677e232189d9bc.mockapi.io/reservations', reservationData);
+            console.log('Reserva guardada:', response.data);
+            //mostrar lista de reservados
+            selectedSeats.forEach((seatName) => {
+                reservedSeats.push({ name: seatName });
+            });
+            // desactivar los asientos?
+            seats.forEach((row) => {
+                row.forEach((seat) => {
+                    if (seat.selected) {
+                        seat.unavailable = true;
+                    }
+                });
+            });
+        } catch (error) {
+            console.error('Error al guardar la reserva:', error);
+        }
     };
 
 </script>
