@@ -1,4 +1,3 @@
-
 <template>
     <div class="gri">
         <div v-for="pelicula in peliculas" :key="pelicula.id">

@@ -23,14 +23,12 @@
   margin: 0;
   justify-content: center;
   display: flex;
-  margin-top: 80px;
   color:white;
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
   text-transform: uppercase;
   font-weight: 700;
   background-clip: text; /* sin background-clip el -webkit-background-clip tira error ¯\_(ツ)_/¯ */
-
   overflow: hidden;
   background: linear-gradient(90deg, #000, #fff, #000);
   background-repeat: no-repeat;

@@ -26,8 +26,6 @@ const routes = [
     { path: "/detallesUsuario/:id", component: DetallesUsuarioView,},
     { path: "/peliculasxgenero/:id", component: PeliculaGenero,},
     { path: "/peliculas", component: Peliculas,},
-
-
 ]
 
 const router = createRouter({

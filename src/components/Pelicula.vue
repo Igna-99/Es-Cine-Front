@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-container">
+    <div class="movie-container">
     <div class="card">
       <div class="content">
         <div class="back">
@@ -14,8 +14,12 @@
     <p class="movie-title">{{ pelicula.title }}</p>
     <p class="datos">{{ formatDate(pelicula.release_date) }} · {{ formatRuntime(pelicula.runtime) }} · {{
       getGenresString(pelicula.genres) }}</p>
-    <div class="overview">{{ pelicula.overview }}</div>
+    <div class="overview">{{ pelicula.overview }}</div>   
+    <router-link to="/reserva" class="reserve-button">RESERVAR ASIENTOS</router-link>
+
   </div>
+
+
   <img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
 </template>
 <script>
@@ -38,6 +42,8 @@ export default {
         .then(data => {
           this.pelicula = data;
           console.log("PELICULA: " + this.pelicula)
+          document.title = data.title ;
+
         })
         .catch(error => {
           console.error('Error al buscar película:', error);
@@ -69,6 +75,54 @@ export default {
 </script>
 
 <style>
+
+.reserve-button {
+  margin-top: 20px;
+  font-size: 15px;
+  padding: 0.7em 2.7em;
+  letter-spacing: 0.06em;
+  position: relative;
+  font-family: inherit;
+  border-radius: 4px;
+  text-decoration:none;
+  overflow: hidden;
+  transition: all 0.3s;
+  line-height: 1.4em;
+  border: 2px solid white;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%,transparent 60% , rgba(145, 145, 145, 0.1) 100%);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
+}
+
+.reserve-button:hover {
+  color: #ffffff;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
+}
+
+.reserve-button:before {
+  content: "";
+  position: absolute;
+  left: -4em;
+  width: 4em;
+  height: 100%;
+  top: 0;
+  transition: transform .4s ease-in-out;
+  background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%,rgba(255, 255, 255, 0.1) 60% , transparent 100%);
+}
+
+.reserve-button:hover:before {
+  transform: translateX(15em);
+}
+
+  
+
+#app{
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .info-container {
   display: flex;
   flex-direction: column;
@@ -82,10 +136,8 @@ export default {
   padding-top: 10%;
   margin-top: -10%;
   position: relative;
-  z-index: -1;
   border-radius: 10px;
   box-shadow: 0px 0px 20px 4px #000000;
-
 }
 
 .datos {
@@ -103,7 +155,7 @@ export default {
 }
 
 .backdrop {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -126,6 +178,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 2;
+  position: relative;
 }
 
 .movie-container .card {
@@ -151,7 +205,7 @@ export default {
 
 .front,
 .back {
-  background-color: #000000;
+  background-color: black;
   position: absolute;
   width: 100%;
   height: 100%;

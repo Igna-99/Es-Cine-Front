@@ -206,7 +206,6 @@ input {
 
 .container {
   position: relative;
-  margin-top: 80px;
   width: 100%;
   height: 100%;
   max-width: 0px;

@@ -2,17 +2,18 @@
 <template>
   <nav class="navbar">
     <ul class="nav-links">
-      <li><router-link to="/Salas">CARTELERA</router-link></li>
+      <li><router-link to="/Peliculas">CARTELERA</router-link></li>
       <li><router-link to="/">HOME</router-link></li>
       <li>
         <div class="logo">
           <img src="logo.png" alt="Logo" />
         </div>
       </li>
-      <li><router-link to="/">SALAS</router-link></li>
-      <li v-if="!usrStore.isLogged"><router-link to="/login">login</router-link></li>
+      <li v-if="!usrStore.isLogged"><router-link to="/">REGISTRARSE</router-link></li>
+      <li v-if="usrStore.isLogged"><router-link to="/misReservas">MIS RESERVAS</router-link></li>
+
+      <li v-if="!usrStore.isLogged"><router-link to="/login">INICIAR SESION</router-link></li>
       <li v-if="usrStore.isLogged"><router-link to="/login">{{usrStore.currentUser.name}}</router-link></li>
-      <!-- <li><router-link to="/Contacto">CONTACTO</router-link></li> -->
     </ul>
   </nav>
 </template>
@@ -40,7 +41,6 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  margin-bottom: 20px;
   z-index: 999;
   transition: background-color 0.3s ease;
 }
@@ -66,7 +66,6 @@ export default {
   display: inline-flex;
   background-color: black;
   height: 45px;
-  word-spacing: 70px;
 }
 
 .nav-links li a {
