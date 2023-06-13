@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     buscarPeliculas() {
-      const url = `https://api.themoviedb.org/3/discover/movie?api_key=6311677ef041038470aae345cd71bb78&with_genres=${this.id}`;
+      const url = `https://api.themoviedb.org/3/discover/movie?api_key=6311677ef041038470aae345cd71bb78&with_genres=${this.id}&language=es`;
 
       fetch(url)
         .then(response => response.json())
@@ -172,7 +172,7 @@ export default {
     getMoviePoster(posterPath) { return `https://image.tmdb.org/t/p/w500/${posterPath}` },
 
     traerNombre(){
-      const url2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=6311677ef041038470aae345cd71bb78`;
+      const url2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=6311677ef041038470aae345cd71bb78&language=es`;
       fetch(url2)
         .then(response => response.json())
         .then(data => {

@@ -12,6 +12,8 @@ import ReservaView from "./views/ReservaView.vue"
 import loginUsuario from "./views/usr/loginUsuario.vue"
 import DetallesUsuarioView from "./views/usr/DetallesUsuario.vue"
 import PeliculaGenero from "./views/PeliculaGenero.vue"
+import Peliculas from "./views/Peliculas.vue"
+
 
 
 
@@ -22,6 +24,8 @@ const routes = [
     { path: "/login", component: loginUsuario,},
     { path: "/detallesUsuario/:id", component: DetallesUsuarioView,},
     { path: "/peliculasxgenero/:id", component: PeliculaGenero,},
+    { path: "/peliculas", component: Peliculas,},
+
 
 ]
 

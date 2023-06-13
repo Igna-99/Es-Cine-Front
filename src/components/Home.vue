@@ -355,7 +355,7 @@ export default {
     const buttonInfo = document.querySelectorAll('.Btn');
 
     async function fetchPopularMovies() {
-      const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=6311677ef041038470aae345cd71bb78&primary_release_date.gte=${formato}&sort_by=popularity.desc`;
+      const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=6311677ef041038470aae345cd71bb78&primary_release_date.gte=${formato}&sort_by=popularity.desc&language=es`;
 
       try {
         const response = await fetch(apiUrl);
@@ -368,7 +368,7 @@ export default {
 
     }
     async function fetchGnre() {
-      const apiUrl2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=6311677ef041038470aae345cd71bb78`;
+      const apiUrl2 = `https://api.themoviedb.org/3/genre/movie/list?api_key=6311677ef041038470aae345cd71bb78&language=es`;
       try {
         const response2 = await fetch(apiUrl2);
         const data2 = await response2.json();
