@@ -2,14 +2,14 @@
 <template>
   <nav class="navbar">
     <ul class="nav-links">
-      <li><router-link to="/peliculas">PELICULAS</router-link></li>
+      <li><router-link to="/Salas">CARTELERA</router-link></li>
       <li><router-link to="/">HOME</router-link></li>
       <li>
         <div class="logo">
           <img src="logo.png" alt="Logo" />
         </div>
       </li>
-      <li><router-link to="/Salas">SALAS</router-link></li>
+      <li><router-link to="/">SALAS</router-link></li>
       <li v-if="!usrStore.isLogged"><router-link to="/login">login</router-link></li>
       <li v-if="usrStore.isLogged"><router-link to="/login">{{usrStore.currentUser.name}}</router-link></li>
       <!-- <li><router-link to="/Contacto">CONTACTO</router-link></li> -->
