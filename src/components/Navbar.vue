@@ -9,7 +9,7 @@
           <img src="logo.png" alt="Logo" />
         </div>
       </li>
-      <li v-if="!usrStore.isLogged"><router-link to="/">REGISTRARSE</router-link></li>
+      <li v-if="!usrStore.isLogged"><router-link to="/registro">REGISTRARSE</router-link></li>
       <li v-if="usrStore.isLogged"><router-link to="/misReservas">MIS RESERVAS</router-link></li>
 
       <li v-if="!usrStore.isLogged"><router-link to="/login">INICIAR SESION</router-link></li>

@@ -19,19 +19,36 @@
 
     <div v-if="!usrStore.isLogged" class="formulario">
         <div class="formulario_lg">
-            <h2>INICIAR SESION</h2>
+            <h2>REGISTRO</h2>
             <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="inputBox">
+                            <input type="text" required>
+                            <span>Nombre</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inputBox">
+                            <input type="text" required>
+                            <span>Apellido</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="inputBox">
-                    <input type="text" required v-model="this.email">
-                    <span>Correo Electronico</span>
+                    <input type="text" required>
+                    <span>Email</span>
+                </div>
+                <div class="inputBox">
+                    <input type="password" required>
+                    <span>contraseña</span>
+                </div>
+                <div class="inputBox">
+                    <input type="password" required>
+                    <span>Repite Contraseña</span>
                 </div>
 
-                <div class="inputBox">
-                    <input type="password" required v-model="this.password">
-                    <span>Contraseña</span>
-                </div>
-
-                <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
+                <button type="submit" class="ingresar" @click="ingresar">Registrarse</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
                     email o contraseña incorrectos
@@ -42,7 +59,7 @@
             </div>
         </div>
     </div>
-   <div v-if="usrStore.isLogged" class="container">
+    <div v-if="usrStore.isLogged" class="container">
         <h1>you are already logged in</h1>
         <button type="submit" class="salir" @click="salir">Salir</button>
     </div>
@@ -50,9 +67,10 @@
 
 <script>
 import { usrStore } from '../../components/store/usrStore'
-import { useRouter } from "vue-router";
 
-document.title = "Iniciar Sesion"
+
+
+document.title = "Registro"
 
 export default {
     data() {
@@ -62,7 +80,6 @@ export default {
             error2: false,
             email: "",
             password: "",
-
         }
     },
     methods: {
@@ -75,9 +92,6 @@ export default {
                 let res = await this.usrStore.logIn(this.email, this.password)
                 if (res == false) {
                     this.error1 = true;
-                }else{
-                    this.error1 = false;
-                    this.$router.push("/");
                 }
             }
         },
@@ -92,49 +106,52 @@ export default {
 
 <style scoped>
 .ingresar {
-  margin-top: 20px;
-  font-size: 15px;
-  padding: 0.7em 2.7em;
-  letter-spacing: 0.06em;
-  position: relative;
-  font-family: inherit;
-  border-radius: 4px;
-  text-decoration:none;
-  overflow: hidden;
-  transition: all 0.3s;
-  line-height: 1.4em;
-  border: 2px solid white;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%,transparent 60% , rgba(145, 145, 145, 0.1) 100%);
-  color: white;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    font-size: 15px;
+    padding: 0.7em 2.7em;
+    letter-spacing: 0.06em;
+    position: relative;
+    font-family: inherit;
+    border-radius: 4px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 2px solid white;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
+    color: white;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
 }
 
 .ingresar:hover {
-  color: #ffffff;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
 }
 
 .ingresar:before {
-  content: "";
-  position: absolute;
-  left: -4em;
-  width: 4em;
-  height: 100%;
-  top: 0;
-  transition: transform .4s ease-in-out;
-  background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%,rgba(255, 255, 255, 0.1) 60% , transparent 100%);
+    content: "";
+    position: absolute;
+    left: -4em;
+    width: 4em;
+    height: 100%;
+    top: 0;
+    transition: transform .4s ease-in-out;
+    background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
 }
 
 .ingresar:hover:before {
-  transform: translateX(15em);
+    transform: translateX(15em);
 }
 
 .inputBox {
     position: relative;
     max-width: 100%;
-    min-width:250px;
+    min-width: 250px;
     align-content: center;
-    margin-bottom: 20%;
+    margin-bottom: 6%;
+}
+.row{
+    margin-bottom: 1.5%;
 }
 
 .inputBox input {
@@ -229,10 +246,11 @@ export default {
     z-index: 1;
     font-family: "Montserrat", sans-serif;
 }
+
 .formulario_lg button {
-  margin: 0 auto;
-  display: block;
-  
+    margin: 0 auto;
+    display: block;
+
 }
 
 .container {

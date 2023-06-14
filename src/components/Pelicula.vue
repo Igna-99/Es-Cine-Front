@@ -213,7 +213,6 @@ export default {
   -webkit-backface-visibility: hidden;
   border-radius: 5px;
   overflow: hidden;
-
 }
 
 .back {

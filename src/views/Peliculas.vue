@@ -119,6 +119,7 @@ export default {
     },
     methods: {
         buscarPeliculas() {
+            document.title = "Cartelera"
             //FIRST MOVIE
             const url = `https://api.themoviedb.org/3/movie/569094?api_key=6311677ef041038470aae345cd71bb78&language=es`;
             fetch(url)
