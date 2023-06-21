@@ -68,10 +68,6 @@
 <script>
 import { usrStore } from '../../components/store/usrStore'
 
-
-
-document.title = "Registro"
-
 export default {
     data() {
         return {
@@ -80,9 +76,11 @@ export default {
             error2: false,
             email: "",
             password: "",
+            
         }
     },
     methods: {
+        
         async ingresar() {
             this.error1 = false;
             if (this.email == "" || this.password == "") {

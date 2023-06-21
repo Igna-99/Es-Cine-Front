@@ -25,8 +25,10 @@ export default {
     data() {
         return {
             usrStore: usrStore(),
+            
         }
     },
+
 
 }
 </script>

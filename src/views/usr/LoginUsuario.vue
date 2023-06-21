@@ -232,7 +232,6 @@ export default {
 .formulario_lg button {
   margin: 0 auto;
   display: block;
-  
 }
 
 .container {
@@ -269,14 +268,9 @@ export default {
     margin-bottom: 15px;
     cursor: pointer;
 }
-
-
-
 .salir {
     background-color: #af4c4c;
 }
-
-
 .salir:hover {
     background-color: #b83939;
 }

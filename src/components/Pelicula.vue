@@ -16,13 +16,12 @@
       getGenresString(pelicula.genres) }}</p>
     <div class="overview">{{ pelicula.overview }}</div>   
     <router-link to="/reserva" class="reserve-button">RESERVAR ASIENTOS</router-link>
-
   </div>
-
-
   <img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
 </template>
 <script>
+
+
 export default {
   data() {
     return {

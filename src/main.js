@@ -3,7 +3,6 @@ import { createRouter,createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 
 import './assets/main.css'
-
 import App from './App.vue'
 
 import Home from './components/Home.vue'
@@ -16,9 +15,6 @@ import PeliculaGenero from "./views/PeliculaGenero.vue"
 import Peliculas from "./views/Peliculas.vue"
 import Registro from "./views/usr/RegistroUsuario.vue"
 
-
-
-
 const routes = [
     { path : "/", component : Home},
     { path : "/pelicula/:id", component : Pelicula},
@@ -29,8 +25,6 @@ const routes = [
     { path: "/peliculasxgenero/:id", component: PeliculaGenero,},
     { path: "/registro", component: Registro,},
     { path: "/Peliculas", component: Peliculas,},
-
-
 ]
 
 const router = createRouter({
@@ -45,14 +39,10 @@ createApp(App).use(pinia).use(router).mount('#app')
 
 // import {createRouter, createWebHistory} from 'vue-router'
 // 
-
 // import './assets/main.css'
-
 // import App from "./App.vue"
 // import Index from "./components/Index.vue"
 // import Pelicula from "./components/Pelicula.vue"
-
-
 
 // const router = createRouter({
 //     history: createWebHistory(),
@@ -60,5 +50,4 @@ createApp(App).use(pinia).use(router).mount('#app')
 // })
     
 // const pinia = createPinia();
-
 // createApp(App).use(router).use(pinia).mount('#app')
