@@ -1,54 +1,40 @@
 <template>
-    <!--
-        <div class=container>
- <h1>Iniciar Sesión</h1>
-        <div>
-            <input type="text" placeholder="Correo electrónico" required v-model="this.email">
-            <input type="password" placeholder="Contraseña" v-model="this.password">
-            <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
-
-            <div v-if="this.error1" class="alert alert-danger" role="alert">
-                email o contraseña incorrectos
-            </div>
-            <div v-if="this.error2" class="alert alert-danger" role="alert">
-                email o contraseña no ingreados
-            </div>
-        </div>
-    </div>
--->
-
     <div v-if="!usrStore.isLogged" class="formulario">
         <div class="formulario_lg">
             <h2>REGISTRO</h2>
             <div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="inputBox">
-                            <input type="text" required>
+                            <input type="text" required v-model="this.nombre">
                             <span>Nombre</span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="inputBox">
-                            <input type="text" required>
+                            <input type="text" required v-model="this.apellido">
                             <span>Apellido</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="inputBox">
-                    <input type="text" required>
+                    <input type="text" required v-model="this.email">
                     <span>Email</span>
                 </div>
+
                 <div class="inputBox">
-                    <input type="password" required>
+                    <input type="password" required v-model="this.contraseña">
                     <span>contraseña</span>
                 </div>
+
                 <div class="inputBox">
-                    <input type="password" required>
+                    <input type="password" required v-model="this.contraseñaRep">
                     <span>Repite Contraseña</span>
                 </div>
 
-                <button type="submit" class="ingresar" @click="ingresar">Registrarse</button>
+                <button type="submit" class="ingresar" @click="registrse">Registrarse</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
                     email o contraseña incorrectos
@@ -65,6 +51,7 @@
     </div>
 </template>
 
+
 <script>
 import { usrStore } from '../../components/store/usrStore'
 
@@ -72,26 +59,19 @@ export default {
     data() {
         return {
             usrStore: usrStore(),
-            error1: false,
-            error2: false,
-            email: "",
-            password: "",
+            nombre: '',
+            apellido: '',
+            email:'',
+            contraseña: '',
+            contraseñaRep: '',
             
         }
     },
     methods: {
         
-        async ingresar() {
-            this.error1 = false;
-            if (this.email == "" || this.password == "") {
-                this.error2 = true;
-            } else {
-                this.error2 = false;
-                let res = await this.usrStore.logIn(this.email, this.password)
-                if (res == false) {
-                    this.error1 = true;
-                }
-            }
+        async registrse() {
+            alert(this.nombre + this.apellido + this.email + this.contraseña + this.contraseñaRep)
+
         },
 
         salir() {

@@ -1,21 +1,4 @@
 <template>
-    <!--
-        <div class=container>
- <h1>Iniciar Sesión</h1>
-        <div>
-            <input type="text" placeholder="Correo electrónico" required v-model="this.email">
-            <input type="password" placeholder="Contraseña" v-model="this.password">
-            <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
-
-            <div v-if="this.error1" class="alert alert-danger" role="alert">
-                email o contraseña incorrectos
-            </div>
-            <div v-if="this.error2" class="alert alert-danger" role="alert">
-                email o contraseña no ingreados
-            </div>
-        </div>
-    </div>
--->
 
     <div v-if="!usrStore.isLogged" class="formulario">
         <div class="formulario_lg">
@@ -77,7 +60,7 @@ export default {
                     this.error1 = true;
                 }else{
                     this.error1 = false;
-                    this.$router.push("/");
+                    //this.$router.push("/");
                 }
             }
         },

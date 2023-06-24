@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import axios from "axios";
 
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
@@ -7,46 +8,89 @@ export const usrStore = defineStore('usuariosStore', {
 
     }),
     actions: {
-        logIn(email, password) {
-            //genera una promesa, si el usuarios es logedo exitosamente devuelve true, en caso contrario false
+
+        async registrarse(nombre, apellido, email, contraseña) {
+
+            //genera una promesa, si el usuarios se regista exitosamente devuelve true, en caso contrario false
+
             return new Promise(async (resolve,) => {
-                const url = new URL('https://646423da127ad0b8f8985dff.mockapi.io/api/v1/users');
-                url.searchParams.set('email', email);
 
-                let res = await fetch(url, {
-                    method: 'GET',
-                    headers: { 'content-type': 'application/json' },
-                })
-                let data = await res.json()
+                let Exito
 
-                resolve(this.comprobar(data, email, password))
+                try {
+                    const url = 'http://localhost:8080/usuario';
+                    const data = {
+                        nombre,
+                        apellido,
+                        email,
+                        contraseña,
+                    };
+
+                    const response = await axios.post(url, data);
+
+                    this.currentUser = response.data.result
+
+                    Exito = response.data.success
+
+                    this.currentUser.contraseña = contraseña 
+                    //piso la contraseña hashed por la contraseña que ingreso el Usuario
+                    //ya que si se llego a este punto la validacion fue correcta
+        
+                    window.localStorage.setItem("usuario", JSON.stringify(response.data.result));
+
+
+                } catch (error) {
+                    Exito = error.response.data.success;
+                    console.log(error.response.data.message);
+                }
+
+                resolve(Exito)
             })
 
         },
 
-        comprobar(usuarios, email, password) {
-            // recorre el array de elementos con un ciclo while y una bandera
-            // (si hay mas de un elemento con el mismo email y constraseña, devuelve el primero que encuentre )
+        async logIn(email, contraseña) {
 
-            let index = 0;
-            let encontrado = false;
+            //genera una promesa, si el usuarios es logedo exitosamente devuelve true, en caso contrario false
 
-            while (index < usuarios.length && !encontrado) {
-                let usuario = usuarios[index];
-                if (usuario.email == email && usuario.password == password) {
-                    //si el email y password coinciden, guarda el usuario en la store y en el localStorage
-                    encontrado = true;
-                    this.currentUser = usuario;
-                    window.localStorage.setItem("usuario", JSON.stringify(usuario))
+            return new Promise(async (resolve,) => {
+
+                let Exito
+
+                try {
+                    const url = 'http://localhost:8080/usuario/login';
+                    const data = {
+                        email,
+                        contraseña
+                    };
+
+                    const response = await axios.post(url, data);
+
+                    this.currentUser = response.data.result
+
+                    Exito = response.data.success
+
+                    this.currentUser.contraseña = contraseña 
+                    //piso la contraseña hashed por la contraseña que ingreso el Usuario
+                    //ya que si se llego a este punto la validacion fue correcta
+        
+                    window.localStorage.setItem("usuario", JSON.stringify(response.data.result));
+
+
+                } catch (error) {
+                    Exito = error.response.data.success;
+                    console.log(error.response.data.message);
                 }
-                index++;
-            }
-            return encontrado
+
+                resolve(Exito)
+            })
+
         },
 
         logOut() {
             //log out y limpia el localStorage
             this.currentUser = null;
+
             window.localStorage.removeItem("usuario");
         },
 
@@ -56,12 +100,19 @@ export const usrStore = defineStore('usuariosStore', {
             // si la clave y email no fueron cambiadas relogea automaticamente, en caso contrario lanza un alert 
 
             let item = JSON.parse(String(window.localStorage.getItem("usuario")));
-            let relogeado = await this.logIn(item.email, item.password)
 
-            if(!relogeado){
-                alert("no se pudo relogear :(")
-                window.localStorage.removeItem("usuario");
+            if(item != null){
+
+                let relogeado = await this.logIn(item.email, item.contraseña)
+                
+                if (!relogeado) {
+                    alert("no se pudo relogear :(")
+                    window.localStorage.removeItem("usuario");
+                }
+
             }
+            
+
         }
 
     },

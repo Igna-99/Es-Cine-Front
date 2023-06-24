@@ -13,7 +13,7 @@
       <li v-if="usrStore.isLogged"><router-link to="/misReservas">MIS RESERVAS</router-link></li>
 
       <li v-if="!usrStore.isLogged"><router-link to="/login">INICIAR SESION</router-link></li>
-      <li v-if="usrStore.isLogged"><router-link to="/login">{{usrStore.currentUser.name}}</router-link></li>
+      <li v-if="usrStore.isLogged"><router-link to="/login">{{usrStore.currentUser.nombre}}</router-link></li>
     </ul>
   </nav>
 </template>

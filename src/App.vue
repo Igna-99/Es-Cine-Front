@@ -1,5 +1,14 @@
 <script setup>
 import Navbar from './components/Navbar.vue'
+import { usrStore } from './components/store/usrStore'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  let store = usrStore()
+  store.cargarDataStorage()
+  
+})
+
 </script>
 
 <template>
