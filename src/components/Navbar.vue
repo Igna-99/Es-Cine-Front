@@ -9,11 +9,13 @@
           <img src="https://festhomedocs.com/festivals/2666/logo-2666.jpg" alt="Logo" />
         </div>
       </li>
-      <li v-if="!usrStore.isLogged"><router-link to="/registro">REGISTRARSE</router-link></li>
-      <li v-if="usrStore.isLogged"><router-link to="/misReservas">MIS RESERVAS</router-link></li>
 
-      <li v-if="!usrStore.isLogged"><router-link to="/login">INICIAR SESION</router-link></li>
-      <li v-if="usrStore.isLogged"><router-link to="/login">{{usrStore.currentUser.nombre}}</router-link></li>
+      <li v-if="!usrStore.isLogged"> <router-link to="/registro"> REGISTRARSE </router-link> </li>
+      <li v-if="usrStore.isLogged"> <router-link to="/reservasUsuario"> MIS RESERVAS </router-link> </li>
+
+      <li v-if="!usrStore.isLogged"> <router-link to="/login"> INICIAR SESION </router-link> </li>
+      <li v-if="usrStore.isLogged"> <router-link to="/detallesUsuario"> {{usrStore.currentUser.nombre}} </router-link> </li>
+
     </ul>
   </nav>
 </template>

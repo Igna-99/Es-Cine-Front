@@ -64,7 +64,7 @@ export default {
                 if (mensajeError == null) {
 
                     this.error2 = false;
-                    this.$router.push("/");
+                    this.$router.push("/detallesUsuario");
 
                 } else {
 

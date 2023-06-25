@@ -4,6 +4,7 @@ import axios from "axios";
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
         currentUser: null,
+        reservasDeUser: null,
 
 
     }),
@@ -30,10 +31,10 @@ export const usrStore = defineStore('usuariosStore', {
                     const response = await axios.post(url, data);
 
                 } catch (error) {
-                    
+
                     let mensajeRaw = error.response.data.message;
                     mensajeError = mensajeRaw.replace(/Validation error: /g, "");
-                    
+
                 }
 
                 resolve(mensajeError)
@@ -61,11 +62,14 @@ export const usrStore = defineStore('usuariosStore', {
 
                     this.currentUser = response.data.result
 
-                    this.currentUser.contraseña = contraseña 
+                    delete this.currentUser.salt;
+
+                    this.currentUser.contraseña = contraseña
                     //piso la contraseña hashed por la contraseña que ingreso el Usuario
                     //ya que si se llego a este punto la validacion fue correcta
-        
                     window.localStorage.setItem("usuario", JSON.stringify(response.data.result));
+
+                    this.cargarReservas()
 
 
                 } catch (error) {
@@ -77,13 +81,6 @@ export const usrStore = defineStore('usuariosStore', {
 
         },
 
-        logOut() {
-            //log out y limpia el localStorage
-            this.currentUser = null;
-
-            window.localStorage.removeItem("usuario");
-        },
-
         async cargarDataStorage() {
 
             // se llama desde el onMounted de la App.vue, toma los datos del user storage y intenta logear automaticamente
@@ -91,19 +88,54 @@ export const usrStore = defineStore('usuariosStore', {
 
             let item = JSON.parse(String(window.localStorage.getItem("usuario")));
 
-            if(item != null){
+            if (item != null) {
 
                 let relogeado = await this.logIn(item.email, item.contraseña)
-                
+
                 if (relogeado != null) {
                     alert("no se pudo relogear :(")
                     window.localStorage.removeItem("usuario");
                 }
 
             }
-            
 
-        }
+
+        },
+
+        async cargarReservas() {
+
+
+
+            const { idUsuario } = this.currentUser
+
+            const url = `http://localhost:8080/usuario/${idUsuario}/reserva`;
+
+            const response = await axios.get(url);
+
+            let data = response.data.result
+
+            data.forEach( reserva => {
+                reserva.Funcion.Horario = reserva.Funcion.Horario.substring(0, 5);           
+            });
+
+            this.reservasDeUser = data
+
+
+        },
+
+        logOut() {
+            //log out y limpia el localStorage
+            this.currentUser = null;
+
+            window.localStorage.removeItem("usuario");
+        },
+
+
+
+
+
+
+
 
     },
     getters: {
