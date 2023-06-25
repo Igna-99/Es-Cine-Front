@@ -37,10 +37,13 @@
                 <button type="submit" class="ingresar" @click="registrse">Registrarse</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
-                    email o contraseña incorrectos
+                    <span class="errorSpam" > debe completar todos los campos </span>
                 </div>
                 <div v-if="this.error2" class="alert alert-danger" role="alert">
-                    email o contraseña no ingreados
+                    <span class="errorSpam"> las contraseñas no coinciden </span>
+                </div>
+                <div v-if="this.error3" class="alert alert-danger" role="alert">
+                    <span class="errorSpam" > {{ this.msjError3 }} </span>
                 </div>
             </div>
         </div>
@@ -61,21 +64,51 @@ export default {
             usrStore: usrStore(),
             nombre: '',
             apellido: '',
-            email:'',
+            email: '',
             contraseña: '',
             contraseñaRep: '',
-            
+            error1: false,
+            error2: false,
+            error3: false,
+            msjError3: '',
+
         }
     },
     methods: {
-        
-        async registrse() {
-            alert(this.nombre + this.apellido + this.email + this.contraseña + this.contraseñaRep)
 
+        async registrse() {
+
+            this.error1 = false
+            this.error2 = false
+            this.error3 = false
+
+            if (this.nombre == '' || this.apellido == '' || this.email == '' || this.contraseña == '' || this.contraseñaRep == '') {
+
+                this.error1 = true
+
+            } else if (this.contraseña != this.contraseñaRep) {
+
+                this.error2 = true
+
+            } else {
+
+                let mensaje = await this.usrStore.registrarse(this.nombre, this.apellido, this.email, this.contraseña)
+
+                if (mensaje == null) {
+
+                    alert("te has registrado exitosamente")
+                    this.$router.push("/login");
+
+                } else {
+
+                    this.error3 = true
+                    this.msjError3 = mensaje
+
+                }
+            }
         },
 
         salir() {
-            // metodo salir de usuario
             this.usrStore.logOut()
         }
     }
@@ -84,7 +117,6 @@ export default {
 
 <style scoped>
 .ingresar {
-    margin-top: 20px;
     font-size: 15px;
     padding: 0.7em 2.7em;
     letter-spacing: 0.06em;
@@ -128,7 +160,8 @@ export default {
     align-content: center;
     margin-bottom: 6%;
 }
-.row{
+
+.row {
     margin-bottom: 1.5%;
 }
 
@@ -227,6 +260,7 @@ export default {
 
 .formulario_lg button {
     margin: 0 auto;
+    margin-bottom: 30px;
     display: block;
 
 }
@@ -275,5 +309,10 @@ export default {
 
 .salir:hover {
     background-color: #b83939;
+}
+
+.errorSpam{
+    display: block;
+    max-width: 400px;
 }
 </style>

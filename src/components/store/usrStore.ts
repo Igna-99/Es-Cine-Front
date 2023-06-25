@@ -11,11 +11,12 @@ export const usrStore = defineStore('usuariosStore', {
 
         async registrarse(nombre, apellido, email, contraseña) {
 
-            //genera una promesa, si el usuarios se regista exitosamente devuelve true, en caso contrario false
+            //genera una promesa, si el usuarios se regista exitosamente devuelve null
+            //en caso contrario un String con el/los mensaje/s de error
 
-            return new Promise(async (resolve,) => {
+            return new Promise(async (resolve) => {
 
-                let Exito
+                let mensajeError
 
                 try {
                     const url = 'http://localhost:8080/usuario';
@@ -28,34 +29,26 @@ export const usrStore = defineStore('usuariosStore', {
 
                     const response = await axios.post(url, data);
 
-                    this.currentUser = response.data.result
-
-                    Exito = response.data.success
-
-                    this.currentUser.contraseña = contraseña 
-                    //piso la contraseña hashed por la contraseña que ingreso el Usuario
-                    //ya que si se llego a este punto la validacion fue correcta
-        
-                    window.localStorage.setItem("usuario", JSON.stringify(response.data.result));
-
-
                 } catch (error) {
-                    Exito = error.response.data.success;
-                    console.log(error.response.data.message);
+                    
+                    let mensajeRaw = error.response.data.message;
+                    mensajeError = mensajeRaw.replace(/Validation error: /g, "");
+                    
                 }
 
-                resolve(Exito)
+                resolve(mensajeError)
             })
 
         },
 
         async logIn(email, contraseña) {
 
-            //genera una promesa, si el usuarios es logedo exitosamente devuelve true, en caso contrario false
+            //genera una promesa, si el usuarios es logedo exitosamente devuelve null,
+            //en caso contrario devuelve un String con el mensaje de error
 
-            return new Promise(async (resolve,) => {
+            return new Promise(async (resolve) => {
 
-                let Exito
+                let mensajeError
 
                 try {
                     const url = 'http://localhost:8080/usuario/login';
@@ -68,8 +61,6 @@ export const usrStore = defineStore('usuariosStore', {
 
                     this.currentUser = response.data.result
 
-                    Exito = response.data.success
-
                     this.currentUser.contraseña = contraseña 
                     //piso la contraseña hashed por la contraseña que ingreso el Usuario
                     //ya que si se llego a este punto la validacion fue correcta
@@ -78,11 +69,10 @@ export const usrStore = defineStore('usuariosStore', {
 
 
                 } catch (error) {
-                    Exito = error.response.data.success;
-                    console.log(error.response.data.message);
+                    mensajeError = error.response.data.message;
                 }
 
-                resolve(Exito)
+                resolve(mensajeError)
             })
 
         },
@@ -105,7 +95,7 @@ export const usrStore = defineStore('usuariosStore', {
 
                 let relogeado = await this.logIn(item.email, item.contraseña)
                 
-                if (!relogeado) {
+                if (relogeado != null) {
                     alert("no se pudo relogear :(")
                     window.localStorage.removeItem("usuario");
                 }

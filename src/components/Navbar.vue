@@ -6,7 +6,7 @@
       <li><router-link to="/">HOME</router-link></li>
       <li>
         <div class="logo">
-          <img src="logo.png" alt="Logo" />
+          <img src="https://festhomedocs.com/festivals/2666/logo-2666.jpg" alt="Logo" />
         </div>
       </li>
       <li v-if="!usrStore.isLogged"><router-link to="/registro">REGISTRARSE</router-link></li>

@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="!usrStore.isLogged" class="formulario">
         <div class="formulario_lg">
             <h2>INICIAR SESION</h2>
@@ -10,22 +9,22 @@
                 </div>
 
                 <div class="inputBox">
-                    <input type="password" required v-model="this.password">
+                    <input type="password" required v-model="this.contraseña">
                     <span>Contraseña</span>
                 </div>
 
                 <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
-                    email o contraseña incorrectos
+                    email o contraseña no ingreados
                 </div>
                 <div v-if="this.error2" class="alert alert-danger" role="alert">
-                    email o contraseña no ingreados
+                    {{ this.msjError2 }}
                 </div>
             </div>
         </div>
     </div>
-   <div v-if="usrStore.isLogged" class="container">
+    <div v-if="usrStore.isLogged" class="container">
         <h1>you are already logged in</h1>
         <button type="submit" class="salir" @click="salir">Salir</button>
     </div>
@@ -43,24 +42,35 @@ export default {
             usrStore: usrStore(),
             error1: false,
             error2: false,
+            msjError2: "",
             email: "",
-            password: "",
+            contraseña: "",
 
         }
     },
     methods: {
         async ingresar() {
-            this.error1 = false;
-            if (this.email == "" || this.password == "") {
-                this.error2 = true;
+
+            this.error2 = false;
+            if (this.email == "" || this.contraseña == "") {
+
+                this.error1 = true;
+
             } else {
-                this.error2 = false;
-                let res = await this.usrStore.logIn(this.email, this.password)
-                if (res == false) {
-                    this.error1 = true;
-                }else{
-                    this.error1 = false;
-                    //this.$router.push("/");
+
+                this.error1 = false;
+                let mensajeError = await this.usrStore.logIn(this.email, this.contraseña);
+
+                if (mensajeError == null) {
+
+                    this.error2 = false;
+                    this.$router.push("/");
+
+                } else {
+
+                    this.error2 = true;
+                    this.msjError2 = mensajeError;
+
                 }
             }
         },
@@ -75,47 +85,47 @@ export default {
 
 <style scoped>
 .ingresar {
-  margin-top: 20px;
-  font-size: 15px;
-  padding: 0.7em 2.7em;
-  letter-spacing: 0.06em;
-  position: relative;
-  font-family: inherit;
-  border-radius: 4px;
-  text-decoration:none;
-  overflow: hidden;
-  transition: all 0.3s;
-  line-height: 1.4em;
-  border: 2px solid white;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%,transparent 60% , rgba(145, 145, 145, 0.1) 100%);
-  color: white;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    font-size: 15px;
+    padding: 0.7em 2.7em;
+    letter-spacing: 0.06em;
+    position: relative;
+    font-family: inherit;
+    border-radius: 4px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 2px solid white;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
+    color: white;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
 }
 
 .ingresar:hover {
-  color: #ffffff;
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
 }
 
 .ingresar:before {
-  content: "";
-  position: absolute;
-  left: -4em;
-  width: 4em;
-  height: 100%;
-  top: 0;
-  transition: transform .4s ease-in-out;
-  background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%,rgba(255, 255, 255, 0.1) 60% , transparent 100%);
+    content: "";
+    position: absolute;
+    left: -4em;
+    width: 4em;
+    height: 100%;
+    top: 0;
+    transition: transform .4s ease-in-out;
+    background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
 }
 
 .ingresar:hover:before {
-  transform: translateX(15em);
+    transform: translateX(15em);
 }
 
 .inputBox {
     position: relative;
     max-width: 100%;
-    min-width:250px;
+    min-width: 250px;
     align-content: center;
     margin-bottom: 20%;
 }
@@ -212,9 +222,11 @@ export default {
     z-index: 1;
     font-family: "Montserrat", sans-serif;
 }
+
 .formulario_lg button {
-  margin: 0 auto;
-  display: block;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    display: block;
 }
 
 .container {
@@ -251,9 +263,11 @@ export default {
     margin-bottom: 15px;
     cursor: pointer;
 }
+
 .salir {
     background-color: #af4c4c;
 }
+
 .salir:hover {
     background-color: #b83939;
 }
