@@ -15,7 +15,7 @@
     <p class="datos">{{ formatDate(pelicula.release_date) }} · {{ formatRuntime(pelicula.runtime) }} · {{
       getGenresString(pelicula.genres) }}</p>
     <div class="overview">{{ pelicula.overview }}</div>   
-    <router-link to="/reserva" class="reserve-button">RESERVAR ASIENTOS</router-link>
+    <router-link :to="`/funciones/${this.id}`" class="reserve-button">VER FUNCIONES</router-link>
   </div>
   <img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
 </template>
@@ -40,7 +40,9 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.pelicula = data;
-          console.log("PELICULA: " + this.pelicula)
+
+          // console.log("PELICULA: " + this.pelicula)
+
           document.title = data.title ;
 
         })
@@ -65,7 +67,9 @@ export default {
       for (var i = 0; i < genres.length; i++) {
         listaGenres.push(genres[i].name);
         var genresString = listaGenres.join(", ");
-        console.log("GENEROS " + genres[i].name)
+
+        // console.log("GENEROS " + genres[i].name)
+
       }
       return genresString;
     },

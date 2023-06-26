@@ -3,9 +3,10 @@
         <div class="formulario_lg">
             <h2>INICIAR SESION</h2>
             <div>
+
                 <div class="inputBox">
                     <input type="text" required v-model="this.email">
-                    <span>Correo Electronico</span>
+                    <span>email</span>
                 </div>
 
                 <div class="inputBox">

@@ -40,7 +40,10 @@ export default {
         }
 
 
-  }
+  },
+  created() {
+        document.title = "Detalles"
+    },
 
 }
 

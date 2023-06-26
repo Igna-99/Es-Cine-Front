@@ -2,7 +2,7 @@
 <template>
   <nav class="navbar">
     <ul class="nav-links">
-      <li><router-link to="/Peliculas">CARTELERA</router-link></li>
+      <li><router-link to="/cartelera">CARTELERA</router-link></li>
       <li><router-link to="/">HOME</router-link></li>
       <li>
         <div class="logo">

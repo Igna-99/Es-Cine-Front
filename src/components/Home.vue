@@ -359,7 +359,9 @@ export default {
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        console.log("HOME: " + data.results)
+
+        // console.log("HOME: " + data.results)
+
         popularMovies.value = data.results.slice(0, 5);
       } catch (error) {
         console.error(error);
@@ -372,8 +374,10 @@ export default {
         const response2 = await fetch(apiUrl2);
         const data2 = await response2.json();
         genres.value = data2.genres;
-        console.log(data2.genres);
-        console.log(genres.value);
+
+        // console.log(data2.genres);
+        // console.log(genres.value);
+        
       } catch (error) {
         console.error(error);
       }

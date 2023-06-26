@@ -104,22 +104,32 @@ export const usrStore = defineStore('usuariosStore', {
 
         async cargarReservas() {
 
+            try {
 
+                const { idUsuario } = this.currentUser;
 
-            const { idUsuario } = this.currentUser
+                const url = `http://localhost:8080/usuario/${idUsuario}/reserva`;
 
-            const url = `http://localhost:8080/usuario/${idUsuario}/reserva`;
+                const response = await axios.get(url);
 
-            const response = await axios.get(url);
+                let data = response.data.result;
 
-            let data = response.data.result
+                data.forEach(reserva => {
+                    reserva.Funcion.Horario = reserva.Funcion.Horario.substring(0, 5);
+                });
 
-            data.forEach( reserva => {
-                reserva.Funcion.Horario = reserva.Funcion.Horario.substring(0, 5);           
-            });
+                this.reservasDeUser = data;
 
-            this.reservasDeUser = data
+            } catch (error) {
+                if(error.response.data.message.endsWith("no tiene Reservas")){
 
+                    console.log(error.response.data.message);
+
+                } else{
+                    console.error(error.response.data.message);
+                }
+    
+            };
 
         },
 
@@ -129,11 +139,6 @@ export const usrStore = defineStore('usuariosStore', {
 
             window.localStorage.removeItem("usuario");
         },
-
-
-
-
-
 
 
 

@@ -156,8 +156,10 @@ export default {
             fetch(url4)
                 .then(response => response.json())
                 .then(data => {
-                    this.peliculas.push(data)       
-                    console.log(this.peliculas)
+                    this.peliculas.push(data)   
+
+                    // console.log(this.peliculas)
+                    
                 })
                 .catch(error => {
                     console.error('Error al buscar películas:', error);
