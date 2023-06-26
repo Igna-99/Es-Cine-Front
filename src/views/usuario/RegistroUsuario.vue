@@ -1,25 +1,49 @@
 <template>
     <div v-if="!usrStore.isLogged" class="formulario">
         <div class="formulario_lg">
-            <h2>INICIAR SESION</h2>
+            <h2>REGISTRO</h2>
             <div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="inputBox">
+                            <input type="text" required v-model="this.nombre">
+                            <span>Nombre</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inputBox">
+                            <input type="text" required v-model="this.apellido">
+                            <span>Apellido</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="inputBox">
                     <input type="text" required v-model="this.email">
-                    <span>Correo Electronico</span>
+                    <span>Email</span>
                 </div>
 
                 <div class="inputBox">
                     <input type="password" required v-model="this.contraseña">
-                    <span>Contraseña</span>
+                    <span>contraseña</span>
                 </div>
 
-                <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
+                <div class="inputBox">
+                    <input type="password" required v-model="this.contraseñaRep">
+                    <span>Repite Contraseña</span>
+                </div>
+
+                <button type="submit" class="ingresar" @click="registrse">Registrarse</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
-                    email o contraseña no ingreados
+                    <span class="errorSpam"> debe completar todos los campos </span>
                 </div>
                 <div v-if="this.error2" class="alert alert-danger" role="alert">
-                    {{ this.msjError2 }}
+                    <span class="errorSpam"> las contraseñas no coinciden </span>
+                </div>
+                <div v-if="this.error3" class="alert alert-danger" role="alert">
+                    <span class="errorSpam"> {{ this.msjError3 }} </span>
                 </div>
             </div>
         </div>
@@ -30,62 +54,72 @@
     </div>
 </template>
 
+
 <script>
 import { usrStore } from '../../components/store/usrStore'
-import { useRouter } from "vue-router";
-
-document.title = "Iniciar Sesion"
-
 export default {
     data() {
         return {
             usrStore: usrStore(),
+            nombre: '',
+            apellido: '',
+            email: '',
+            contraseña: '',
+            contraseñaRep: '',
             error1: false,
             error2: false,
-            msjError2: "",
-            email: "",
-            contraseña: "",
+            error3: false,
+            msjError3: '',
 
         }
     },
     methods: {
-        async ingresar() {
 
-            this.error2 = false;
-            if (this.email == "" || this.contraseña == "") {
+        async registrse() {
 
-                this.error1 = true;
+            this.error1 = false
+            this.error2 = false
+            this.error3 = false
+
+            if (this.nombre == '' || this.apellido == '' || this.email == '' || this.contraseña == '' || this.contraseñaRep == '') {
+
+                this.error1 = true
+
+            } else if (this.contraseña != this.contraseñaRep) {
+
+                this.error2 = true
 
             } else {
 
-                this.error1 = false;
-                let mensajeError = await this.usrStore.logIn(this.email, this.contraseña);
+                let mensaje = await this.usrStore.registrarse(this.nombre, this.apellido, this.email, this.contraseña)
 
-                if (mensajeError == null) {
+                if (mensaje == null) {
 
-                    this.error2 = false;
-                    this.$router.push("/detallesUsuario");
+                    alert("te has registrado exitosamente")
+                    this.$router.push("/login");
 
                 } else {
 
-                    this.error2 = true;
-                    this.msjError2 = mensajeError;
+                    this.error3 = true
+                    this.msjError3 = mensaje
 
                 }
             }
         },
 
         salir() {
-            // metodo salir de usuario
             this.usrStore.logOut()
         }
-    }
+    },
+    created() {
+        document.title = "Registro"
+    },
+
 }
-</script>
+</script>   
 
 <style scoped>
 .ingresar {
-    margin-top: 20px;
     font-size: 15px;
     padding: 0.7em 2.7em;
     letter-spacing: 0.06em;
@@ -127,7 +161,11 @@ export default {
     max-width: 100%;
     min-width: 250px;
     align-content: center;
-    margin-bottom: 20%;
+    margin-bottom: 6%;
+}
+
+.row {
+    margin-bottom: 1.5%;
 }
 
 .inputBox input {
@@ -227,6 +265,7 @@ export default {
     margin: 0 auto;
     margin-bottom: 30px;
     display: block;
+
 }
 
 .container {
@@ -264,11 +303,19 @@ export default {
     cursor: pointer;
 }
 
+
+
 .salir {
     background-color: #af4c4c;
 }
 
+
 .salir:hover {
     background-color: #b83939;
+}
+
+.errorSpam {
+    display: block;
+    max-width: 400px;
 }
 </style>
