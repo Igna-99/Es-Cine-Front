@@ -43,6 +43,7 @@
                 funcionSala: this.$route.params.sala,
                 funcionHorario: this.$route.params.horario,
                 seats: [],
+                reserva: {}
             };
         },
 
@@ -50,9 +51,7 @@
 
             async getMovie() {
                 try {
-                    const response = await axios.get(
-                    `https://api.themoviedb.org/3/movie/${this.idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`
-                    );
+                    const response = await axios.get(`https://api.themoviedb.org/3/movie/${this.idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`);
                     this.movie = response.data;
                 } catch (error) {
                     console.error(error);
@@ -74,6 +73,7 @@
                     );
                     console.log("los asientos", response.data.result.Asientos);
                     this.seats = response.data.result.Asientos;
+                    this.verificarAsientos();
                 } catch (error) {
                     console.log(error);
                 }
@@ -103,16 +103,30 @@
 
             async submitReservation() {
                 const asientosSeleccionados = this.seats.filter((seat) => seat.selected).map((seat) => seat.numeroAsiento);
-                const requestData = {
-                    asientosIds: asientosSeleccionados,
-                };
-                console.log(requestData);
                 try {
-                    await axios.put(`http://localhost:8080/sala/${this.funcionSala}`, {requestData,});
+                    if ((asientosSeleccionados.length-1) === 0) {
+                        const requestData = { 
+                            asientosIds: asientosSeleccionados,
+                        };
+                        console.log(requestData);
+                        await axios.put(`http://localhost:8080/sala/${this.funcionSala}`, {requestData,}); 
+                    } else {
+                        alert('no seleccionaste ninguno!');
+                    }
                 } catch (error) {
                     console.error("Error al guardar la reserva:", error);
                 }
             },
+
+            verificarAsientos() {
+                this.seats.forEach((seat) => { 
+                    if (seat.reservado) {
+                        seat.unavailable = true;
+                        seat.selected = false; 
+                    }
+                });
+            }
+
         },
 
         created() {
@@ -154,6 +168,7 @@
     .seat-unavailable {
         background-color: #f0f0f0;
         cursor: not-allowed;
+        color: red;
     }
     .button-container {
         text-align: center;
