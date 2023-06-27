@@ -37,7 +37,7 @@ const routes = [
     { path : "/funciones/:idPelicula", component : FuncionesDePelicula },
 
     { path : "/reserva", component: ReservaView,},
-    { path : "/reserva/:sala/:horario", component: ReservaView,},
+    { path : "/reserva/:sala/:horario/:idPelicula", component: ReservaView,},
     { path : "/salas", component: SalaView,},
 
     { path : "/peliculasxgenero/:id", component: PeliculaGenero,},
