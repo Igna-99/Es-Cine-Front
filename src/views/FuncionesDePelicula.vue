@@ -16,7 +16,7 @@
         <div class="container" v-for="funcion in this.funciones">
             <h6 class="tituloID">SALA : {{ funcion.sala }}</h6>
             <h6 class="tituloID">HORARIO : {{ funcion.horario }}</h6>
-            <router-link :to="`/reserva/${this.idPelicula}`" class="reserve-button">RESERVAR ASIENTOS</router-link>
+            <router-link :to="`/reserva/${funcion.sala}/${funcion.horario}`" class="reserve-button">RESERVAR ASIENTOS</router-link>
         </div>
         
     </div>
