@@ -1,132 +1,195 @@
 <template>
-    <div>
-        <h2>Reserva de Asientos</h2>
-        <p>Selecciona tus asientos en la sala:</p>
-        <div class="seat-container">
-            <div v-for="(row, rowIndex) in seats" :key="rowIndex" class="seat-row">
-                <div v-for="(seat, seatIndex) in row" 
-                    :key="seatIndex" 
-                    :class="{
-                        seat: true, 
-                        'seat-selected': isSelected(seat), 
-                        'seat-unavailable': isUnavailable(seat),
-                    }" 
-                    v-on:click="toggleSeat(seat)" >
-                    {{ seat.name }}
+    <div class="movie-container">
+        <div class="card">
+            <div class="content">
+                <div class="back">
+                    <div class="back-content">
+                        <img :src="getMoviePoster(this.movie.poster_path)" alt="Poster" />
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="button-container">
-            <button v-on:click="submitReservation">Reservar</button>
-        </div>
-        <div class="reserved-seats">
-            <h3>Asientos reservados:</h3>
-            <ul>
-                <li v-for="seat in reservedSeats" :key="seat.name">{{ seat.name }}</li>
-            </ul>
+    </div>
+    <div class="info-container">
+        <p class="movie-title">{{ this.movie.title }}</p>
+        <h3>Reserva de Asientos</h3>
+        <div class="container">
+            <h6 class="tituloID">Sala : {{ funcionSala }}</h6>
+            <h6 class="tituloID">Horario : {{ funcionHorario }} hs</h6>
+            <p>Selecciona tus asientos en la sala:</p>
+            <div class="seat-container">
+                <div v-for="(seat, seatIndex) in seats" :key="seatIndex" :class="seatClasses(seat)" @click="toggleSeat(seat)">
+                    {{ seat.numeroAsiento }}
+                </div>
+            </div>
+            <div class="button-container">
+                <button v-on:click="submitReservation" class="reserve-button">Reservar</button>
+            </div>
         </div>
     </div>
+  <img class="backdrop" :src="getMovieBackdrop(this.movie.backdrop_path)" alt="Poster"/>
 </template>
 
-<script setup>
+<script>
 
-    import { reactive } from "vue";
-    import axios from 'axios';
+    import axios from "axios";
 
-    //reactive: cualquier cambio en el estado de los asientos se reflejará automáticamente en la vista.
-    const seats = reactive([
-        [
-            { name: "A1", selected: false, unavailable: false, },
-            { name: "A2", selected: false, unavailable: false, },
-        ],
-        [
-            { name: "B1", selected: false, unavailable: false, },
-            { name: "B2", selected: false, unavailable: false, },
-            { name: "B3", selected: false, unavailable: false, },
-        ],
-        [
-            { name: "C1", selected: false, unavailable: false, },
-            { name: "C2", selected: false, unavailable: false, },
-            { name: "C3", selected: false, unavailable: false, },
-            { name: "C4", selected: false, unavailable: false, },
-        ],
-    ]);
+    export default {
 
-    const reservedSeats = reactive([]);
+        data() {
+            return {
+                idPelicula: this.$route.params.idPelicula,
+                movie: "",
+                funcionSala: this.$route.params.sala,
+                funcionHorario: this.$route.params.horario,
+                seats: [],
+            };
+        },
 
-    const isSelected = (seat) => seat.selected;
-    const isUnavailable = (seat) => seat.unavailable;
+        methods: {
 
-    const toggleSeat = (seat) => {
-        seat.selected = !seat.selected;
-    };
+            async getMovie() {
+                try {
+                    const response = await axios.get(
+                    `https://api.themoviedb.org/3/movie/${this.idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`
+                    );
+                    this.movie = response.data;
+                } catch (error) {
+                    console.error(error);
+                }
+            },
 
-    const submitReservation = async () => {
-        let selectedSeats = seats.flatMap((row) => row.filter((seat) => seat.selected)).map((seat) => seat.name);
-        console.log(selectedSeats);
-        const reservationData = {
-            seats: selectedSeats
-        };
-        try {
-            const response = await axios.post('https://646d3b2c9c677e232189d9bc.mockapi.io/reservations', reservationData);
-            console.log('Reserva guardada:', response.data);
-            //mostrar lista de reservados
-            selectedSeats.forEach((seatName) => {
-                reservedSeats.push({ name: seatName });
-            });
-            // desactivar los asientos?
-            seats.forEach((row) => {
-                row.forEach((seat) => {
-                    if (seat.selected) {
-                        seat.unavailable = true;
-                    }
-                });
-            });
-        } catch (error) {
-            console.error('Error al guardar la reserva:', error);
-        }
+            getMoviePoster(posterPath) {
+                return `https://image.tmdb.org/t/p/w500/${posterPath}`;
+            },
+
+            getMovieBackdrop(backdrop_path) {
+                return `https://image.tmdb.org/t/p/w1280/${backdrop_path}`;
+            },
+
+            async getSeats() {
+                try {
+                    const response = await axios.get(
+                    `http://localhost:8080/sala/${this.funcionSala}`
+                    );
+                    console.log("los asientos", response.data.result.Asientos);
+                    this.seats = response.data.result.Asientos;
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+
+            isSelected(seat) {
+                return seat.selected;
+            },
+
+            isUnavailable(seat) {
+                return seat.unavailable;
+            },
+
+            toggleSeat(seat) {
+                if (!seat.unavailable) {
+                    seat.selected = !seat.selected;
+                }
+            },
+
+            seatClasses(seat) {
+                return {
+                    seat: true,
+                    "seat-selected": this.isSelected(seat),
+                    "seat-unavailable": this.isUnavailable(seat),
+                };
+            },
+
+            async submitReservation() {
+                const asientosSeleccionados = this.seats.filter((seat) => seat.selected).map((seat) => seat.numeroAsiento);
+                const requestData = {
+                    asientosIds: asientosSeleccionados,
+                };
+                console.log(requestData);
+                try {
+                    await axios.put(`http://localhost:8080/sala/${this.funcionSala}`, {requestData,});
+                } catch (error) {
+                    console.error("Error al guardar la reserva:", error);
+                }
+            },
+        },
+
+        created() {
+            this.getMovie();
+            this.getSeats();
+        },
+
     };
 
 </script>
 
 <style scoped>
 
-    h2, p {
+    h3, p {
         color: white;
     }
     .seat-container {
         display: flex;
         flex-direction: column;
     }
-
     .seat-row {
         display: flex;
         justify-content: center;
     }
-
     .seat {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 50px;
         height: 50px;
-        margin: 5px;
+        margin: 15px auto;
         border: 1px solid #ccc;
         cursor: pointer;
     }
-
     .seat-selected {
-        background-color: #99ccff;
+        background-color: lightgray;
+        color: #202020;
     }
-
     .seat-unavailable {
         background-color: #f0f0f0;
         cursor: not-allowed;
     }
-
-    .button-container{
+    .button-container {
         text-align: center;
         padding: 50px;
     }
-</style>
+    .container {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: auto;
+        padding: 20px 80px;
+        position: relative;
+        color: #fff;
+        background-color: #202020;
+        overflow: hidden;
+        max-width: 100%;
+        z-index: 1;
+        font-family: "Montserrat", sans-serif;
+        max-width: 800px;
+    }
+    .tituloID {
+        text-align: center;
+        display: flex;
+        margin: 0;
+    }
 
+    p {
+        color: #fff;
+    }
+    .info-container {
+        max-width: 80%;
+        min-width: 500px;
+    }
+    .reserve-button {
+        text-align: center;
+    }
+
+</style>
