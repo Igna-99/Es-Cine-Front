@@ -1,83 +1,177 @@
 <template>
-	<div class="movie-container">
-		<div class="card">
-			<div class="content">
-				<div class="back">
-					<div class="back-content">
-						<img :src="getMoviePoster(pelicula.poster_path)" alt="Poster">
+	<div v-if="this.pelicula != null">
+
+		<div class="movie-container">
+			<div class="card">
+				<div class="content">
+					<div class="back">
+						<div class="back-content">
+							<img :src="getMoviePoster(pelicula.poster_path)" alt="Poster">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div class="info-container">
+			<p class="movie-title">{{ pelicula.title }}</p>
+			<p class="datos">{{ formatDate(pelicula.release_date) }} · {{ formatRuntime(pelicula.runtime) }} · {{
+				getGenresString(pelicula.genres) }}</p>
+			<div class="overview"> {{ pelicula.overview }} </div>
+
+
+
+
+			<div v-if="this.funcionesAll != null">
+
+				<p class="movie-title">Funciones</p>
+
+				<div class="text-center">
+					<button v-for="fecha in this.fechas" type="button" class="reserve-button" style="margin: 5px;"
+						@click="seleccionarDia(fecha)">{{ fecha }}</button>
+				</div>
+
+				<p class="movie-title">{{ this.fechaSeleccionada }}</p>
+
+				<div class="container-funciones text-center" v-for="funcion in this.funcionesSeleccionadas">
+					<p class="tituloID">SALA : {{ funcion.sala }}</p>
+					<p class="tituloID">HORARIO : {{ this.formatTime(funcion.horario) }} hs</p>
+					<router-link :to="`/funcion/${funcion.idFuncion}`" class="reserve-button">RESERVAR
+						ASIENTOS</router-link>
+				</div>
+
+			</div>
+
+			<div v-else>
+
+				<p class="movie-title"> Sin Funciones Programadas</p>
+
+			</div>
+
+		</div>
+
+
+		<img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
+
 	</div>
-	<div class="info-container">
-		<p class="movie-title">{{ pelicula.title }}</p>
-		<p class="datos">{{ formatDate(pelicula.release_date) }} · {{ formatRuntime(pelicula.runtime) }} · {{
-			getGenresString(pelicula.genres) }}</p>
-		<div class="overview">{{ pelicula.overview }}</div>   
-		<router-link :to="`/funciones/${this.id}`" class="reserve-button">VER FUNCIONES</router-link>
-	</div>
-	<img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
 	data() {
 		return {
-			id: '',
+			idPelicula: this.$route.params.idPelicula,
 			pelicula: null,
+			funcionesSeleccionadas: null,
+			funcionesAll: null,
+			fechas: null,
+			fechaSeleccionada: null,
 		};
 	},
 	created() {
-		this.id = this.$route.params.id;
+
 		this.buscarPelicula();
+		this.traerFuncionesDePelicula();
 	},
 	methods: {
-		buscarPelicula() {
-			const url = `https://api.themoviedb.org/3/movie/${this.id}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-			fetch(url)
-				.then(response => response.json())
-				.then(data => {
-					this.pelicula = data;
 
-					// console.log("PELICULA: " + this.pelicula)
+		async buscarPelicula() {
+			try {
+				const url = `https://api.themoviedb.org/3/movie/${this.idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
+				const response = await axios.get(url);
+				this.pelicula = response.data;
+			} catch (error) {
+				console.error(error);
+			};
 
-					document.title = data.title ;
-
-				})
-				.catch(error => {
-					console.error('Error al buscar película:', error);
-				});
 		},
-		getMoviePoster(posterPath) { return `https://image.tmdb.org/t/p/w500/${posterPath}` },
-		getMovieBackdrop(backdrop_path) { return `https://image.tmdb.org/t/p/w1280/${backdrop_path}` },
+
+		async traerFuncionesDePelicula() {
+			try {
+				const url = `http://localhost:8080/funcion/pelicula/${this.idPelicula}`;
+				const response = await axios.get(url);
+
+				this.funcionesAll = response.data.funcionesPorFecha;
+				this.fechas = Object.keys(this.funcionesAll);
+
+
+			} catch (error) {
+				console.error(error.message);
+			};
+		},
+
+		getMoviePoster(posterPath) {
+			return `https://image.tmdb.org/t/p/w500/${posterPath}`
+		},
+
+		getMovieBackdrop(backdrop_path) {
+			return `https://image.tmdb.org/t/p/w1280/${backdrop_path}`
+		},
+
+		formatTime(hora) {
+			return hora.substring(0, 5);
+		},
+
 		formatRuntime(minutos) {
 			const horas = Math.floor(minutos / 60);
 			const remainingMinutes = minutos % 60;
 			return `${horas}h ${remainingMinutes}min`;
 		},
+
 		formatDate(dateString) {
 			var dateParts = dateString.split("-");
 			var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0].slice(-2);
 			return formattedDate;
 		},
+
 		getGenresString(genres) {
 			var listaGenres = [];
 			for (var i = 0; i < genres.length; i++) {
 				listaGenres.push(genres[i].name);
 				var genresString = listaGenres.join(", ");
-
-				// console.log("GENEROS " + genres[i].name)
-
 			}
 			return genresString;
 		},
+
+		seleccionarDia(fecha) {
+			this.fechaSeleccionada = fecha
+			this.funcionesSeleccionadas = this.funcionesAll[fecha]
+		},
+
 	}
 };
 </script>
 
-<style>
+<style scoped>
+.container-funciones {
+	gap: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+	margin-top: 10px;
+	padding: 20px 80px;
+	position: relative;
+	color: #fff;
+	background-color: #202020;
+	border-radius: 5px;
+	box-shadow: 0px 0px 2px 2px #000000;
+	overflow: hidden;
+	max-width: 100%;
+	z-index: 1;
+	font-family: "Montserrat", sans-serif;
+	min-width: 500px;
+	max-width: 500px;
+}
+
+.tituloID {
+
+	text-align: center;
+	display: flex;
+	margin: 0;
+}
 
 .reserve-button {
 	margin-top: 20px;
@@ -87,12 +181,12 @@ export default {
 	position: relative;
 	font-family: inherit;
 	border-radius: 4px;
-	text-decoration:none;
+	text-decoration: none;
 	overflow: hidden;
 	transition: all 0.3s;
 	line-height: 1.4em;
 	border: 2px solid white;
-	background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%,transparent 60% , rgba(145, 145, 145, 0.1) 100%);
+	background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
 	color: white;
 	box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
 }
@@ -110,20 +204,11 @@ export default {
 	height: 100%;
 	top: 0;
 	transition: transform .4s ease-in-out;
-	background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%,rgba(255, 255, 255, 0.1) 60% , transparent 100%);
+	background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
 }
 
 .reserve-button:hover:before {
 	transform: translateX(15em);
-}
-
-	
-
-#app{
-	display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
 }
 
 .info-container {
@@ -133,8 +218,8 @@ export default {
 	align-items: center;
 	margin: 0 auto;
 	background-color: #1d1d1de1;
-	max-width: 70%;
-	min-width: 350px;
+	max-width: 800px;
+	min-width: 600px;
 	padding: 3%;
 	padding-top: 10%;
 	margin-top: -10%;

@@ -9,9 +9,10 @@
     <div class="container" v-for="reserva in this.usrStore.reservasDeUser">
       <h6 class="tituloID">Reserva #{{ reserva.idReserva }}</h6>
       <h6 class="tituloID">Sala '{{ reserva.Funcion.sala }}'</h6>
-      <h6 class="tituloID">Asiento {{ reserva.Asiento.numeroAsiento }}</h6>
-      <h6 class="tituloID">Horario {{ reserva.Funcion.Horario }}</h6>
+      <h6 class="tituloID">Horario {{ this.formatTime(reserva.Funcion.horario) }}</h6>
+      <h6 class="tituloID">Fecha {{ reserva.Funcion.fecha }}</h6>
       <h6 class="tituloID">pelicula id #{{ reserva.Funcion.idPelicula }}</h6>
+      <h6 class="tituloID">asiento: {{ reserva.AsientosDeFuncions[0].numeroAsiento }}</h6>
 
     </div>
 
@@ -19,7 +20,7 @@
 
   <div class="container" v-else>
 
-    <span>no estas logeado</span>
+    <h1>no estas logeado</h1>
 
   </div>
 </template>
@@ -37,10 +38,17 @@ export default {
   },
   methods: {
 
+    formatTime(hora) {
+      return hora.substring(0, 5);
+    },
+
 
   },
   created() {
-    document.title = "Reservas"
+
+    document.title = "Reservas";
+    this.usrStore.cargarReservas();
+
   },
 
 }

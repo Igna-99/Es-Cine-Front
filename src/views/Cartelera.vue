@@ -106,7 +106,10 @@
     transform: rotateY(180deg);
 }
 </style>
+
+
 <script>
+import axios from 'axios';
 
 export default {
     data() {
@@ -115,57 +118,39 @@ export default {
         };
     },
     created() {
+        document.title = "Cartelera"
         this.buscarPeliculas();
     },
     methods: {
-        buscarPeliculas() {
-            document.title = "Cartelera"
-            //FIRST MOVIE
-            const url = `https://api.themoviedb.org/3/movie/569094?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    this.peliculas.push(data)       
+        async buscarPeliculas() {
 
-                })
-                .catch(error => {
-                    console.error('Error al buscar películas:', error);
-                });
-            //SEGUNDA PELICULA
-            const url2 = `https://api.themoviedb.org/3/movie/713704?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-            fetch(url2)
-                .then(response => response.json())
-                .then(data => {
-                    this.peliculas.push(data)       
-               })
-                .catch(error => {
-                    console.error('Error al buscar películas:', error);
-                });
-            //TERCERA PELICULA
-            const url3 = `https://api.themoviedb.org/3/movie/315162?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-            fetch(url3)
-                .then(response => response.json())
-                .then(data => {
-                    this.peliculas.push(data)       
-                })
-                .catch(error => {
-                    console.error('Error al buscar películas:', error);
-                });
-            //CUARTA PELICULA
-            const url4 = `https://api.themoviedb.org/3/movie/447277?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-            fetch(url4)
-                .then(response => response.json())
-                .then(data => {
-                    this.peliculas.push(data)   
+            const responseIdPeliculas = await axios.get(`http://localhost:8080/pelicula`);
 
-                    // console.log(this.peliculas)
-                    
-                })
-                .catch(error => {
-                    console.error('Error al buscar películas:', error);
-                });
+            const idPelciulas = responseIdPeliculas.data.result;
+
+            await idPelciulas.forEach(async (elemento) => {
+
+                const idPelicula = elemento.idPelicula
+
+                const url = `https://api.themoviedb.org/3/movie/${idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
+
+                try {
+
+                    let responsePelicula = await axios.get(url);
+
+                    this.peliculas.push(responsePelicula.data)
+
+                    this.peliculas.sort(function (a, b) {
+                        return a.id - b.id;
+                    });
+
+                } catch (error) {
+                    console.log(error)
+                }
+            });
 
         },
+
         getMoviePoster(posterPath) { return `https://image.tmdb.org/t/p/w500/${posterPath}` },
     }
 };

@@ -15,10 +15,10 @@ import ReservasUsuario from "./views/usuario/ReservasUsuario.vue"
 
 import Cartelera from "./views/Cartelera.vue"
 import Pelicula from './components/Pelicula.vue'
-import FuncionesDePelicula from './views/FuncionesDePelicula.vue'
+import Funcion from './views/peliculas/Funcion.vue'
 
-import ReservaView from "./views/ReservaView.vue"
-import SalaView from "./views/SalaView.vue"
+
+
 
 import PeliculaGenero from "./views/PeliculaGenero.vue"
 
@@ -33,12 +33,9 @@ const routes = [
     { path : "/reservasUsuario", component: ReservasUsuario,},
     
     { path : "/cartelera", component: Cartelera,},
-    { path : "/pelicula/:id", component : Pelicula},
-    { path : "/funciones/:idPelicula", component : FuncionesDePelicula },
+    { path : "/pelicula/:idPelicula", component : Pelicula},
+    { path : "/funcion/:idFuncion", component : Funcion},
 
-    { path : "/reserva", component: ReservaView,},
-    { path : "/reserva/:sala/:horario/:idPelicula", component: ReservaView,},
-    { path : "/salas", component: SalaView,},
 
     { path : "/peliculasxgenero/:id", component: PeliculaGenero,},
 

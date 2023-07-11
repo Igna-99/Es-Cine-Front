@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import getCookie from '../../../utils/getCookie.js'
 
 export const usrStore = defineStore('usuariosStore', {
     state: () => ({
@@ -20,7 +21,7 @@ export const usrStore = defineStore('usuariosStore', {
                 let mensajeError
 
                 try {
-                    const url = 'http://localhost:8080/usuario';
+                    const url = 'http://localhost:8080/usuario/create';
                     const data = {
                         nombre,
                         apellido,
@@ -58,19 +59,11 @@ export const usrStore = defineStore('usuariosStore', {
                         contraseña
                     };
 
-                    const response = await axios.post(url, data);
+                    const response = await axios.post(url, data, { withCredentials: true });
 
-                    this.currentUser = response.data.result
-
-                    delete this.currentUser.salt;
-
-                    this.currentUser.contraseña = contraseña
-                    //piso la contraseña hashed por la contraseña que ingreso el Usuario
-                    //ya que si se llego a este punto la validacion fue correcta
-                    window.localStorage.setItem("usuario", JSON.stringify(response.data.result));
+                    this.currentUser = response.data.payload
 
                     this.cargarReservas()
-
 
                 } catch (error) {
                     mensajeError = error.response.data.message;
@@ -81,65 +74,66 @@ export const usrStore = defineStore('usuariosStore', {
 
         },
 
-        async cargarDataStorage() {
+        async reiniciarSesion() {
 
-            // se llama desde el onMounted de la App.vue, toma los datos del user storage y intenta logear automaticamente
-            // si la clave y email no fueron cambiadas relogea automaticamente, en caso contrario lanza un alert 
+            let cookieSesion = getCookie(document.cookie, "tokenCine")
 
-            let item = JSON.parse(String(window.localStorage.getItem("usuario")));
+            const url = 'http://localhost:8080/usuario/me';
 
-            if (item != null) {
-
-                let relogeado = await this.logIn(item.email, item.contraseña)
-
-                if (relogeado != null) {
-                    alert("no se pudo relogear :(")
-                    window.localStorage.removeItem("usuario");
-                }
+            if(cookieSesion != ''){
+                try {
+        
+                    const response = await axios.get(url, { withCredentials: true });
+                    
+                    this.currentUser = response.data.user;
+    
+                    this.cargarReservas();
+                    
+                } catch (error) {
+                    alert("no se pudo relogear");
+                    console.log(error.response.data.message);
+                } 
 
             }
-
 
         },
 
         async cargarReservas() {
 
             try {
+                const url = `http://localhost:8080/reserva/all`;
 
-                const { idUsuario } = this.currentUser;
-
-                const url = `http://localhost:8080/usuario/${idUsuario}/reserva`;
-
-                const response = await axios.get(url);
+                const response = await axios.get(url,{ withCredentials: true });
 
                 let data = response.data.result;
-
-                data.forEach(reserva => {
-                    reserva.Funcion.Horario = reserva.Funcion.Horario.substring(0, 5);
-                });
 
                 this.reservasDeUser = data;
 
             } catch (error) {
-                if(error.response.data.message.endsWith("no tiene Reservas")){
+                if (error.response.data.message.endsWith("no tiene Reservas")) {
 
                     console.log(error.response.data.message);
 
-                } else{
+                } else {
                     console.error(error.response.data.message);
                 }
-    
+
             };
 
         },
 
-        logOut() {
-            //log out y limpia el localStorage
+        async logOut() {
+
             this.currentUser = null;
+            this.reservasDeUser = null;
 
-            window.localStorage.removeItem("usuario");
+
+            const url = 'http://localhost:8080/usuario/logout';
+            const data = {};
+
+            const response = await axios.post(url, data, { withCredentials: true });
+            
         },
-
 
 
     },

@@ -35,8 +35,6 @@
 import { usrStore } from '../../components/store/usrStore'
 import { useRouter } from "vue-router";
 
-document.title = "Iniciar Sesion"
-
 export default {
     data() {
         return {
@@ -48,6 +46,22 @@ export default {
             contraseña: "",
 
         }
+    },
+    mounted() {
+
+        if (this.usrStore.isLogged) {
+            this.$router.push("/detallesUsuario");
+        }
+
+        document.title = "Iniciar Sesion"
+
+    },
+    updated() {
+        if (this.usrStore.isLogged) {
+            this.$router.push("/detallesUsuario");
+        }
+
+
     },
     methods: {
         async ingresar() {
@@ -81,9 +95,7 @@ export default {
             this.usrStore.logOut()
         }
     },
-    created() {
-        document.title = "Iniciar Sesion"
-    },
+
 }
 </script>
 

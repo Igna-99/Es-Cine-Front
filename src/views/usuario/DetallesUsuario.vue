@@ -1,5 +1,4 @@
 <template>
-
   <div class="container" v-if="this.usrStore.isLogged">
     <h1>Detalles de Usuario</h1>
 
@@ -10,7 +9,7 @@
     <span>Email: {{ this.usrStore.currentUser.email }} </span>
 
     <button type="submit" class="salir" @click="salir">Cerrar Sesion</button>
-    
+
   </div>
 
   <div class="container" v-else>
@@ -18,7 +17,6 @@
     <h1>no estas logeado</h1>
 
   </div>
-
 </template>
 
 
@@ -32,18 +30,32 @@ export default {
       usrStore: usrStore()
     }
   },
+  created() {
+
+    if (!this.usrStore.isLogged) {
+      this.$router.push("/login");
+    }
+
+    document.title = "Detalles"
+
+  },
+  updated() {
+
+    if (!this.usrStore.isLogged) {
+      this.$router.push("/login");
+    }
+  },
   methods: {
 
+
     salir() {
-            this.usrStore.logOut()
-            this.$router.push("/login");
-        }
+      this.usrStore.logOut()
+      this.$router.push("/login");
+    }
 
 
   },
-  created() {
-        document.title = "Detalles"
-    },
+
 
 }
 
@@ -70,21 +82,20 @@ export default {
 }
 
 .container button {
-    width: 100%;
-    padding: 10px;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .salir {
-    background-color: #af4c4c;
+  background-color: #af4c4c;
 }
 
 .salir:hover {
-    background-color: #b83939;
+  background-color: #b83939;
 }
-
 </style>
