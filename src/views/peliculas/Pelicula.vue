@@ -27,7 +27,7 @@
 				<p class="movie-title">Funciones</p>
 
 				<div class="text-center">
-					<button v-for="fecha in this.fechas" type="button" class="reserve-button" style="margin: 5px;"
+					<button v-for="fecha in this.fechas" type="button" class="btn_basic" style="margin: 5px;"
 						@click="seleccionarDia(fecha)">{{ fecha }}</button>
 				</div>
 
@@ -36,7 +36,7 @@
 				<div class="container-funciones text-center" v-for="funcion in this.funcionesSeleccionadas">
 					<p class="tituloID">SALA : {{ funcion.sala }}</p>
 					<p class="tituloID">HORARIO : {{ this.formatTime(funcion.horario) }} hs</p>
-					<router-link :to="`/funcion/${funcion.idFuncion}`" class="reserve-button">RESERVAR
+					<router-link :to="`/funcion/${funcion.idFuncion}`" class="btn_basic">RESERVAR
 						ASIENTOS</router-link>
 				</div>
 
@@ -172,45 +172,6 @@ export default {
 	display: flex;
 	margin: 0;
 }
-
-.reserve-button {
-	margin-top: 20px;
-	font-size: 15px;
-	padding: 0.7em 2.7em;
-	letter-spacing: 0.06em;
-	position: relative;
-	font-family: inherit;
-	border-radius: 4px;
-	text-decoration: none;
-	overflow: hidden;
-	transition: all 0.3s;
-	line-height: 1.4em;
-	border: 2px solid white;
-	background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
-	color: white;
-	box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
-}
-
-.reserve-button:hover {
-	color: #ffffff;
-	box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
-}
-
-.reserve-button:before {
-	content: "";
-	position: absolute;
-	left: -4em;
-	width: 4em;
-	height: 100%;
-	top: 0;
-	transition: transform .4s ease-in-out;
-	background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
-}
-
-.reserve-button:hover:before {
-	transform: translateX(15em);
-}
-
 .info-container {
 	display: flex;
 	flex-direction: column;

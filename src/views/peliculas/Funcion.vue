@@ -1,57 +1,57 @@
 <template>
-	<div v-if="this.usrStore.isLogged">
+	<div v-if="!this.usrStore.isLogged">
 
-		<div v-if="this.funcion && this.pelicula">
-
-			<div class="movie-container">
-				<div class="card">
-					<div class="content">
-						<div class="back">
-							<div class="back-content">
-								<img :src="getMoviePoster(pelicula.poster_path)" alt="Poster">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="info-container">
-
-				<p class="movie-title">{{ pelicula.title }}</p>
-				<h3>Reserva de Asientos</h3>
-				<div class="container">
-					<h6 class="tituloID">Sala : {{ this.funcion.sala }}</h6>
-					<h6 class="tituloID">Horario : {{ this.funcion.horario }} hs</h6>
-					<p>Selecciona tus asientos en la sala:</p>
-					<div class="seat-container">
-						<div v-for="(seat, seatIndex) in this.funcion.Asientos" :key="seatIndex" :class="seatClasses(seat)"
-							@click="toggleSeat(seat)">
-							{{ seat.AsientosDeFuncion.numeroAsiento }}
-						</div>
-					</div>
-					<div class="button-container">
-						<button v-on:click="generarReserva" class="reserve-button">Reservar</button>
-					</div>
-				</div>
-
-			</div>
-
-			<img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
-
+		<div class="container">
+			<h1>no estas logeado</h1>
 		</div>
 
-		<div v-else>
-			<div class="container">
-				<h1>La Funcion No Existe</h1>
-			</div>
+	</div>
+
+	<div v-else-if="this.funcion == null">
+
+		<div class="container">
+			<h1>La Funcion No Existe</h1>
 		</div>
 
 	</div>
 
 	<div v-else>
-		<div class="container">
-			<h1>no estas logeado</h1>
+
+		<div class="movie-container">
+			<div class="card">
+				<div class="content">
+					<div class="back">
+						<div class="back-content">
+							<img :src="getMoviePoster(pelicula.poster_path)" alt="Poster">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+
+		<div class="info-container">
+
+			<p class="movie-title">{{ pelicula.title }}</p>
+			<h3>Reserva de Asientos</h3>
+			<div class="container">
+				<h6 class="tituloID">Sala : {{ this.funcion.sala }}</h6>
+				<h6 class="tituloID">Horario : {{ this.funcion.horario }} hs</h6>
+				<p>Selecciona tus asientos en la sala:</p>
+				<div class="seat-container">
+					<div v-for="(seat, seatIndex) in this.funcion.Asientos" :key="seatIndex" :class="seatClasses(seat)"
+						@click="toggleSeat(seat)">
+						{{ seat.AsientosDeFuncion.numeroAsiento }}
+					</div>
+				</div>
+				<div class="button-container">
+					<button v-on:click="generarReserva" class="reserve-button">Reservar</button>
+				</div>
+			</div>
+
+		</div>
+
+		<img class="backdrop" :src="getMovieBackdrop(pelicula.backdrop_path)" alt="Poster">
+
 	</div>
 </template>
 
@@ -135,7 +135,7 @@ export default {
 
 					const response = await axios.post(url, data, { withCredentials: true });
 
-					if(response.data.success){
+					if (response.data.success) {
 						alert('Reserva Realizada con Existo')
 						this.$router.push("/reservasUsuario");
 					}

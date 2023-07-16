@@ -34,7 +34,7 @@
                     <span>Repite Contraseña</span>
                 </div>
 
-                <button type="submit" class="ingresar" @click="registrse">Registrarse</button>
+                <button type="submit" class="btn_basic" @click="registrse">Registrarse</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
                     <span class="errorSpam"> debe completar todos los campos </span>
@@ -70,7 +70,6 @@ export default {
             error2: false,
             error3: false,
             msjError3: '',
-
         }
     },
     methods: {
@@ -119,43 +118,6 @@ export default {
 </script>   
 
 <style scoped>
-.ingresar {
-    font-size: 15px;
-    padding: 0.7em 2.7em;
-    letter-spacing: 0.06em;
-    position: relative;
-    font-family: inherit;
-    border-radius: 4px;
-    text-decoration: none;
-    overflow: hidden;
-    transition: all 0.3s;
-    line-height: 1.4em;
-    border: 2px solid white;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
-    color: white;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
-}
-
-.ingresar:hover {
-    color: #ffffff;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
-}
-
-.ingresar:before {
-    content: "";
-    position: absolute;
-    left: -4em;
-    width: 4em;
-    height: 100%;
-    top: 0;
-    transition: transform .4s ease-in-out;
-    background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
-}
-
-.ingresar:hover:before {
-    transform: translateX(15em);
-}
-
 .inputBox {
     position: relative;
     max-width: 100%;

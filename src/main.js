@@ -14,7 +14,7 @@ import DetallesUsuarioView from "./views/usuario/DetallesUsuario.vue"
 import ReservasUsuario from "./views/usuario/ReservasUsuario.vue"
 
 import Cartelera from "./views/Cartelera.vue"
-import Pelicula from './components/Pelicula.vue'
+import Pelicula from './views/peliculas/Pelicula.vue'
 import Funcion from './views/peliculas/Funcion.vue'
 
 

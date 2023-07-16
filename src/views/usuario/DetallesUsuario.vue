@@ -1,14 +1,16 @@
 <template>
-  <div class="container" v-if="this.usrStore.isLogged">
-    <h1>Detalles de Usuario</h1>
+  <div class="container_borde borde_doble" v-if="this.usrStore.isLogged">
 
-    <span>Nombre: {{ this.usrStore.currentUser.nombre }} </span>
+    <div class="container_detalles">
+      <h1> <b> Detalles de Usuario </b> </h1>
 
-    <span>Apellido: {{ this.usrStore.currentUser.apellido }} </span>
+      <span> <b> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
 
-    <span>Email: {{ this.usrStore.currentUser.email }} </span>
+      <span> <b> Email: </b> : {{ this.usrStore.currentUser.email }} </span>
 
-    <button type="submit" class="salir" @click="salir">Cerrar Sesion</button>
+
+      <button type="submit" class="btn_basic salir" @click="salir">Cerrar Sesion</button>
+    </div>
 
   </div>
 
@@ -47,31 +49,26 @@ export default {
   },
   methods: {
 
-
     salir() {
       this.usrStore.logOut()
       this.$router.push("/login");
-    }
-
+    },
 
   },
-
-
 }
 
 </script>
 
 
-
 <style scoped>
-.container {
+.container_detalles {
   gap: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  padding: 20px 80px;
+  padding: 30px 80px;
   position: relative;
   color: #fff;
   background-color: #202020;
@@ -81,21 +78,35 @@ export default {
   font-family: "Montserrat", sans-serif;
 }
 
-.container button {
-  width: 100%;
-  padding: 10px;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  cursor: pointer;
+.container_detalles span {
+  margin: 0px;
 }
+
+.container_detalles h1 {
+  margin: 25px;
+}
+
+
+
 
 .salir {
-  background-color: #af4c4c;
+  width: 80%;
+  border: 2px solid red;
+  margin-bottom: 20px;
+
 }
 
-.salir:hover {
-  background-color: #b83939;
+.salir:before {
+  width: 50%;
+}
+
+.administrar {
+  width: 80%;
+  border: 2px solid rgb(65, 65, 255);
+
+}
+
+.administrar:before {
+  width: 50%;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
-    <div v-if="!usrStore.isLogged" class="formulario">
+
+    <div v-if="!usrStore.isLogged" class="container_lg borde_doble">
         <div class="formulario_lg">
             <h2>INICIAR SESION</h2>
             <div>
@@ -14,7 +15,7 @@
                     <span>Contraseña</span>
                 </div>
 
-                <button type="submit" class="ingresar" @click="ingresar">Iniciar Sesión</button>
+                <button type="submit" class="btn_basic" @click="ingresar">Iniciar Sesión</button>
 
                 <div v-if="this.error1" class="alert alert-danger" role="alert">
                     email o contraseña no ingreados
@@ -25,10 +26,12 @@
             </div>
         </div>
     </div>
+
     <div v-if="usrStore.isLogged" class="container">
         <h1>you are already logged in</h1>
         <button type="submit" class="salir" @click="salir">Salir</button>
     </div>
+    
 </template>
 
 <script>
@@ -100,42 +103,20 @@ export default {
 </script>
 
 <style scoped>
-.ingresar {
-    margin-top: 20px;
-    font-size: 15px;
-    padding: 0.7em 2.7em;
-    letter-spacing: 0.06em;
+.container_lg {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    background: none;
+    color: #0f1923;
     position: relative;
-    font-family: inherit;
-    border-radius: 4px;
-    text-decoration: none;
-    overflow: hidden;
-    transition: all 0.3s;
-    line-height: 1.4em;
-    border: 2px solid white;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1%, transparent 40%, transparent 60%, rgba(145, 145, 145, 0.1) 100%);
-    color: white;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4), 0 0 9px 3px rgba(255, 255, 255, 0.1);
-}
-
-.ingresar:hover {
-    color: #ffffff;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 9px 3px rgba(255, 255, 255, 0.2);
-}
-
-.ingresar:before {
-    content: "";
-    position: absolute;
-    left: -4em;
-    width: 4em;
-    height: 100%;
-    top: 0;
-    transition: transform .4s ease-in-out;
-    background: linear-gradient(to right, transparent 1%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
-}
-
-.ingresar:hover:before {
-    transform: translateX(15em);
+    padding: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all .15s ease;
+    max-width: 100%;
+    width: 100%;
 }
 
 .inputBox {
@@ -183,43 +164,6 @@ export default {
 .inputBox input:valid,
 .inputBox input:focus {
     border: 1px solid white;
-}
-
-.formulario {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    border: none;
-    background: none;
-    color: #0f1923;
-    position: relative;
-    padding: 15px;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all .15s ease;
-    max-width: 100%;
-    width: 100%;
-}
-
-.formulario::before,
-.formulario::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    left: 0;
-    height: calc(40%);
-    border: 1px solid #ffffff;
-    transition: all .15s ease;
-}
-
-.formulario::before {
-    top: 0;
-    border-bottom-width: 0;
-}
-
-.formulario::after {
-    bottom: 0;
-    border-top-width: 0;
 }
 
 .formulario_lg {
