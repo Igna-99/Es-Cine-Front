@@ -80,19 +80,19 @@ export const usrStore = defineStore('usuariosStore', {
 
             const url = 'http://localhost:8080/usuario/me';
 
-            if(cookieSesion != ''){
+            if (cookieSesion != '') {
                 try {
-        
+
                     const response = await axios.get(url, { withCredentials: true });
-                    
+
                     this.currentUser = response.data.user;
-    
+
                     this.cargarReservas();
-                    
+
                 } catch (error) {
                     alert("no se pudo relogear");
                     console.log(error.response.data.message);
-                } 
+                }
 
             }
 
@@ -103,20 +103,15 @@ export const usrStore = defineStore('usuariosStore', {
             try {
                 const url = `http://localhost:8080/reserva/all`;
 
-                const response = await axios.get(url,{ withCredentials: true });
+                const response = await axios.get(url, { withCredentials: true });
 
                 let data = response.data.result;
 
                 this.reservasDeUser = data;
 
             } catch (error) {
-                if (error.response.data.message.endsWith("no tiene Reservas")) {
 
-                    console.log(error.response.data.message);
-
-                } else {
-                    console.error(error.response.data.message);
-                }
+                console.error(error.response.data.message);
 
             };
 
@@ -132,7 +127,7 @@ export const usrStore = defineStore('usuariosStore', {
             const data = {};
 
             const response = await axios.post(url, data, { withCredentials: true });
-            
+
         },
 
 

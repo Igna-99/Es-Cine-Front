@@ -24,8 +24,6 @@
 
 </template>
 
-
-
 <script>
 import { usrStore } from '../../components/store/usrStore'
 export default {
