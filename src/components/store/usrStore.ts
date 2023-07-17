@@ -13,64 +13,62 @@ export const usrStore = defineStore('usuariosStore', {
 
         async registrarse(nombre, apellido, email, contraseña) {
 
-            //genera una promesa, si el usuarios se regista exitosamente devuelve null
+            //si el usuarios se regista exitosamente devuelve null
             //en caso contrario un String con el/los mensaje/s de error
 
-            return new Promise(async (resolve) => {
 
-                let mensajeError
+            let mensajeError
 
-                try {
-                    const url = 'http://localhost:8080/usuario/create';
-                    const data = {
-                        nombre,
-                        apellido,
-                        email,
-                        contraseña,
-                    };
+            try {
+                const url = 'http://localhost:8080/usuario/create';
+                const data = {
+                    nombre,
+                    apellido,
+                    email,
+                    contraseña,
+                };
 
-                    const response = await axios.post(url, data);
+                const response = await axios.post(url, data);
 
-                } catch (error) {
+            } catch (error) {
 
-                    let mensajeRaw = error.response.data.message;
-                    mensajeError = mensajeRaw.replace(/Validation error: /g, "");
+                let mensajeRaw = error.response.data.message;
 
-                }
+                mensajeError = mensajeRaw.replace(/Validation error: /g, "");
 
-                resolve(mensajeError)
-            })
+            }
+
+            return mensajeError;
 
         },
 
         async logIn(email, contraseña) {
 
-            //genera una promesa, si el usuarios es logedo exitosamente devuelve null,
+            //si el usuarios es logedo exitosamente devuelve null,
             //en caso contrario devuelve un String con el mensaje de error
 
-            return new Promise(async (resolve) => {
 
-                let mensajeError
+            let mensajeError
 
-                try {
-                    const url = 'http://localhost:8080/usuario/login';
-                    const data = {
-                        email,
-                        contraseña
-                    };
+            try {
+                const url = 'http://localhost:8080/usuario/login';
+                const data = {
+                    email,
+                    contraseña
+                };
 
-                    const response = await axios.post(url, data, { withCredentials: true });
+                const response = await axios.post(url, data, { withCredentials: true });
 
-                    this.currentUser = response.data.payload
+                this.currentUser = response.data.payload
 
-                    this.cargarReservas()
+                this.cargarReservas()
 
-                } catch (error) {
-                    mensajeError = error.response.data.message;
-                }
+            } catch (error) {
+                mensajeError = error.response.data.message;
+            }
 
-                resolve(mensajeError)
-            })
+            return mensajeError
+
 
         },
 
@@ -136,6 +134,10 @@ export const usrStore = defineStore('usuariosStore', {
 
         isLogged() {
             return this.currentUser != null;
+        },
+
+        isAdmin() {
+            return this.currentUser.idRol == 1;
         },
     },
 
