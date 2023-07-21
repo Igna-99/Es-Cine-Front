@@ -1,34 +1,37 @@
-import { createApp } from 'vue'
-import { createRouter,createWebHistory } from 'vue-router'
-import { createPinia } from 'pinia'
+import "bootstrap/dist/css/bootstrap.css"
 
-import './assets/main.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createRouter,createWebHistory } from 'vue-router';
+import { createPinia } from 'pinia';
 
-import Home from './components/Home.vue'
-
-//Usuario
-import RegistroUsuario from "./views/usuario/RegistroUsuario.vue"
-import loginUsuario from "./views/usuario/loginUsuario.vue"
-import DetallesUsuarioView from "./views/usuario/DetallesUsuario.vue"
-import ReservasUsuario from "./views/usuario/ReservasUsuario.vue"
-
-import Cartelera from "./views/Cartelera.vue"
-import Pelicula from './views/peliculas/Pelicula.vue'
-import Funcion from './views/peliculas/Funcion.vue'
+import './assets/main.css';
+import App from './App.vue';
 
 
+//rutas
+import Home from './components/Home.vue';
+
+import RegistroUsuario from './views/usuario/RegistroUsuario.vue';
+import loginUsuario from './views/usuario/loginUsuario.vue';
+
+import DetallesUsuarioView from './views/usuario/DetallesUsuario.vue';
+import ReservasUsuario from './views/usuario/ReservasUsuario.vue';
+
+import Cartelera from './views/Cartelera.vue';
+import Pelicula from './views/peliculas/Pelicula.vue';
+import Funcion from './views/peliculas/Funcion.vue';
 
 
-import PeliculaGenero from "./views/PeliculaGenero.vue"
-
+import PeliculaGenero from "./views/PeliculaGenero.vue";
 
 
 const routes = [
 
     { path : "/", component : Home},
+
     { path : "/registro", component: RegistroUsuario,},
     { path : "/login", component: loginUsuario,},
+
     { path : "/detallesUsuario", component: DetallesUsuarioView,},
     { path : "/reservasUsuario", component: ReservasUsuario,},
     
@@ -39,7 +42,7 @@ const routes = [
 
     { path : "/peliculasxgenero/:id", component: PeliculaGenero,},
 
-]
+];
 
 const router = createRouter({
     history : createWebHistory(),
@@ -49,4 +52,3 @@ const router = createRouter({
 const pinia = createPinia();
 
 createApp(App).use(pinia).use(router).mount('#app');
-

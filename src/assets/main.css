@@ -18,11 +18,20 @@
     }
 }
 
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #131313;
+    overflow-x: hidden;
+    height: 100%;
+    align-content: center;
+}
+
 
 /* Estilos De Botones */
 
 .btn_basic {
-    margin-top: 20px;
     font-size: 15px;
     padding: 0.7em 2.7em;
     letter-spacing: 0.06em;
@@ -57,6 +66,54 @@
 
 .btn_basic:hover:before {
     transform: translateX(15em);
+}
+
+/* Estilo Imputs */
+
+.input_box {
+    position: relative;
+    max-width: 100%;
+    min-width: 250px;
+    align-content: center;
+}
+
+.input_box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: #202020;
+    border-radius: 1px;
+    outline: none;
+    color: white;
+    font-size: 1em;
+}
+
+.input_box span {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    transition: 0.4s;
+}
+
+.input_box input:valid~span,
+.input_box input:focus~span {
+    color: white;
+    transform: translateX(10px) translateY(-7px);
+    font-size: 0.65em;
+    padding: 0 10px;
+    background: #202020;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    letter-spacing: 0.2em;
+}
+
+.input_box input:valid,
+.input_box input:focus {
+    border: 1px solid white;
 }
 
 /* Margenes Blancos  */

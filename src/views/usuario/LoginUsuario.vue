@@ -5,12 +5,12 @@
             <h2>INICIAR SESION</h2>
             <div>
 
-                <div class="inputBox">
+                <div class="input_box inputMargen">
                     <input type="text" required v-model="this.email">
                     <span>email</span>
                 </div>
 
-                <div class="inputBox">
+                <div class="input_box inputMargen">
                     <input type="password" required v-model="this.contraseña">
                     <span>Contraseña</span>
                 </div>
@@ -23,6 +23,7 @@
                 <div v-if="this.error2" class="alert alert-danger" role="alert">
                     {{ this.msjError2 }}
                 </div>
+                
             </div>
         </div>
     </div>
@@ -103,6 +104,10 @@ export default {
 </script>
 
 <style scoped>
+
+.inputMargen{
+    margin-bottom: 20%;
+}
 .container_lg {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -119,52 +124,7 @@ export default {
     width: 100%;
 }
 
-.inputBox {
-    position: relative;
-    max-width: 100%;
-    min-width: 250px;
-    align-content: center;
-    margin-bottom: 20%;
-}
 
-.inputBox input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: #202020;
-    border-radius: 1px;
-    outline: none;
-    color: white;
-    font-size: 1em;
-}
-
-.inputBox span {
-    position: absolute;
-    left: 0;
-    padding: 10px;
-    pointer-events: none;
-    font-size: 1em;
-    color: rgba(255, 255, 255, 0.25);
-    text-transform: uppercase;
-    transition: 0.4s;
-}
-
-.inputBox input:valid~span,
-.inputBox input:focus~span {
-    color: white;
-    transform: translateX(10px) translateY(-7px);
-    font-size: 0.65em;
-    padding: 0 10px;
-    background: #202020;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    letter-spacing: 0.2em;
-}
-
-.inputBox input:valid,
-.inputBox input:focus {
-    border: 1px solid white;
-}
 
 .formulario_lg {
     gap: 20px;
