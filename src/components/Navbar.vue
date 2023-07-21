@@ -1,4 +1,3 @@
-
 <template>
     <nav class="navbar">
         <ul class="nav-links">
