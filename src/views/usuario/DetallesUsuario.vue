@@ -1,5 +1,4 @@
 <template>
-
   <div class="container_borde borde_doble" v-if="this.usrStore.isLogged">
 
     <div class="container_detalles">
@@ -9,7 +8,6 @@
 
       <span> <b> Email: </b> : {{ this.usrStore.currentUser.email }} </span>
 
-      <button v-if="this.usrStore.isAdmin" type="submit" class="btn_basic Administracion" @click="navegar('menuAdministracion')">Administrar</button>
 
       <button type="submit" class="btn_basic salir" @click="salir">Cerrar Sesion</button>
     </div>
@@ -21,7 +19,6 @@
     <h1>no estas logeado</h1>
 
   </div>
-
 </template>
 
 
@@ -36,6 +33,7 @@ export default {
     }
   },
   created() {
+
     if (!this.usrStore.isLogged) {
       this.$router.push("/login");
     }
@@ -53,17 +51,14 @@ export default {
 
     salir() {
       this.usrStore.logOut()
-      this.$router.push('/login');
+      this.$router.push("/login");
     },
-
-    navegar(ubicacion) {
-      this.$router.push(`/${ubicacion}`);
-    }
 
   },
 }
 
 </script>
+
 
 <style scoped>
 .container_detalles {
@@ -91,6 +86,9 @@ export default {
   margin: 25px;
 }
 
+
+
+
 .salir {
   width: 80%;
   border: 2px solid red;
@@ -102,13 +100,13 @@ export default {
   width: 50%;
 }
 
-.Administracion {
+.administrar {
   width: 80%;
   border: 2px solid rgb(65, 65, 255);
 
 }
 
-.Administracion:before {
+.administrar:before {
   width: 50%;
 }
 </style>
