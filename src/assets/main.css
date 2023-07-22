@@ -28,7 +28,6 @@ body {
     align-content: center;
 }
 
-
 /* Estilos De Botones */
 
 .btn_basic {
@@ -151,4 +150,11 @@ body {
 .borde_doble::after {
     bottom: 0;
     border-top-width: 0;
+}
+
+.elemento_flotante {
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    padding: 5px 10px;
 }
