@@ -154,7 +154,7 @@ body {
 
 .elemento_flotante {
     position: absolute;
-    top: 5px;
+    top: 10px;
     left: 15px;
     padding: 5px 10px;
 }

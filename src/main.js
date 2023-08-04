@@ -18,6 +18,7 @@ import DetallesUsuarioView from './views/usuario/DetallesUsuario.vue';
 import ReservasUsuario from './views/usuario/ReservasUsuario.vue';
 
 import MenuAdministracion from './views/admin/MenuAdministracion.vue';
+import UsuariosRegistrados from './views/admin/UsuariosRegistrados.vue'
 import FuncionesProgramadas from './views/admin/FuncionesProgramadas.vue';
 import ProgramarFunciones from './views/admin/ProgramarFunciones.vue';
 
@@ -40,6 +41,7 @@ const routes = [
     { path : "/reservasUsuario", component: ReservasUsuario,},
 
     { path : "/menuAdministracion", component: MenuAdministracion,},
+    { path : "/usuariosRegistrados", component: UsuariosRegistrados,},
     { path : "/funcionesProgramadas", component: FuncionesProgramadas,},
     { path : "/programarFunciones", component: ProgramarFunciones,},
     
@@ -59,4 +61,6 @@ const router = createRouter({
 const pinia = createPinia();
 
 createApp(App).use(pinia).use(router).mount('#app');
+
+import "bootstrap/dist/js/bootstrap.js"
 

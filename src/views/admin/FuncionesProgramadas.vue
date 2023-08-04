@@ -30,7 +30,7 @@
 
     <div class="container_detalles margen2">
       <div class="botones">
-        <button class="btn_basic btn_fecha" @click="cambiarFecha(-1)" style="margin-right: 5px;"> Siguente</button>
+        <button class="btn_basic btn_fecha" @click="cambiarFecha(-1)" style="margin-right: 5px;"> Anterior</button>
 
         <div class="input_box">
           <input type="date" style="font-weight: bold; text-align: center;" v-model="this.fechaSeleccionada"
@@ -38,7 +38,7 @@
           <span>Fecha</span>
         </div>
 
-        <button class="btn_basic btn_fecha" @click="cambiarFecha(1)" style="margin-left: 5px;"> Anterior</button>
+        <button class="btn_basic btn_fecha" @click="cambiarFecha(1)" style="margin-left: 5px;"> Siguente</button>
       </div>
     </div>
 
@@ -50,8 +50,6 @@
   </div>
 
 </template>
-  
-  
   
 <script>
 import axios from 'axios'

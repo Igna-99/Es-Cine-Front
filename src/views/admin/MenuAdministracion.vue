@@ -20,7 +20,7 @@
 
         <div class="container_detalles" style="margin-top: 20px;">
 
-            <button class="btn_basic opcion" @click="navegar('administrarUsuarios')">Administrar Usuarios</button>
+            <button class="btn_basic opcion" @click="navegar('usuariosRegistrados')">Administrar Usuarios</button>
 
             <button class="btn_basic opcion" @click="navegar('funcionesProgramadas')">Administrar Funciones</button>
 

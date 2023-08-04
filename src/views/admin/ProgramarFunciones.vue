@@ -59,7 +59,7 @@
 
         <button class="btn_basic boton_crear_funcion" @click="crearFuncion"> Crear Funcion</button>
 
-        <div v-if="this.error" class="alert alert-danger" style="font-weight: bold;">
+        <div v-if="this.error" class="alert alert-danger tamaño_maximo" style="font-weight: bold;">
           {{ this.msjError }}
         </div>
 
@@ -195,6 +195,10 @@ export default {
   
   
 <style scoped>
+
+.tamaño_maximo {
+  max-width: 520px;
+}
 .container_detalles {
   gap: 20px;
   display: flex;
