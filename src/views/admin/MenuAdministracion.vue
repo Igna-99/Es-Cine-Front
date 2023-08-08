@@ -1,30 +1,30 @@
 <template>
     <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
-        <div class="container_detalles">
+        <div class="container_basic">
             <h1>no estas logeado</h1>
         </div>
     </div>
 
     <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
-        <div class="container_detalles">
+        <div class="container_basic">
             <h1>Acesso Denegado</h1>
         </div>
     </div>
 
-    <div v-else class="container_borde borde_doble">
+    <div v-else class="borde_doble tamaño_xs">
 
-        <div class="container_detalles">
+        <div class="container_basic">
             <button class="elemento_flotante btn_basic" @click="navegar('detallesUsuario')"> Regresar </button>
             <h1> <b> Administracion </b> </h1>
         </div>
 
-        <div class="container_detalles" style="margin-top: 20px;">
+        <div class="container_basic" style="margin-top: 20px;">
 
-            <button class="btn_basic opcion" @click="navegar('usuariosRegistrados')">Administrar Usuarios</button>
+            <button class="btn_basic btn_menu_admin" @click="navegar('usuariosRegistrados')">Administrar Usuarios</button>
 
-            <button class="btn_basic opcion" @click="navegar('funcionesProgramadas')">Administrar Funciones</button>
+            <button class="btn_basic btn_menu_admin" @click="navegar('funcionesProgramadas')">Administrar Funciones</button>
 
-            <button class="btn_basic opcion" @click="">Administrar Peliculas</button>
+            <button class="btn_basic btn_menu_admin" @click="">Administrar Peliculas</button>
 
         </div>
 
@@ -32,7 +32,7 @@
 </template>
   
   
-  
+    
 <script>
 import { usrStore } from '../../components/store/usrStore'
 
@@ -63,37 +63,20 @@ export default {
   
   
 <style scoped>
-.container_detalles {
-    gap: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 30px 80px;
-    position: relative;
-    color: #fff;
-    background-color: #202020;
-    overflow: hidden;
-    max-width: 100%;
-    z-index: 1;
-    font-family: "Montserrat", sans-serif;
-}
 
-.container_detalles span {
+.container_basic h1 {
+    margin-top: 35px;
+}
+.container_basic span {
     margin: 0px;
 }
 
-.container_detalles h1 {
-    margin: 25px;
-}
-
-.opcion {
-    width: 90%;
+.btn_menu_admin {
+    width: 95%;
     height: 60px;
 }
 
-.opcion:before {
+.btn_menu_admin:before {
     width: 50%;
 }
 </style>

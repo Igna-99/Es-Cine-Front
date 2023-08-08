@@ -23,14 +23,14 @@ onMounted(() => {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 .componentes {
-  margin-top: 110px;
-}
-
-#app {
   display: flex;
-  flex-direction: column;
+  align-content: center;
   justify-content: center;
   align-items: center;
+
+  margin-top: 50px;
+  overflow-x: hidden;
+  height: auto;
 }
 </style>
 

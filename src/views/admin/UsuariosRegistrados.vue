@@ -1,22 +1,21 @@
 <template>
-    <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
-        <div class="container_detalles">
+    <div v-if="!this.usrStore.isLogged" class="borde_doble">
+        <div class="container_basic">
             <h1>no estas logeado</h1>
         </div>
     </div>
 
-    <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
-        <div class="container_detalles">
+    <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
+        <div class="container_basic">
             <h1>Acesso Denegado</h1>
         </div>
     </div>
 
-    <div v-else class="container_borde borde_doble">
+    <div v-else class="borde_doble tamaño_l">
 
-        <div class="container_detalles margen1">
+        <div class="container_basic">
 
-            <button class="elemento_flotante btn_basic" @click="navegar('menuAdministracion')">
-                <i class="bi bi-arrow-left"></i> Regresar </button>
+            <button class="elemento_flotante btn_basic" @click="navegar('menuAdministracion')"> Regresar </button>
 
             <h1> <b> Usuarios Registrados </b> </h1>
 
@@ -24,14 +23,14 @@
 
         <div v-for="usuario in this.UsuariosInDB">
 
-            <div class="margen2">
+            <div class="elemento_usuario">
                 <ElementoListaUsuario :usuario="usuario" @recargar="cargarUsuarios" />
             </div>
 
         </div>
 
         <div>
-            <div v-if="this.error" class="alert alert-danger" style="font-weight: bold;">
+            <div v-if="this.error" class="alert alert-danger">
                 {{ this.msjError }}
             </div>
         </div>
@@ -93,42 +92,20 @@ export default {
 
 </script>
 
-
-
-<style>
-.container_detalles {
-    gap: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
+<style scoped>
+.container_basic {
     padding: 30px 80px;
-    position: relative;
-    color: #fff;
-    background-color: #202020;
-    overflow: hidden;
-    min-width: 100%;
-    z-index: 1;
-    font-family: "Montserrat", sans-serif;
+    margin-bottom: 20px;
 }
-
-.container_detalles span {
+.container_basic span {
     margin: 0px;
 }
-
-.container_detalles h1 {
-    margin: 25px;
+.container_basic h1 {
+  margin-top: 35px;
 }
-
-.margen1 {
-    margin-bottom: 30px;
+.elemento_usuario {
+    margin-top: 15px;
 }
-
-.margen2 {
-    margin-top: 20px;
-}
-
 
 .resaltable:hover {
     background-color: rgba(170, 170, 170, 0.534);

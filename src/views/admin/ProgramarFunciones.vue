@@ -1,19 +1,19 @@
 <template>
-  <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
-    <div class="container_detalles">
+  <div v-if="!this.usrStore.isLogged" class="borde_doble">
+    <div class="container_basic">
       <h1>no estas logeado</h1>
     </div>
   </div>
 
-  <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
-    <div class="container_detalles">
+  <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
+    <div class="container_basic">
       <h1>Acesso Denegado</h1>
     </div>
   </div>
 
-  <div v-else class="container_borde borde_doble" style="min-width: 760px;">
+  <div v-else class="borde_doble tamaño_l">
 
-    <div class="container_detalles margen1">
+    <div class="container_basic">
 
       <h1> <b> Administrar Funciones </b> </h1>
 
@@ -27,7 +27,7 @@
     </div>
     <!-- Programar Funciones -->
     <div>
-      <div class="container_detalles margen2">
+      <div class="container_basic form_funcion">
 
         <div class="select_container">
 
@@ -59,7 +59,7 @@
 
         <button class="btn_basic boton_crear_funcion" @click="crearFuncion"> Crear Funcion</button>
 
-        <div v-if="this.error" class="alert alert-danger tamaño_maximo" style="font-weight: bold;">
+        <div v-if="this.error" class="alert alert-danger tamaño_maximo">
           {{ this.msjError }}
         </div>
 
@@ -68,8 +68,6 @@
 
   </div>
 </template>
-  
-  
   
 <script>
 import axios from 'axios'
@@ -193,35 +191,17 @@ export default {
 
 </script>
   
-  
 <style scoped>
-
-.tamaño_maximo {
-  max-width: 520px;
-}
-.container_detalles {
-  gap: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 30px 80px;
-  position: relative;
-  color: #fff;
-  background-color: #202020;
-  overflow: hidden;
-  min-width: 100%;
-  z-index: 1;
-  font-family: "Montserrat", sans-serif;
+.container_basic h1 {
+    margin-top: 35px;
 }
 
 .container_detalles span {
   margin: 0px;
 }
 
-.container_detalles h1 {
-  margin: 25px;
+.input_box {
+  min-width: 300px;
 }
 
 .botones {
@@ -236,12 +216,9 @@ export default {
   background-color: rgba(255, 255, 255, 0.753);
 }
 
-.margen1 {
-  margin-bottom: 30px;
-}
-
-.margen2 {
-  margin-top: 20px;
+.form_funcion {
+  margin-top: 15px;
+  padding-top: 35px;
 }
 
 .valido_estandar input:valid {
@@ -253,8 +230,7 @@ export default {
   display: flex;
   justify-content: center;
   position: relative;
-  min-width: 250px;
-  width: 250px;
+  width: 300px;
   height: 50px;
 }
 

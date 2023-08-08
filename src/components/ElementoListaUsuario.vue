@@ -1,7 +1,6 @@
 <template>
-    <div class="container_detalles">
+    <div class="container_basic">
         <span>
-
             <div v-if="usuario.habilitado && usuario.idUsuario != this.usrStore.currentUser.idUsuario"
                 class="contenedor_icono trash resaltable" data-bs-toggle="modal"
                 :data-bs-target="'#modalHabilitar' + usuario.idUsuario">
@@ -62,7 +61,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Detalles -->
     <div class="modal fade" :id="'modal' + usuario.idUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -214,23 +212,7 @@ export default {
 
 </script>
 
-<style>
-.container_detalles {
-    gap: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 30px 80px;
-    position: relative;
-    color: #fff;
-    background-color: #202020;
-    overflow: hidden;
-    min-width: 100%;
-    z-index: 1;
-    font-family: "Montserrat", sans-serif;
-}
+<style scoped>
 
 .contenedor_icono {
     display: inline;

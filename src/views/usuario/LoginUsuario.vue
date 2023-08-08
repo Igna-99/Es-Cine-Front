@@ -1,38 +1,34 @@
 <template>
+    <div v-if="usrStore.isLogged" class="container">
+        <h1>you are already logged in</h1>
+    </div>
 
-    <div v-if="!usrStore.isLogged" class="container_lg borde_doble">
-        <div class="formulario_lg">
-            <h2>INICIAR SESION</h2>
+    <div v-else class="borde_doble tamaño_xs">
+
+        <div class="container_basic">
+            <h1>INICIAR SESION</h1>
             <div>
 
-                <div class="input_box inputMargen">
+                <div class="input_box input_login">
                     <input type="text" required v-model="this.email">
                     <span>email</span>
                 </div>
 
-                <div class="input_box inputMargen">
+                <div class="input_box input_login">
                     <input type="password" required v-model="this.contraseña">
                     <span>Contraseña</span>
                 </div>
 
                 <button type="submit" class="btn_basic" @click="ingresar">Iniciar Sesión</button>
 
-                <div v-if="this.error1" class="alert alert-danger" role="alert">
-                    email o contraseña no ingreados
+                <div v-if="this.error" class="alert alert-danger" role="alert">
+                    {{ this.msjError }}
                 </div>
-                <div v-if="this.error2" class="alert alert-danger" role="alert">
-                    {{ this.msjError2 }}
-                </div>
-                
+
             </div>
         </div>
-    </div>
 
-    <div v-if="usrStore.isLogged" class="container">
-        <h1>you are already logged in</h1>
-        <button type="submit" class="salir" @click="salir">Salir</button>
     </div>
-    
 </template>
 
 <script>
@@ -43,12 +39,10 @@ export default {
     data() {
         return {
             usrStore: usrStore(),
-            error1: false,
-            error2: false,
-            msjError2: "",
+            error: false,
+            msjError: "",
             email: "",
             contraseña: "",
-
         }
     },
     mounted() {
@@ -65,30 +59,27 @@ export default {
             this.$router.push("/detallesUsuario");
         }
 
-
     },
     methods: {
         async ingresar() {
 
-            this.error2 = false;
             if (this.email == "" || this.contraseña == "") {
 
-                this.error1 = true;
+                this.error = true;
+                this.msjError = `email o contraseña no ingreados`
 
             } else {
 
-                this.error1 = false;
                 let mensajeError = await this.usrStore.logIn(this.email, this.contraseña);
 
                 if (mensajeError == null) {
 
-                    this.error2 = false;
+                    this.error = false;
                     this.$router.push("/detallesUsuario");
 
                 } else {
-
-                    this.error2 = true;
-                    this.msjError2 = mensajeError;
+                    this.error = true;
+                    this.msjError = mensajeError;
 
                 }
             }
@@ -104,91 +95,20 @@ export default {
 </script>
 
 <style scoped>
-
-.inputMargen{
+.input_login {
     margin-bottom: 20%;
-}
-.container_lg {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    border: none;
-    background: none;
-    color: #0f1923;
-    position: relative;
-    padding: 15px;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all .15s ease;
-    max-width: 100%;
-    width: 100%;
+    min-width: 300px;
 }
 
-
-
-.formulario_lg {
-    gap: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 20px 80px;
-    position: relative;
-    color: #fff;
-    background-color: #202020;
-    overflow: hidden;
-    max-width: 100%;
-    z-index: 1;
-    font-family: "Montserrat", sans-serif;
-}
-
-.formulario_lg button {
+.container_basic button {
     margin: 0 auto;
     margin-bottom: 30px;
     display: block;
 }
 
-.container {
-    font-family: "Montserrat", sans-serif;
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.container h1 {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.container button {
-    width: 100%;
-    padding: 10px;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    cursor: pointer;
-}
-
-.salir {
-    background-color: #af4c4c;
-}
-
-.salir:hover {
-    background-color: #b83939;
+.container_basic h1 {
+  font-size: 30px;
+  margin: 20px;
+  text-align: center;
 }
 </style>

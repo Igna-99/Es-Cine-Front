@@ -1,54 +1,66 @@
 <template>
-  <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
+  <div v-if="!this.usrStore.isLogged" class="borde_doble">
     <div class="container_detalles">
       <h1>no estas logeado</h1>
     </div>
   </div>
 
-  <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
+  <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
     <div class="container_detalles">
       <h1>Acesso Denegado</h1>
     </div>
   </div>
 
-  <div v-else class="container_borde borde_doble">
+  <div v-else class="borde_doble tamaño_l">
 
-    <div class="container_detalles margen1">
+    <!-- titulo -->
+
+    <div class="container_basic cabecera">
 
       <button class="elemento_flotante btn_basic" @click="navegar('menuAdministracion')"> Regresar </button>
 
       <h1> <b> Administrar Funciones </b> </h1>
 
-      <div class="botones">
-
+      <div class="container_botones">
         <button class="btn_basic activado"> Funciones Programadas </button>
         <button class="btn_basic" @click="navegar('programarFunciones')">Programar Funciones</button>
-
       </div>
 
     </div>
 
-    <div class="container_detalles margen2">
-      <div class="botones">
-        <button class="btn_basic btn_fecha" @click="cambiarFecha(-1)" style="margin-right: 5px;"> Anterior</button>
+    <!-- menu fecha -->
+
+    <div class="container_basic">
+      <div class="container_menu_fecha">
+
+        <button class="btn_basic btn_anterior" @click="cambiarFecha(-1)" style="margin-right: 10px;"> Anterior</button>
 
         <div class="input_box">
-          <input type="date" style="font-weight: bold; text-align: center;" v-model="this.fechaSeleccionada"
+          <input type="date" class="input_date" v-model="this.fechaSeleccionada"
             @change="seleccionarFechaDeFuncion">
           <span>Fecha</span>
         </div>
 
-        <button class="btn_basic btn_fecha" @click="cambiarFecha(1)" style="margin-left: 5px;"> Siguente</button>
+        <button class="btn_basic btn_siguente_sm" @click="cambiarFecha(1)" style="margin-left: 10px;"> Siguente</button>
+
+      </div>
+
+      <div class="container_btn_sm">
+
+        <button class="btn_basic btn_anterior" @click="cambiarFecha(-1)" style="margin-right: 5px;"> Anterior</button>
+        <button class="btn_basic btn_siguente" @click="cambiarFecha(1)" style="margin-left: 5px;"> Siguente</button>
+
       </div>
     </div>
 
-    <div v-for="funcion in this.funcionesDeFechaSeleccionada" class="container_detalles margen2 resaltable">
-      <span> Funcion #{{ funcion.idFuncion }} |  sala {{ funcion.sala }} | Horario {{ funcion.horario }} | {{
+    <!-- Funciones Encontradas -->
+
+    <div v-for="funcion in this.funcionesDeFechaSeleccionada" class="container_basic elemento_funcion resaltable">
+      <span> Funcion #{{ funcion.idFuncion }} | sala {{ funcion.sala }} | Horario {{ funcion.horario }} | {{
         this.tituloPelicula(funcion.idPelicula) }} </span>
     </div>
 
   </div>
-
 </template>
   
 <script>
@@ -77,10 +89,6 @@ export default {
     this.inicializarFecha();
 
   },
-
-  updated() {
-
-  },
   methods: {
     async cargarFunciones() {
       const url = 'http://localhost:8080/funcion/all';
@@ -91,7 +99,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-
     },
 
     async cargarPeliculas() {
@@ -114,7 +121,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-
     },
 
     navegar(ubicacion) {
@@ -169,36 +175,66 @@ export default {
   
   
 <style scoped>
-
-.container_detalles {
-  gap: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 30px 80px;
-  position: relative;
-  color: #fff;
-  background-color: #202020;
-  overflow: hidden;
-  min-width: 100%;
-  z-index: 1;
-  font-family: "Montserrat", sans-serif;
+.container_basic h1 {
+  margin-top: 35px;
 }
 
-.container_detalles span {
+.container_basic span {
   margin: 0px;
 }
 
-.container_detalles h1 {
-  margin: 25px;
+.cabecera {
+  margin-bottom: 20px;
 }
 
-.botones {
+.container_botones {
   display: flex;
   justify-content: center;
 }
+
+.input_date {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.container_menu_fecha {
+  display: flex;
+  justify-content: center;
+}
+
+.container_btn_sm {
+  display: none;
+  width: 80%;
+  justify-content: center;
+}
+
+@media screen and (max-width:600px) {
+
+  .input_box {
+    width: 100%;
+  }
+
+  .container_btn_sm .btn_basic {
+    width: 100%;
+    padding: 0.5em 1.2em;
+  }
+
+  .container_menu_fecha {
+    width: 80%;
+  }
+
+  .container_menu_fecha button {
+    display: none;
+  }
+
+   .container_btn_sm {
+    display: flex;
+  }
+}
+
+
+
 
 .activado {
   font-weight: bold;
@@ -207,17 +243,15 @@ export default {
   background-color: rgba(255, 255, 255, 0.753);
 }
 
-.margen1 {
-  margin-bottom: 30px;
-}
-
-.margen2 {
-  margin-top: 20px;
-}
-
 .resaltable:hover {
   background-color: rgba(170, 170, 170, 0.534);
   border-radius: 5px;
   cursor: pointer;
+}
+
+.elemento_funcion {
+  margin-top: 20px;
+  padding: 30px 80px;
+  border-radius: 5px;
 }
 </style>
