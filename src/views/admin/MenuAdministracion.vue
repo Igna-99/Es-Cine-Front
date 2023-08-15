@@ -13,28 +13,28 @@
 
     <div v-else class="borde_doble tamaño_xs">
 
-        <div class="container_basic">
-            <button class="elemento_flotante btn_basic" @click="navegar('detallesUsuario')"> Regresar </button>
+        <div class="container_basic header">
+            <button class="elemento_flotante btn_basic" @click="navigateTo('detallesUsuario')"> Regresar </button>
             <h1> <b> Administracion </b> </h1>
         </div>
 
-        <div class="container_basic" style="margin-top: 20px;">
+        <div class="container_basic ">
 
-            <button class="btn_basic btn_menu_admin" @click="navegar('usuariosRegistrados')">Administrar Usuarios</button>
+            <button class="btn_basic btn_menu_admin" @click="navigateTo('usuariosRegistrados')">Administrar Usuarios</button>
 
-            <button class="btn_basic btn_menu_admin" @click="navegar('funcionesProgramadas')">Administrar Funciones</button>
+            <button class="btn_basic btn_menu_admin" @click="navigateTo('funcionesProgramadas')">Administrar Funciones</button>
 
-            <button class="btn_basic btn_menu_admin" @click="">Administrar Peliculas</button>
+            <button class="btn_basic btn_menu_admin" @click="navigateTo('peliculasEnCartelera')">Administrar Peliculas</button>
 
         </div>
 
     </div>
 </template>
   
-  
-    
 <script>
 import { usrStore } from '../../components/store/usrStore'
+
+import { navigateTo } from '../../../utils/navigateTo'
 
 export default {
     data() {
@@ -43,27 +43,21 @@ export default {
         }
     },
     created() {
-
         document.title = "Administracion"
 
     },
-    updated() {
-
-    },
     methods: {
-
-        navegar(ubicacion) {
-            this.$router.push(`/${ubicacion}`);
-        }
-
+        navigateTo,
     },
 }
 
 </script>
   
-  
 <style scoped>
 
+.header {
+    margin-bottom: 20px;
+}
 .container_basic h1 {
     margin-top: 35px;
 }

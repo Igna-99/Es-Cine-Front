@@ -15,15 +15,15 @@
 
     <!-- titulo -->
 
-    <div class="container_basic cabecera">
+    <div class="container_basic header">
 
-      <button class="elemento_flotante btn_basic" @click="navegar('menuAdministracion')"> Regresar </button>
+      <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
 
       <h1> <b> Administrar Funciones </b> </h1>
 
-      <div class="container_botones">
-        <button class="btn_basic activado"> Funciones Programadas </button>
-        <button class="btn_basic" @click="navegar('programarFunciones')">Programar Funciones</button>
+      <div class="container_btns">
+        <button class="btn_basic activated"> Funciones Programadas </button>
+        <button class="btn_basic" @click="navigateTo('programarFunciones')">Programar Funciones</button>
       </div>
 
     </div>
@@ -31,33 +31,32 @@
     <!-- menu fecha -->
 
     <div class="container_basic">
-      <div class="container_menu_fecha">
+      <div class="container_date_menu">
 
-        <button class="btn_basic btn_anterior" @click="cambiarFecha(-1)" style="margin-right: 10px;"> Anterior</button>
+        <button class="btn_basic btn_anterior" @click="changeDate(-1)" style="margin-right: 10px;"> Anterior</button>
 
         <div class="input_box">
-          <input type="date" class="input_date" v-model="this.fechaSeleccionada"
-            @change="seleccionarFechaDeFuncion">
+          <input type="date" class="input_date" v-model="this.selectedDate" @change="selectDate">
           <span>Fecha</span>
         </div>
 
-        <button class="btn_basic btn_siguente_sm" @click="cambiarFecha(1)" style="margin-left: 10px;"> Siguente</button>
+        <button class="btn_basic btn_siguente_sm" @click="changeDate(1)" style="margin-left: 10px;"> Siguente</button>
 
       </div>
 
-      <div class="container_btn_sm">
+      <div class="container_date_btn_small">
 
-        <button class="btn_basic btn_anterior" @click="cambiarFecha(-1)" style="margin-right: 5px;"> Anterior</button>
-        <button class="btn_basic btn_siguente" @click="cambiarFecha(1)" style="margin-left: 5px;"> Siguente</button>
+        <button class="btn_basic btn_anterior" @click="changeDate(-1)" style="margin-right: 5px;"> Anterior</button>
+        <button class="btn_basic btn_siguente" @click="changeDate(1)" style="margin-left: 5px;"> Siguente</button>
 
       </div>
     </div>
 
     <!-- Funciones Encontradas -->
 
-    <div v-for="funcion in this.funcionesDeFechaSeleccionada" class="container_basic elemento_funcion resaltable">
+    <div v-for="funcion in this.SelectedDateFunctions" class="container_basic elemento_funcion resaltable">
       <span> Funcion #{{ funcion.idFuncion }} | sala {{ funcion.sala }} | Horario {{ funcion.horario }} | {{
-        this.tituloPelicula(funcion.idPelicula) }} </span>
+        this.movieTitle(funcion.idPelicula) }} </span>
     </div>
 
   </div>
@@ -67,55 +66,61 @@
 import axios from 'axios'
 import { usrStore } from '../../components/store/usrStore'
 
+import { navigateTo } from '../../../utils/navigateTo'
+
 export default {
   data() {
     return {
       usrStore: usrStore(),
 
-      peliculasInDB: [],
+      moviesInDB: [],
+      functionsInDB: null,
 
-      funcionesInDB: null,
-      fechaSeleccionada: null,
-      funcionesDeFechaSeleccionada: null,
-
+      selectedDate: null,
+      SelectedDateFunctions: null,
     }
   },
   async created() {
 
     document.title = "Administrar Funciones";
-    await this.cargarFunciones();
-    await this.cargarPeliculas();
 
-    this.inicializarFecha();
+    this.initializeDate();
+
+    await this.loadFunctionsFromDB();
+    await this.loadMoviesFromDB();
+
+    this.selectDate()
 
   },
   methods: {
-    async cargarFunciones() {
+    navigateTo,
+
+    async loadFunctionsFromDB() {
       const url = 'http://localhost:8080/funcion/all';
       try {
         const response = await axios.get(url, { withCredentials: true });
 
-        this.funcionesInDB = response.data.funcionesPorFecha
+        this.functionsInDB = response.data.funcionesPorFecha
       } catch (error) {
         console.log(error)
       }
     },
 
-    async cargarPeliculas() {
+    async loadMoviesFromDB() {
 
       const urlApiPeliculas = 'http://localhost:8080/pelicula'
 
       try {
 
         const response = await axios.get(urlApiPeliculas, { withCredentials: true });
-        let idPeliculas = response.data.result
+        let moviesID = response.data.result
 
-        for (let index = 0; index < idPeliculas.length; index++) {
-          const idPelicula = idPeliculas[index].idPelicula;
+        for (let index = 0; index < moviesID.length; index++) {
+          const idPelicula = moviesID[index].idPelicula;
 
           const urlMovieDB = `https://api.themoviedb.org/3/movie/${idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-          let responsePelicula = await axios.get(urlMovieDB);
-          this.peliculasInDB.push(responsePelicula.data)
+          let responseMovieDB = await axios.get(urlMovieDB);
+          this.moviesInDB.push(responseMovieDB.data)
         }
 
       } catch (error) {
@@ -123,31 +128,25 @@ export default {
       }
     },
 
-    navegar(ubicacion) {
-      this.$router.push(`/${ubicacion}`);
-    },
-
-    inicializarFecha() {
+    initializeDate() {
 
       const date = new Date()
-      this.fechaSeleccionada = date.toISOString().slice(0, 10);
-
-      this.seleccionarFechaDeFuncion()
+      this.selectedDate = date.toISOString().slice(0, 10);
     },
 
-    seleccionarFechaDeFuncion() {
-      this.funcionesDeFechaSeleccionada = this.funcionesInDB[this.fechaSeleccionada]
+    selectDate() {
+      this.SelectedDateFunctions = this.functionsInDB[this.selectedDate]
     },
 
-    tituloPelicula(id) {
+    movieTitle(id) {
 
       let index = 0
       let encontrado = false
       let resultado = "null"
 
-      while (index < this.peliculasInDB.length && !encontrado) {
-        if (this.peliculasInDB[index].id == id) {
-          resultado = this.peliculasInDB[index].title
+      while (index < this.moviesInDB.length && !encontrado) {
+        if (this.moviesInDB[index].id == id) {
+          resultado = this.moviesInDB[index].title
           encontrado = true
         } else {
           index++
@@ -157,15 +156,15 @@ export default {
       return resultado
     },
 
-    cambiarFecha(dias) {
+    changeDate(days) {
 
-      let fechaAux = new Date(this.fechaSeleccionada);
+      let dateAux = new Date(this.selectedDate);
 
-      fechaAux.setDate(fechaAux.getDate() + dias);
+      dateAux.setDate(dateAux.getDate() + days);
 
-      this.fechaSeleccionada = fechaAux.toISOString().slice(0, 10);
+      this.selectedDate = dateAux.toISOString().slice(0, 10);
 
-      this.seleccionarFechaDeFuncion()
+      this.selectDate()
 
     },
   },
@@ -183,11 +182,11 @@ export default {
   margin: 0px;
 }
 
-.cabecera {
+.header {
   margin-bottom: 20px;
 }
 
-.container_botones {
+.container_btns {
   display: flex;
   justify-content: center;
 }
@@ -198,16 +197,17 @@ export default {
 }
 
 
-.container_menu_fecha {
+.container_date_menu {
   display: flex;
   justify-content: center;
 }
 
-.container_btn_sm {
+.container_date_btn_small {
   display: none;
   width: 80%;
   justify-content: center;
 }
+
 
 @media screen and (max-width:600px) {
 
@@ -215,20 +215,20 @@ export default {
     width: 100%;
   }
 
-  .container_btn_sm .btn_basic {
+  .container_date_btn_small .btn_basic {
     width: 100%;
-    padding: 0.5em 1.2em;
+    padding: 1.5em 1.2em;
   }
 
-  .container_menu_fecha {
+  .container_date_menu {
     width: 80%;
   }
 
-  .container_menu_fecha button {
+  .container_date_menu button {
     display: none;
   }
 
-   .container_btn_sm {
+  .container_date_btn_small {
     display: flex;
   }
 }
@@ -236,7 +236,7 @@ export default {
 
 
 
-.activado {
+.activated {
   font-weight: bold;
   color: black;
   border: 2px solid black;

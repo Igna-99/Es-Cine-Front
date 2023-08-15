@@ -21,6 +21,8 @@ import MenuAdministracion from './views/admin/MenuAdministracion.vue';
 import UsuariosRegistrados from './views/admin/UsuariosRegistrados.vue'
 import FuncionesProgramadas from './views/admin/FuncionesProgramadas.vue';
 import ProgramarFunciones from './views/admin/ProgramarFunciones.vue';
+import PeliculasEnCartelera from './views/admin/PeliculasEnCartelera.vue';
+import CargarPelicula from './views/admin/CargarPelicula.vue';
 
 import Cartelera from './views/Cartelera.vue';
 import Pelicula from './views/peliculas/Pelicula.vue';
@@ -44,7 +46,9 @@ const routes = [
     { path : "/usuariosRegistrados", component: UsuariosRegistrados,},
     { path : "/funcionesProgramadas", component: FuncionesProgramadas,},
     { path : "/programarFunciones", component: ProgramarFunciones,},
-    
+    { path : "/peliculasEnCartelera", component: PeliculasEnCartelera,},
+    { path : "/cargarPelicula", component: CargarPelicula,},
+
     { path : "/cartelera", component: Cartelera,},
     { path : "/pelicula/:idPelicula", component : Pelicula},
     { path : "/funcion/:idFuncion", component : Funcion},

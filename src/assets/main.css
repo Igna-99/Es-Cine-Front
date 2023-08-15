@@ -76,20 +76,24 @@ body {
 
     .tamaño_xs {
         min-width: 400px;
+        max-width: 750px;
     }
 
     .tamaño_s {
         width: 60%;
         min-width: 400px;
+        max-width: 750px;
     }
 
     .tamaño_m {
         width: 73%;
         min-width: 400px;
+        max-width: 750px;
     }
     .tamaño_l {
         width: 95%;
         min-width: 400px;
+        max-width: 750px;
     }
 
     .container_basic{
@@ -110,7 +114,7 @@ body {
 
 .btn_basic {
     font-size: 15px;
-    padding: 0.7em 2.7em;
+    padding: 0.7em 2.3em;
     letter-spacing: 0.06em;
     position: relative;
     font-family: inherit;
@@ -203,7 +207,8 @@ body {
     position: relative;
     padding: 15px;
     transition: all .15s ease;
-    max-width: 100%;
+
+    margin-bottom: 20px;
 
 }
 

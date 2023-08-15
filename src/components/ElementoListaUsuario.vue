@@ -1,60 +1,68 @@
 <template>
     <div class="container_basic">
-        <span>
-            <div v-if="usuario.habilitado && usuario.idUsuario != this.usrStore.currentUser.idUsuario"
-                class="contenedor_icono trash resaltable" data-bs-toggle="modal"
-                :data-bs-target="'#modalHabilitar' + usuario.idUsuario">
+
+        <span class="element">
+
+            <div v-if="user.habilitado && user.idUsuario != this.usrStore.currentUser.idUsuario"
+                class="container_icon trash resaltable" data-bs-toggle="modal"
+                :data-bs-target="'#modalHabilitar' + user.idUsuario">
                 <i class="bi bi-trash3-fill"></i>
             </div>
-
-            <div v-else-if="!usuario.habilitado" class="contenedor_icono check resaltable" data-bs-toggle="modal"
-                :data-bs-target="'#modalHabilitar' + usuario.idUsuario">
+            <div v-else-if="!user.habilitado" class="container_icon check resaltable" data-bs-toggle="modal"
+                :data-bs-target="'#modalHabilitar' + user.idUsuario">
                 <i class="bi bi-check"></i>
             </div>
-
-            <div v-else-if="usuario.idUsuario == this.usrStore.currentUser.idUsuario" class="contenedor_icono user">
+            <div v-else-if="user.idUsuario == this.usrStore.currentUser.idUsuario" class="container_icon user">
                 <i class="bi bi-person-circle"></i>
             </div>
 
-            {{ usuario.nombre }} {{ usuario.apellido }} | {{ usuario.email }} | {{ usuario.Rol.rol }}
+            <div class="large">
+                {{ user.nombre }} {{ user.apellido }} | {{ user.email }} | {{ user.Rol.rol }}
+            </div>
 
-            <div class="contenedor_icono edit resaltable" data-bs-toggle="modal"
-                :data-bs-target="'#modal' + usuario.idUsuario">
+            <div class="small">
+                {{ user.nombre }} {{ user.apellido }} | {{ user.Rol.rol }}
+            </div>
+
+            <div class="container_icon edit resaltable" data-bs-toggle="modal"
+                :data-bs-target="'#modal' + user.idUsuario">
                 <i class="bi bi-pencil-square"></i>
             </div>
+
         </span>
+
     </div>
 
     <!-- MODALS -->
 
     <!-- Habilitar Usuario -->
-    <div v-if="usuario.idUsuario != this.usrStore.currentUser.idUsuario" class="modal fade"
-        :id="'modalHabilitar' + usuario.idUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    <div v-if="user.idUsuario != this.usrStore.currentUser.idUsuario" class="modal fade"
+        :id="'modalHabilitar' + user.idUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
         data-bs-theme="dark">
         <div class="modal-dialog">
             <div class="modal-content text-light">
 
                 <div class="modal-header ">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">
-                        <b v-if="usuario.habilitado"> Deshabilitar Usuario </b>
-                        <b v-else-if="!usuario.habilitado"> Habilitar Usuario </b>
+                        <b v-if="user.habilitado"> Deshabilitar Usuario </b>
+                        <b v-else-if="!user.habilitado"> Habilitar Usuario </b>
                     </h1>
-                    <button :id="'btn_cerrar_habilitar' + usuario.idUsuario" type="button" class="btn-close"
+                    <button :id="'btn_cerrar_habilitar' + user.idUsuario" type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
 
                 <div class="modal-body">
-                    <span v-if="usuario.habilitado"> Deseas Deshabilitar la cuenta de este Usuario? </span>
-                    <span v-else-if="!usuario.habilitado"> Deseas Habilitar la cuenta de este Usuario? </span>
+                    <span v-if="user.habilitado"> Deseas Deshabilitar la cuenta de este Usuario? </span>
+                    <span v-else-if="!user.habilitado"> Deseas Habilitar la cuenta de este Usuario? </span>
                 </div>
 
                 <div class="modal-footer">
-                    <button v-if="usuario.habilitado" type="button" class="btn btn-danger"
-                        @click="deshabilitarUsuario(usuario.idUsuario)">
+                    <button v-if="user.habilitado" type="button" class="btn btn-danger"
+                        @click="disableUser(user.idUsuario)">
                         Deshabilitar </button>
-                    <button v-else-if="!usuario.habilitado" type="button" class="btn btn-success"
-                        @click="habilitarUsuario(usuario.idUsuario)"> Habilitar
+                    <button v-else-if="!user.habilitado" type="button" class="btn btn-success"
+                        @click="enableUser(user.idUsuario)"> Habilitar
                     </button>
                 </div>
 
@@ -63,38 +71,38 @@
     </div>
 
     <!-- Detalles -->
-    <div class="modal fade" :id="'modal' + usuario.idUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" :id="'modal' + user.idUsuario" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true" data-bs-theme="dark">
         <div class="modal-dialog">
             <div class="modal-content text-light">
                 <div class="modal-header ">
-                    <h1 v-if="usuario.idUsuario == this.usrStore.currentUser.idUsuario" class="modal-title fs-5"
-                        id="exampleModalLabel"> <b> {{ usuario.nombre }} {{ usuario.apellido }} </b> (tu usuario)
+                    <h1 v-if="user.idUsuario == this.usrStore.currentUser.idUsuario" class="modal-title fs-5"
+                        id="exampleModalLabel"> <b> {{ user.nombre }} {{ user.apellido }} </b> (tu usuario)
                     </h1>
-                    <h1 v-else-if="usuario.idUsuario != this.usrStore.currentUser.idUsuario" class="modal-title fs-5"
+                    <h1 v-else-if="user.idUsuario != this.usrStore.currentUser.idUsuario" class="modal-title fs-5"
                         id="exampleModalLabel">
-                        <b> {{ usuario.nombre }} {{ usuario.apellido }} </b>
+                        <b> {{ user.nombre }} {{ user.apellido }} </b>
                     </h1>
-                    <button :id="'btn_cerrar_detalles_' + usuario.idUsuario" type="button" class="btn-close"
+                    <button :id="'btn_cerrar_detalles_' + user.idUsuario" type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <b>ID de Usuario</b> {{ usuario.idUsuario }} <br>
-                    <b>Email</b> {{ usuario.email }} <br>
-                    <b>Rol</b> {{ usuario.Rol.rol }} <br>
+                    <b>ID de Usuario</b> {{ user.idUsuario }} <br>
+                    <b>Email</b> {{ user.email }} <br>
+                    <b>Rol</b> {{ user.Rol.rol }} <br>
                     <br>
-                    <b v-if="!usuario.habilitado"> El Usuario se encuentra Inhabilitado </b>
+                    <b v-if="!user.habilitado"> El Usuario se encuentra Inhabilitado </b>
 
                 </div>
                 <div class="modal-footer">
 
-                    <button v-if="usuario.Rol.rol == 'admin' && usuario.idUsuario != this.usrStore.currentUser.idUsuario"
-                        type="button" class="btn btn-danger" @click="quitarAdmin(usuario.idUsuario)">Quitar
-                        Privilegios de Admin</button>
+                    <button v-if="user.Rol.rol == 'admin' && user.idUsuario != this.usrStore.currentUser.idUsuario"
+                        type="button" class="btn btn-danger" @click="removeAdminRole(user.idUsuario)">
+                        Quitar Privilegios de Admin </button>
 
-                    <button v-else-if="usuario.Rol.rol == 'user'" type="button" class="btn btn-success"
-                        @click="concederAdmin(usuario.idUsuario)">Conceder
-                        Privilegios de Admin</button>
+                    <button v-else-if="user.Rol.rol == 'user'" type="button" class="btn btn-success"
+                        @click="grantAdminRole(user.idUsuario)">
+                        Conceder Privilegios de Admin </button>
 
                 </div>
             </div>
@@ -113,17 +121,15 @@ export default {
         }
     },
     emits: ['recargar'],
-    props: ['usuario'],
+    props: ['user'],
     methods: {
 
-        async habilitarUsuario(idUsuario) {
-
-            console.log(idUsuario);
+        async enableUser(userId) {
 
             const url = 'http://localhost:8080/usuario/enableUser';
 
             const data = {
-                idUsuario
+                idUsuario: userId
             };
 
             try {
@@ -132,7 +138,7 @@ export default {
 
                 console.log(response)
 
-                document.getElementById('btn_cerrar_habilitar' + idUsuario).click();
+                document.getElementById('btn_cerrar_habilitar' + userId).click();
 
                 this.$emit("recargar");
 
@@ -141,14 +147,12 @@ export default {
             }
         },
 
-        async deshabilitarUsuario(idUsuario) {
-
-            console.log(idUsuario);
+        async disableUser(userId) {
 
             const url = 'http://localhost:8080/usuario/disableUser';
 
             const data = {
-                idUsuario
+                idUsuario: userId
             };
 
             try {
@@ -157,7 +161,7 @@ export default {
 
                 console.log(response)
 
-                document.getElementById('btn_cerrar_habilitar' + idUsuario).click();
+                document.getElementById('btn_cerrar_habilitar' + userId).click();
 
                 this.$emit("recargar");
 
@@ -166,19 +170,19 @@ export default {
             }
         },
 
-        async quitarAdmin(idUsuario) {
+        async removeAdminRole(userId) {
 
             const url = 'http://localhost:8080/usuario/removeAdmin';
 
             const data = {
-                idUsuario
+                idUsuario: userId
             };
 
             try {
 
                 const response = await axios.post(url, data, { withCredentials: true });
 
-                document.getElementById('btn_cerrar_detalles_' + idUsuario).click();
+                document.getElementById('btn_cerrar_detalles_' + userId).click();
 
                 this.$emit("recargar");
 
@@ -187,17 +191,17 @@ export default {
             }
         },
 
-        async concederAdmin(idUsuario) {
+        async grantAdminRole(userId) {
 
             const url = 'http://localhost:8080/usuario/grantAdmin';
             const data = {
-                idUsuario
+                idUsuario : userId
             };
 
             try {
                 const response = await axios.post(url, data, { withCredentials: true });
 
-                document.getElementById('btn_cerrar_detalles_' + idUsuario).click();
+                document.getElementById('btn_cerrar_detalles_' + userId).click();
 
                 this.$emit("recargar");
 
@@ -207,19 +211,20 @@ export default {
         },
 
     },
-
 }
 
 </script>
 
 <style scoped>
-
-.contenedor_icono {
-    display: inline;
-    font-size: 20px;
-    padding: 18px 22px;
+.container_basic {
+    margin-top: 20px;
 }
 
+.container_icon {
+    display: inline;
+    font-size: 20px;
+    padding: 13px 17px;
+}
 
 .edit {
     margin-left: 20px;
@@ -238,5 +243,32 @@ export default {
 .user {
     color: rgb(255, 255, 255);
     margin-right: 20px;
+}
+
+.resaltable:hover {
+    background-color: rgba(170, 170, 170, 0.534);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.element {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+.small {
+    display: none;
+}
+
+@media screen and (max-width:1000px) {
+    .large {
+        display: none;
+    }
+
+    .small {
+        display: inherit;
+    }
 }
 </style>
