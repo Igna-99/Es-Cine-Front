@@ -13,26 +13,26 @@
 
   <div v-else class="borde_doble tamaño_l">
 
-    <div class="container_basic">
+    <div class="container_basic container_flex">
 
       <h1> <b> Administrar Funciones </b> </h1>
 
-      <button class="elemento_flotante btn_basic" @click="navegar('menuAdministracion')"> Regresar </button>
+      <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
 
-      <div class="botones">
-        <button type="submit" class="btn_basic" @click="navegar('funcionesProgramadas')"> Funciones Programadas </button>
+      <div class="container_btns">
+        <button type="submit" class="btn_basic" @click="navigateTo('funcionesProgramadas')"> Funciones Programadas </button>
         <button type="submit" class="btn_basic activado">Programar Funciones</button>
       </div>
 
     </div>
     <!-- Programar Funciones -->
     <div>
-      <div class="container_basic form_funcion">
+      <div class="container_basic container_flex form_funcion">
 
-        <div class="select_container">
+        <div class="select_box">
 
           <span>Sala</span>
-          <select class="select_box" v-model="this.salaNF">
+          <select class="" v-model="this.salaNF">
             <option v-for="sala in this.salasInDB" :value="sala.sala"> {{ sala.sala }} </option>
           </select>
 
@@ -48,16 +48,14 @@
           <span>Fecha</span>
         </div>
 
-        <div class="select_container">
-
+        <div class="select_box">
           <span>Peliculas</span>
-          <select class="select_box" v-model="this.peliculaNF">
-            <option v-for="pelicula in this.peliculasInDB" :value="pelicula.id"> {{ pelicula.title }} </option>
+          <select v-model="this.peliculaNF">
+            <option v-for="pelicula in this.moviesInDB" :value="pelicula.id"> {{ pelicula.title }} </option>
           </select>
-
         </div>
 
-        <button class="btn_basic boton_crear_funcion" @click="crearFuncion"> Crear Funcion</button>
+        <button class="btn_basic boton_crear_funcion" @click="createFunction"> Crear Funcion</button>
 
         <div v-if="this.error" class="alert alert-danger tamaño_maximo">
           {{ this.msjError }}
@@ -72,12 +70,14 @@
 <script>
 import axios from 'axios'
 import { usrStore } from '../../components/store/usrStore'
+import { navigateTo } from '../../../utils/navigateTo'
+import { loadMoviesFromDB } from '../../../utils/funcionsMovieDB'
 
 export default {
   data() {
     return {
       usrStore: usrStore(),
-      peliculasInDB: [],
+      moviesInDB: [],
       salasInDB: null,
 
       salaNF: null,
@@ -87,45 +87,25 @@ export default {
 
       error: false,
       msjError: null,
-
     }
   },
   async created() {
 
     document.title = "Administrar Funciones";
-    await this.cargarPeliculas();
-    await this.cargarSalas();
-
+    await this.loadMovies();
+    await this.loadCinemasRooms();
   },
-
   updated() {
 
   },
   methods: {
-    async cargarPeliculas() {
+    navigateTo,
 
-      const urlApiPeliculas = 'http://localhost:8080/pelicula'
-
-      try {
-
-        const response = await axios.get(urlApiPeliculas, { withCredentials: true });
-        let idPeliculas = response.data.result
-
-        for (let index = 0; index < idPeliculas.length; index++) {
-          const idPelicula = idPeliculas[index].idPelicula;
-
-          const urlMovieDB = `https://api.themoviedb.org/3/movie/${idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
-          let responsePelicula = await axios.get(urlMovieDB);
-          this.peliculasInDB.push(responsePelicula.data)
-        }
-
-      } catch (error) {
-        console.log(error)
-      }
-
+    async loadMovies() {
+      this.moviesInDB = await loadMoviesFromDB();
     },
 
-    async cargarSalas() {
+    async loadCinemasRooms() {
       const url = 'http://localhost:8080/sala/all';
 
       try {
@@ -137,11 +117,7 @@ export default {
       }
     },
 
-    navegar(ubicacion) {
-      this.$router.push(`/${ubicacion}`);
-    },
-
-    async crearFuncion() {
+    async createFunction() {
 
       this.error = false;
 
@@ -204,11 +180,6 @@ export default {
   min-width: 300px;
 }
 
-.botones {
-  display: flex;
-  justify-content: center;
-}
-
 .activado {
   font-weight: bold;
   color: black;
@@ -226,7 +197,7 @@ export default {
 }
 
 /* estilo Selects */
-.select_container {
+.select_box {
   display: flex;
   justify-content: center;
   position: relative;
@@ -234,7 +205,19 @@ export default {
   height: 50px;
 }
 
-.select_container span {
+.select_box select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #202020;
+  border-radius: 1px;
+  outline: none;
+  color: white;
+  font-size: 1em;
+
+}
+
+.select_box span {
   position: absolute;
   left: 0;
   pointer-events: none;
@@ -251,20 +234,16 @@ export default {
   letter-spacing: 0.2em;
 }
 
-.select_box {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: #202020;
-  border-radius: 1px;
-  outline: none;
-  color: white;
-  font-size: 1em;
 
-}
 
 .boton_crear_funcion {
   margin-top: 20px;
   width: 250px;
+}
+
+@media screen and (max-width:800px) {
+    .select_box {
+        height: 70px;
+    }
 }
 </style>

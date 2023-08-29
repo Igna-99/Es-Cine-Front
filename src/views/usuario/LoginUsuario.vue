@@ -1,11 +1,11 @@
 <template>
-    <div v-if="usrStore.isLogged" class="container">
+    <div v-if="usrStore.isLogged" class="">
         <h1>you are already logged in</h1>
     </div>
 
     <div v-else class="borde_doble tamaño_xs">
 
-        <div class="container_basic">
+        <div class="container_basic container_flex">
             <h1>INICIAR SESION</h1>
             <div>
 
@@ -109,6 +109,5 @@ export default {
 .container_basic h1 {
   font-size: 30px;
   margin: 20px;
-  text-align: center;
 }
 </style>

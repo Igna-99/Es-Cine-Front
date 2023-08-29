@@ -4,7 +4,7 @@
     </div>
 
     <div v-else class="borde_doble tamaño_s">
-        <div class="container_basic">
+        <div class="container_basic container_flex">
             <h1>REGISTRO</h1>
             <div>
 
@@ -132,10 +132,6 @@ export default {
     margin: 0 auto;
     margin-bottom: 30px;
     display: block;
+}
 
-}
-.errorSpam {
-    display: block;
-    max-width: 400px;
-}
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div v-if="!this.usrStore.isLogged" class="borde_doble">
-    <div class="container_detalles">
+    <div class="container_basic">
       <h1>no estas logeado</h1>
     </div>
   </div>
 
   <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
-    <div class="container_detalles">
+    <div class="container_basic">
       <h1>Acesso Denegado</h1>
     </div>
   </div>
@@ -14,20 +14,20 @@
   <div v-else class="borde_doble tamaño_l">
 
     <!-- titulo -->
-    <div class="container_basic cabecera">
+    <div class="container_basic container_flex header">
 
       <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
 
       <h1> <b> Administrar Peliculas </b> </h1>
 
-      <div class="container_botones">
+      <div class="container_btns">
         <button class="btn_basic" @click="navigateTo('peliculasEnCartelera')"> Peliculas En Cartelera </button>
         <button class="btn_basic activado"> Cargar Pelicula </button>
       </div>
 
     </div>
 
-    <div class="container_basic">
+    <div class="container_basic container_flex">
 
       <h5> Ingresa el ID de la pelicula que desea Agregar</h5>
 
@@ -145,20 +145,15 @@ export default {
     getMoviePoster,
     formatRuntime,
     formatDate,
-
     navigateTo,
 
     async loadMovieIdFromDB() {
-
       const urlApiCine = 'http://localhost:8080/pelicula'
 
       try {
 
         const response = await axios.get(urlApiCine, { withCredentials: true });
         this.idLoadedInDB = response.data.result
-
-
-
 
       } catch (error) {
         console.log(error)
@@ -167,9 +162,7 @@ export default {
     },
 
     async serchInMovieDB() {
-
       try {
-
         if (! /^\d+$/.test(this.idSelected)) {
           throw new Error("se ingresaron caracteres")
         }
@@ -193,15 +186,11 @@ export default {
 
     },
 
-
-
     async addToMovieDB(movieId) {
-      try {
-        const url = 'http://localhost:8080/pelicula/';
-        const data = {
-          idPelicula: movieId
-        };
+      const url = 'http://localhost:8080/pelicula/create';
+      const data = { idPelicula: movieId };
 
+      try {
         const response = await axios.post(url, data, { withCredentials: true });
 
         document.getElementById('btn_cerrar_modalLoad').click();
@@ -211,9 +200,7 @@ export default {
         alert("la pelicula se cargo correctamente")
 
       } catch (error) {
-
         console.log(error);
-
       }
     }
   },
@@ -222,10 +209,6 @@ export default {
 </script>
   
 <style scoped>
-.cabecera {
-  margin-bottom: 20px;
-}
-
 .container_basic h1 {
   margin-top: 35px;
 }
@@ -238,24 +221,12 @@ export default {
   text-align: center;
 }
 
-.container_botones {
-  display: flex;
-  justify-content: center;
-}
-
 .activado {
   font-weight: bold;
   color: black;
   border: 2px solid black;
   background-color: rgba(255, 255, 255, 0.753);
 }
-
-.resaltable:hover {
-  background-color: rgba(170, 170, 170, 0.534);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 
 .img_container {
   display: flex;

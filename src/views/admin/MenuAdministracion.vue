@@ -13,12 +13,12 @@
 
     <div v-else class="borde_doble tamaño_xs">
 
-        <div class="container_basic header">
+        <div class="container_basic container_flex header">
             <button class="elemento_flotante btn_basic" @click="navigateTo('detallesUsuario')"> Regresar </button>
             <h1> <b> Administracion </b> </h1>
         </div>
 
-        <div class="container_basic ">
+        <div class="container_basic container_flex">
 
             <button class="btn_basic btn_menu_admin" @click="navigateTo('usuariosRegistrados')">Administrar Usuarios</button>
 

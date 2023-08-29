@@ -13,7 +13,7 @@
 
     <div v-else class="borde_doble tamaño_l">
 
-        <div class="container_basic">
+        <div class="container_basic container_flex header">
 
             <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
             <h1> <b> Usuarios Registrados </b> </h1>
@@ -21,7 +21,7 @@
         </div>
 
         <div v-if="!this.error" >
-            <ElementoListaUsuario v-for="user in this.usersInDB" :user="user" @recargar="loadUsers" />
+            <ElementoListaUsuario v-for="user in this.usersInDB" :user="user" @reloadUsers="loadUsers" />
         </div>
 
         <div v-else="this.error" class="alert alert-danger">
@@ -82,10 +82,6 @@ export default {
 </script>
 
 <style scoped>
-.container_basic {
-    padding: 30px 80px;
-    margin-bottom: 20px;
-}
 
 .container_basic span {
     margin: 0px;

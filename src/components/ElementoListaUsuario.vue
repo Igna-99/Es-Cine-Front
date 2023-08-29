@@ -1,18 +1,18 @@
 <template>
-    <div class="container_basic">
+    <div class="container_basic container_flex">
 
-        <span class="element">
+        <div class="element">
 
             <div v-if="user.habilitado && user.idUsuario != this.usrStore.currentUser.idUsuario"
-                class="container_icon trash resaltable" data-bs-toggle="modal"
+                class="container_icon icon_red resaltable" data-bs-toggle="modal"
                 :data-bs-target="'#modalHabilitar' + user.idUsuario">
                 <i class="bi bi-trash3-fill"></i>
             </div>
-            <div v-else-if="!user.habilitado" class="container_icon check resaltable" data-bs-toggle="modal"
+            <div v-else-if="!user.habilitado" class="container_icon icon_green resaltable" data-bs-toggle="modal"
                 :data-bs-target="'#modalHabilitar' + user.idUsuario">
                 <i class="bi bi-check"></i>
             </div>
-            <div v-else-if="user.idUsuario == this.usrStore.currentUser.idUsuario" class="container_icon user">
+            <div v-else-if="user.idUsuario == this.usrStore.currentUser.idUsuario" class="container_icon">
                 <i class="bi bi-person-circle"></i>
             </div>
 
@@ -29,7 +29,7 @@
                 <i class="bi bi-pencil-square"></i>
             </div>
 
-        </span>
+        </div>
 
     </div>
 
@@ -108,6 +108,7 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script>
@@ -120,27 +121,24 @@ export default {
             usrStore: usrStore()
         }
     },
-    emits: ['recargar'],
+    emits: ['reloadUsers'],
     props: ['user'],
     methods: {
 
         async enableUser(userId) {
 
             const url = 'http://localhost:8080/usuario/enableUser';
-
             const data = {
                 idUsuario: userId
             };
 
             try {
+                await axios.post(url, data, { withCredentials: true });
 
-                const response = await axios.post(url, data, { withCredentials: true });
-
-                console.log(response)
+                alert("El Usuario A sido Habilitado Correctamente")
 
                 document.getElementById('btn_cerrar_habilitar' + userId).click();
-
-                this.$emit("recargar");
+                this.$emit("reloadUsers");
 
             } catch (error) {
                 console.log(error)
@@ -150,20 +148,17 @@ export default {
         async disableUser(userId) {
 
             const url = 'http://localhost:8080/usuario/disableUser';
-
             const data = {
                 idUsuario: userId
             };
 
             try {
+                await axios.post(url, data, { withCredentials: true });
 
-                const response = await axios.post(url, data, { withCredentials: true });
-
-                console.log(response)
+                alert("El Usuario A sido Desabilitado Correctamente")
 
                 document.getElementById('btn_cerrar_habilitar' + userId).click();
-
-                this.$emit("recargar");
+                this.$emit("reloadUsers");
 
             } catch (error) {
                 console.log(error)
@@ -173,18 +168,17 @@ export default {
         async removeAdminRole(userId) {
 
             const url = 'http://localhost:8080/usuario/removeAdmin';
-
             const data = {
                 idUsuario: userId
             };
 
             try {
+                await axios.post(url, data, { withCredentials: true });
 
-                const response = await axios.post(url, data, { withCredentials: true });
+                alert("Rol De Administrador Revocado")
 
                 document.getElementById('btn_cerrar_detalles_' + userId).click();
-
-                this.$emit("recargar");
+                this.$emit("reloadUsers");
 
             } catch (error) {
                 console.log(error)
@@ -199,11 +193,12 @@ export default {
             };
 
             try {
-                const response = await axios.post(url, data, { withCredentials: true });
+                await axios.post(url, data, { withCredentials: true });
+
+                alert("Rol De Administrador Concedido")
 
                 document.getElementById('btn_cerrar_detalles_' + userId).click();
-
-                this.$emit("recargar");
+                this.$emit("reloadUsers");
 
             } catch (error) {
                 console.log(error)
@@ -217,7 +212,7 @@ export default {
 
 <style scoped>
 .container_basic {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .container_icon {
@@ -226,35 +221,12 @@ export default {
     padding: 13px 17px;
 }
 
-.edit {
-    margin-left: 20px;
-}
-
-.trash {
-    color: rgb(141, 2, 2);
-    margin-right: 20px;
-}
-
-.check {
-    color: rgb(2, 141, 32);
-    margin-right: 20px;
-}
-
-.user {
-    color: rgb(255, 255, 255);
-    margin-right: 20px;
-}
-
-.resaltable:hover {
-    background-color: rgba(170, 170, 170, 0.534);
-    border-radius: 20px;
-    cursor: pointer;
-}
-
 .element {
     display: flex;
+    width: 100%;
     align-items: center;
     flex-wrap: nowrap;
+    justify-content: space-between;
     text-align: center;
 }
 

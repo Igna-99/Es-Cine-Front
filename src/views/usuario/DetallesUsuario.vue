@@ -7,12 +7,12 @@
 
   <div class="borde_doble tamaño_s" v-else>
 
-    <div class="container_basic">
+    <div class="container_basic container_flex">
       <h1> <b> Detalles de Usuario </b> </h1>
 
-      <span style="text-align: center" > <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
+      <span> <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
 
-      <span style="text-align: center"> <b b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
+      <span> <b b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
 
       <button v-if="this.usrStore.isAdmin" type="submit" class="btn_basic btn_administracion"
         @click="navegar('menuAdministracion')">Administrar</button>

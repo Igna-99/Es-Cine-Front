@@ -5,11 +5,11 @@
 
   <div v-else class="borde_doble tamaño_m">
 
-    <div class="container_basic">
+    <div class="container_basic container_flex">
       <h1>Reservas De Usuario</h1>
     </div>
 
-    <div class="container_basic elemento_reserva" v-for="reserva in this.usrStore.reservasDeUser">
+    <div class="container_basic container_flex elemento_reserva" v-for="reserva in this.usrStore.reservasDeUser">
       <h6 class="info_reserva">Reserva #{{ reserva.idReserva }}</h6>
       <h6 class="info_reserva">Sala '{{ reserva.Funcion.sala }}'</h6>
       <h6 class="info_reserva">Horario {{ this.formatTime(reserva.Funcion.horario) }}</h6>
