@@ -19,9 +19,6 @@
 				getGenresString(pelicula.genres) }}</p>
 			<div class="overview"> {{ pelicula.overview }} </div>
 
-
-
-
 			<div v-if="this.funcionesAll != null">
 
 				<p class="movie-title">Funciones</p>

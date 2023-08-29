@@ -1,27 +1,27 @@
 <template>
-  <div class="container_borde borde_doble" v-if="this.usrStore.isLogged">
+  <div v-if="!this.usrStore.isLogged" class="borde_doble">
+    <div class="container_basic">
+      <h1>no estas logeado</h1>
+    </div>
+  </div>
 
-    <div class="container_detalles">
+  <div class="borde_doble tamaño_s" v-else>
+
+    <div class="container_basic container_flex">
       <h1> <b> Detalles de Usuario </b> </h1>
 
-      <span> <b> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
+      <span> <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
 
-      <span> <b> Email: </b> : {{ this.usrStore.currentUser.email }} </span>
+      <span> <b b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
 
+      <button v-if="this.usrStore.isAdmin" type="submit" class="btn_basic btn_administracion"
+        @click="navegar('menuAdministracion')">Administrar</button>
 
-      <button type="submit" class="btn_basic salir" @click="salir">Cerrar Sesion</button>
+      <button type="submit" class="btn_basic btn_salir" @click="salir">Cerrar Sesion</button>
     </div>
 
   </div>
-
-  <div class="container" v-else>
-
-    <h1>no estas logeado</h1>
-
-  </div>
 </template>
-
-
 
 <script>
 import { usrStore } from '../../components/store/usrStore'
@@ -33,7 +33,6 @@ export default {
     }
   },
   created() {
-
     if (!this.usrStore.isLogged) {
       this.$router.push("/login");
     }
@@ -51,62 +50,49 @@ export default {
 
     salir() {
       this.usrStore.logOut()
-      this.$router.push("/login");
+      this.$router.push('/login');
     },
 
+    navegar(ubicacion) {
+      this.$router.push(`/${ubicacion}`);
+    }
   },
 }
 
 </script>
 
-
 <style scoped>
-.container_detalles {
-  gap: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 30px 80px;
-  position: relative;
-  color: #fff;
-  background-color: #202020;
-  overflow: hidden;
-  max-width: 100%;
-  z-index: 1;
-  font-family: "Montserrat", sans-serif;
+.container_basic h1 {
+  font-size: 40px;
+  margin: 20px;
+  text-align: center;
 }
 
-.container_detalles span {
-  margin: 0px;
+@media screen and (max-width:620px) {
+  .b_tag {
+    display: block;
+  }
+
 }
 
-.container_detalles h1 {
-  margin: 25px;
-}
-
-
-
-
-.salir {
-  width: 80%;
+.btn_salir {
+  width: 95%;
+  max-width: 300px;
   border: 2px solid red;
   margin-bottom: 20px;
-
 }
 
-.salir:before {
+.btn_salir:before {
   width: 50%;
 }
 
-.administrar {
-  width: 80%;
+.btn_administracion {
+  width: 95%;
+  max-width: 300px;
   border: 2px solid rgb(65, 65, 255);
-
 }
 
-.administrar:before {
+.btn_administracion:before {
   width: 50%;
 }
 </style>

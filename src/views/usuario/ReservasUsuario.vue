@@ -1,27 +1,25 @@
 <template>
-  <div v-if="this.usrStore.isLogged" class="container_borde borde_doble">
-    
-    <div class="titulo">
-      <h1>Reservas De Usuario</h1>
-    </div>
-
-    <div class="container" v-for="reserva in this.usrStore.reservasDeUser">
-      <h6 class="tituloID">Reserva #{{ reserva.idReserva }}</h6>
-      <h6 class="tituloID">Sala '{{ reserva.Funcion.sala }}'</h6>
-      <h6 class="tituloID">Horario {{ this.formatTime(reserva.Funcion.horario) }}</h6>
-      <h6 class="tituloID">Fecha {{ reserva.Funcion.fecha }}</h6>
-      <h6 class="tituloID">pelicula id #{{ reserva.Funcion.idPelicula }}</h6>
-      <h6 class="tituloID">asiento: {{ reserva.AsientosDeFuncions[0].numeroAsiento }}</h6>
-
-    </div>  
-
-  </div>
-
-
-  <div class="container" v-else>
+  <div class="container" v-if="!this.usrStore.isLogged">
     <h1>no estas logeado</h1>
   </div>
 
+  <div v-else class="borde_doble tamaño_m">
+
+    <div class="container_basic container_flex">
+      <h1>Reservas De Usuario</h1>
+    </div>
+
+    <div class="container_basic container_flex elemento_reserva" v-for="reserva in this.usrStore.reservasDeUser">
+      <h6 class="info_reserva">Reserva #{{ reserva.idReserva }}</h6>
+      <h6 class="info_reserva">Sala '{{ reserva.Funcion.sala }}'</h6>
+      <h6 class="info_reserva">Horario {{ this.formatTime(reserva.Funcion.horario) }}</h6>
+      <h6 class="info_reserva">Fecha {{ reserva.Funcion.fecha }}</h6>
+      <h6 class="info_reserva">pelicula id #{{ reserva.Funcion.idPelicula }}</h6>
+      <h6 class="info_reserva">asiento: {{ reserva.AsientosDeFuncions[0].numeroAsiento }}</h6>
+
+    </div>
+
+  </div>  
 </template>
 
 <script>
@@ -51,46 +49,15 @@ export default {
 
 <style scoped>
 
-.titulo{
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px auto;
-  padding: 20px 80px;
-  position: relative;
-  color: #fff;
-  background-color: #202020;
-  overflow: hidden;
-  max-width: 100%;
-  z-index: 1;
-  font-family: "Montserrat", sans-serif;
-  max-width: 800px;
-}
-.titulo h1{
-  margin: 0px auto;
+.container_basic h1 {
+  margin: 0px;
 }
 
-.container {
-  gap: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.elemento_reserva {
   margin: 20px auto 0px;
-  padding: 20px 80px;
-  position: relative;
-  color: #fff;
-  background-color: #202020;
-  overflow: hidden;
-  max-width: 100%;
-  z-index: 1;
-  font-family: "Montserrat", sans-serif;
-  max-width: 800px;
 }
 
-.tituloID {
-  text-align: right;
-  display: flex;
+.info_reserva {
   margin: 0;
 }
 </style>
