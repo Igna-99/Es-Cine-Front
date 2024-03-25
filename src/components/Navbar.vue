@@ -1,11 +1,11 @@
 <template>
-    <header class="header">
+    <header>
 
         <div class="nav-links"> <router-link to="/cartelera">CARTELERA</router-link> </div>
 
         <div class="nav-links"> <router-link to="/">HOME</router-link> </div>
 
-        <div class="logo"> <img src="../assets/movie-logo.png" alt="Logo"> </div>
+        <div class="logo"> <img src="../assets/CineLogo.svg" alt="Logo"> </div>
 
         <div v-if="!usrStore.isLogged" class="nav-links"> <router-link to="/registro"> REGISTRARSE </router-link> </div>
         <div v-else class="nav-links"> <router-link to="/reservasUsuario"> MIS RESERVAS </router-link> </div>
@@ -68,14 +68,14 @@ export default {
 </script>
 
 <style scoped>
-.header {
+header {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr 2fr 2fr;
     background-color: black;
 
     transition: 1s;
-
-    max-width: 1000px;
+    width: 80%;
+    max-width: 1400px;
     
     margin: 0 auto;
 
@@ -84,9 +84,10 @@ export default {
     margin-top: 5px;
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
+    user-select: none;
 }
 
-.header a {
+header a {
     text-decoration: none;
 }
 
@@ -99,7 +100,7 @@ export default {
     white-space: nowrap;
 }
 
-.header .nav-links a {
+header .nav-links a {
     padding: 3px 25px;
     font-size: 1.5rem;
     color: #ffffff;
@@ -162,7 +163,7 @@ export default {
 
 
 @media screen and (max-width:1000px) {
-    .header {
+    header {
         width: 99%;
         min-width: 1pc;
         margin-top: 0px;
@@ -202,7 +203,7 @@ export default {
 
 /* Menu nav */
 
-.header .overlay {
+header .overlay {
     height: 100%;
     width: 0;
     position: fixed;
@@ -214,7 +215,7 @@ export default {
     transition: all 0.3s;
 }
 
-.header .overlay .overlay-content {
+header .overlay .overlay-content {
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -223,7 +224,7 @@ export default {
 
 }
 
-.header .overlay .overlay-option {
+header .overlay .overlay-option {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -231,7 +232,7 @@ export default {
 
 }
 
-.header .overlay a {
+header .overlay a {
     padding: 15px;
     font-size: 36px;
     display: block;
@@ -242,7 +243,7 @@ export default {
     border-radius: 5px;
 }
 
-.header .overlay .close {
+header .overlay .close {
     position: absolute;
     top: 5px;
     right: 5px;

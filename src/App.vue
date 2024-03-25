@@ -1,6 +1,7 @@
 <script setup>
 
 import Navbar from './components/Navbar.vue'
+import Footer from './components/Footer.vue'
 import { usrStore } from './components/store/usrStore'
 import { onMounted } from 'vue'
 
@@ -14,24 +15,34 @@ onMounted(() => {
 <template>
   <Navbar />
 
-  <div class="componentes">
+  <div class="component">
     <RouterView></RouterView>
   </div>
+
+  <Footer />
 </template>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
-.componentes {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  margin-top: 50px;
+.component {
+  width: 80%;
+  min-height: 95vh;
+  margin: 0 auto;
+  padding: 0;
+  display: block;
   overflow-x: hidden;
-  height: auto;
+}
+
+@media screen and (max-width:1000px) {
+  .component {
+    width: 100%;
+  }
 }
 </style>
-
