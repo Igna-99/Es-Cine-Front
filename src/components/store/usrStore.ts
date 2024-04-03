@@ -64,7 +64,13 @@ export const usrStore = defineStore('usuariosStore', {
                 this.cargarReservas()
 
             } catch (error) {
-                mensajeError = error.response.data.message;
+                if (error.message = "Network Error") {
+                    mensajeError = "Error con el servidor"
+                }
+                else {
+                    mensajeError = error.response.data.message;
+                }
+
             }
 
             return mensajeError

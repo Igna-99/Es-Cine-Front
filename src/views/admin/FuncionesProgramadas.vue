@@ -179,6 +179,8 @@ export default {
 </script>
   
 <style scoped>
+
+
 .container_basic h1 {
   margin-top: 35px;
 }

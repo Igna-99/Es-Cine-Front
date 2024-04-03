@@ -1,11 +1,11 @@
 <template>
     <header>
 
-        <div class="nav-links"> <router-link to="/cartelera">CARTELERA</router-link> </div>
+        <div class="nav-links"> <router-link to="/promociones">PROMOCIONES</router-link> </div>
 
-        <div class="nav-links"> <router-link to="/">HOME</router-link> </div>
+        <div class="nav-links"> <router-link to="/">CARTELERA</router-link> </div>
 
-        <div class="logo"> <img src="../assets/CineLogo.svg" alt="Logo"> </div>
+        <div class="logo"> <img src="../assets/svgs/CineLogo.svg" alt="Logo"> </div>
 
         <div v-if="!usrStore.isLogged" class="nav-links"> <router-link to="/registro"> REGISTRARSE </router-link> </div>
         <div v-else class="nav-links"> <router-link to="/reservasUsuario"> MIS RESERVAS </router-link> </div>
@@ -23,8 +23,8 @@
 
             <div class="overlay-content" style="height: 100%;">
 
-                <router-link @click="closeNavMenu" to="/cartelera">CARTELERA</router-link>
-                <router-link @click="closeNavMenu" to="/">HOME</router-link>
+                <router-link @click="closeNavMenu" to="/">CARTELERA</router-link>
+                <router-link @click="closeNavMenu" to="/promociones">PROMOCIONES</router-link>
 
                 <div v-if="!this.usrStore.isLogged" class="overlay-option">
                     <router-link @click="closeNavMenu" to="/registro"> REGISTRARSE </router-link>
@@ -164,7 +164,7 @@ header .nav-links a {
 
 @media screen and (max-width:1000px) {
     header {
-        width: 99%;
+        width: 100%;
         min-width: 1pc;
         margin-top: 0px;
 
@@ -172,7 +172,7 @@ header .nav-links a {
 
         height: 60px;
         padding: 5px 2%;
-
+        border-radius: 0px 0px 8px 8px;
         transition: 1s;
     }
 

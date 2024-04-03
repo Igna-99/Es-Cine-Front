@@ -62,24 +62,20 @@ export default {
 </script>
 
 <style scoped>
+.container_basic{
+  gap: 15px;
+}
+
 .container_basic h1 {
   font-size: 40px;
   margin: 20px;
   text-align: center;
 }
 
-@media screen and (max-width:620px) {
-  .b_tag {
-    display: block;
-  }
-
-}
-
 .btn_salir {
   width: 95%;
   max-width: 300px;
   border: 2px solid red;
-  margin-bottom: 20px;
 }
 
 .btn_salir:before {
@@ -95,4 +91,12 @@ export default {
 .btn_administracion:before {
   width: 50%;
 }
+
+@media screen and (max-width:620px) {
+  .b_tag {
+    display: block;
+  }
+
+}
+
 </style>

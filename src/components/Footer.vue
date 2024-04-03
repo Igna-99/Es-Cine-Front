@@ -9,7 +9,7 @@ import { IconBrandFacebook, IconBrandInstagram, IconBrandX, IconBrandWhatsapp } 
         <div class="row">
 
             <div class="col">
-                <img src="../assets/CineLogo.svg" alt="Descripción del SVG" class="logo">
+                <img src="../assets/svgs/CineLogo.svg" alt="Descripción del SVG" class="logo">
             </div>
 
             <div class="col">

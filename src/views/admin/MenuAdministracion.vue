@@ -55,6 +55,10 @@ export default {
   
 <style scoped>
 
+.container_basic{
+  gap: 15px;
+}
+
 .header {
     margin-bottom: 20px;
 }

@@ -5,50 +5,51 @@
 
     <div v-else class="borde_doble tamaño_s">
         <div class="container_basic container_flex">
-            <h1>REGISTRO</h1>
-            <div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input_box input_registro">
-                            <input type="text" required v-model="this.nombre">
-                            <span>Nombre</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input_box input_registro">
-                            <input type="text" required v-model="this.apellido">
-                            <span>Apellido</span>
-                        </div>
+            <div class="neon-text-container">
+                <h1 class="neon-text">REGISTRO</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input_box input_registro">
+                        <input type="text" required v-model="this.nombre">
+                        <span>Nombre</span>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="input_box input_registro">
+                        <input type="text" required v-model="this.apellido">
+                        <span>Apellido</span>
+                    </div>
+                </div>
+            </div>
 
-                <div class="input_box input_registro">
-                    <input type="text" required v-model="this.email">
-                    <span>Email</span>
-                </div>
+            <div class="input_box input_registro">
+                <input type="text" required v-model="this.email">
+                <span>Email</span>
+            </div>
 
-                <div class="input_box input_registro">
-                    <input type="password" required v-model="this.contraseña">
-                    <span>contraseña</span>
-                </div>
+            <div class="input_box input_registro">
+                <input type="password" required v-model="this.contraseña">
+                <span>contraseña</span>
+            </div>
 
-                <div class="input_box input_registro">
-                    <input type="password" required v-model="this.contraseñaRep">
-                    <span>Repite Contraseña</span>
-                </div>
+            <div class="input_box input_registro">
+                <input type="password" required v-model="this.contraseñaRep">
+                <span>Repite Contraseña</span>
+            </div>
 
-                <button type="submit" class="btn_basic" @click="registrse">Registrarse</button>
+            <button type="submit" class="btn_basic" @click="registrse">Registrarse</button>
 
-                <div v-if="this.error1" class="alert alert-danger" role="alert">
-                    <span class="errorSpam"> debe completar todos los campos </span>
-                </div>
-                <div v-if="this.error2" class="alert alert-danger" role="alert">
-                    <span class="errorSpam"> las contraseñas no coinciden </span>
-                </div>
-                <div v-if="this.error3" class="alert alert-danger" role="alert">
-                    <span class="errorSpam"> {{ this.msjError3 }} </span>
-                </div>
+            <div v-if="this.error1" class="alert alert-danger" role="alert">
+                <span class="errorSpam"> debe completar todos los campos </span>
+            </div>
+            <div v-if="this.error2" class="alert alert-danger" role="alert">
+                <span class="errorSpam"> las contraseñas no coinciden </span>
+            </div>
+            <div v-if="this.error3" class="alert alert-danger" role="alert">
+                <span class="errorSpam"> {{ this.msjError3 }} </span>
             </div>
         </div>
     </div>
@@ -57,6 +58,7 @@
 
 <script>
 import { usrStore } from '../../components/store/usrStore'
+
 export default {
     data() {
         return {
@@ -119,19 +121,22 @@ export default {
     },
 
 }
-</script>   
+</script>
 
 <style scoped>
 .input_registro {
-    margin-bottom: 6%;
+    width: 100%;
+    margin: 15px 0px;
 }
-.row {
-    margin-bottom: 1.5%;
-}
+
 .container_basic button {
     margin: 0 auto;
-    margin-bottom: 30px;
+    margin: 20px 0px;
     display: block;
 }
 
+.container_basic h1 {
+    font-size: 40px;
+    margin: 20px;
+}
 </style>

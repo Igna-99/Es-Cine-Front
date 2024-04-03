@@ -3,29 +3,30 @@
         <h1>you are already logged in</h1>
     </div>
 
-    <div v-else class="borde_doble tamaño_xs">
+    <div v-else class="borde_doble tamaño_xs margin_standar">
 
         <div class="container_basic container_flex">
-            <h1>INICIAR SESION</h1>
-            <div>
 
-                <div class="input_box input_login">
-                    <input type="text" required v-model="this.email">
-                    <span>email</span>
-                </div>
-
-                <div class="input_box input_login">
-                    <input type="password" required v-model="this.contraseña">
-                    <span>Contraseña</span>
-                </div>
-
-                <button type="submit" class="btn_basic" @click="ingresar">Iniciar Sesión</button>
-
-                <div v-if="this.error" class="alert alert-danger" role="alert">
-                    {{ this.msjError }}
-                </div>
-
+            <div class="neon-text-container">
+                <h1 class="neon-text">INICIAR SESION</h1>
             </div>
+
+            <div class="input_box input_login">
+                <input type="text" required v-model="this.email">
+                <span>email</span>
+            </div>
+
+            <div class="input_box input_login">
+                <input type="password" required v-model="this.contraseña">
+                <span>Contraseña</span>
+            </div>
+
+            <button type="submit" class="btn_basic" @click="ingresar">Iniciar Sesión</button>
+
+            <div v-if="this.error" class="alert alert-danger" role="alert">
+                {{ this.msjError }}
+            </div>
+
         </div>
 
     </div>
@@ -33,7 +34,6 @@
 
 <script>
 import { usrStore } from '../../components/store/usrStore'
-import { useRouter } from "vue-router";
 
 export default {
     data() {
@@ -96,18 +96,18 @@ export default {
 
 <style scoped>
 .input_login {
-    margin-bottom: 20%;
-    min-width: 300px;
+    margin: 15px 0px;
+    width: 100%;
 }
 
 .container_basic button {
     margin: 0 auto;
-    margin-bottom: 30px;
+    margin: 20px 0px;
     display: block;
 }
 
 .container_basic h1 {
-  font-size: 30px;
-  margin: 20px;
+    font-size: 40px;
+    margin: 20px;
 }
 </style>

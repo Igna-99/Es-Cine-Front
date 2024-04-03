@@ -20,7 +20,8 @@
       <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
 
       <div class="container_btns">
-        <button type="submit" class="btn_basic" @click="navigateTo('funcionesProgramadas')"> Funciones Programadas </button>
+        <button type="submit" class="btn_basic " @click="navigateTo('funcionesProgramadas')"> Funciones Programadas
+        </button>
         <button type="submit" class="btn_basic activado">Programar Funciones</button>
       </div>
 
@@ -66,7 +67,7 @@
 
   </div>
 </template>
-  
+
 <script>
 import axios from 'axios'
 import { usrStore } from '../../components/store/usrStore'
@@ -166,10 +167,14 @@ export default {
 }
 
 </script>
-  
+
 <style scoped>
+.container_basic {
+  gap: 15px;
+}
+
 .container_basic h1 {
-    margin-top: 35px;
+  margin-top: 35px;
 }
 
 .container_detalles span {
@@ -235,15 +240,25 @@ export default {
 }
 
 
-
 .boton_crear_funcion {
   margin-top: 20px;
   width: 250px;
 }
 
 @media screen and (max-width:800px) {
-    .select_box {
-        height: 70px;
-    }
+  .select_box {
+    height: 60px;
+  }
+}
+
+@media screen and (max-width:380px) {
+  .select_box {
+    width: 100%;
+  }
+
+  .input_box{
+    width: 100%;
+    min-width: 100px;
+  }
 }
 </style>
