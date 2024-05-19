@@ -110,12 +110,11 @@ header .nav-links a {
     z-index: 1;
 
     font-size: 12px;
-}
+}   
 
 .router-link-active {
     font-weight: 800 !important;
-    color: #000 !important;
-    background: rgb(255, 255, 255);
+    background-image: linear-gradient(92.88deg, #324483 9.16%, #3d3092 43.89%, #43288d 64.72%);
 }
 
 .logo {
@@ -221,6 +220,7 @@ header .overlay .overlay-content {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
 
 }
 

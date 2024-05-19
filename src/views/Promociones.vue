@@ -1,3 +1,10 @@
+<script setup>
+import DiscountCard from '../components/DiscountCard.vue'
+
+document.title = "Promociones"
+
+</script>
+
 <template>
     <section class="promo-section">
         <div class="neon-text-container text-cartelera">
@@ -10,7 +17,7 @@
                 subTitle="15% de descuento con tarjetas Visa"
                 description="Promocion valida para tarjetas Visa de credito y debito">
 
-                <img src="../assets/svgs/visa.svg" alt="" class="icon">
+                <img src="../assets/svgs/visa.svg" alt="" class="icon" draggable="false">
 
             </DiscountCard>
 
@@ -18,7 +25,7 @@
                 subTitle="10% de descuento con tarjetas MasterCard"
                 description="Promocion valida para tarjetas MasterCard de credito y debito">
 
-                <img src="../assets/svgs/master.svg" alt="" class="icon">
+                <img src="../assets/svgs/master.svg" alt="" class="icon" draggable="false">
 
             </DiscountCard>
 
@@ -26,7 +33,7 @@
                 subTitle="2 x 1 en entradas de cine pagando con Google Pay"
                 description="Promocion valida para pagos realizados con google pay">
 
-                <img src="../assets/svgs/googlePay.svg" alt="" class="icon">
+                <img src="../assets/svgs/googlePay.svg" alt="" class="icon" draggable="false">
 
             </DiscountCard>
 
@@ -34,7 +41,7 @@
                 subTitle="30% de descuento con tarjetas American Express"
                 description="Promocion valida para tarjetas American Express de credito y debito">
 
-                <img src="../assets/svgs/amex.svg" alt="" class="icon">
+                <img src="../assets/svgs/amex.svg" alt="" class="icon" draggable="false"> 
 
             </DiscountCard>
 
@@ -42,15 +49,7 @@
     </section>
 </template>
 
-<script setup>
-import DiscountCard from '../components/DiscountCard.vue'
-
-document.title = "Promociones"
-
-</script>
-
 <style scoped>
-
 .tittles-promo {
     margin: 20px 0;
     font-size: 3rem;
@@ -59,13 +58,13 @@ document.title = "Promociones"
 .promos-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    row-gap: 25px;
+    column-gap: 10px;
     justify-items: center;
 
     margin: auto;
     width: 98%;
     max-width: 1080px;
-
 }
 
 .icon {

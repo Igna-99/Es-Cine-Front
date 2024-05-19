@@ -1,41 +1,11 @@
-<template>
-    <div v-if="usrStore.isLogged" class="">
-        <h1>you are already logged in</h1>
-    </div>
-
-    <div v-else class="borde_doble tamaño_xs margin_standar">
-
-        <div class="container_basic container_flex">
-
-            <div class="neon-text-container">
-                <h1 class="neon-text">INICIAR SESION</h1>
-            </div>
-
-            <div class="input_box input_login">
-                <input type="text" required v-model="this.email">
-                <span>email</span>
-            </div>
-
-            <div class="input_box input_login">
-                <input type="password" required v-model="this.contraseña">
-                <span>Contraseña</span>
-            </div>
-
-            <button type="submit" class="btn_basic" @click="ingresar">Iniciar Sesión</button>
-
-            <div v-if="this.error" class="alert alert-danger" role="alert">
-                {{ this.msjError }}
-            </div>
-
-        </div>
-
-    </div>
-</template>
-
 <script>
 import { usrStore } from '../../components/store/usrStore'
+import PrimaryButton from '../../components/PrimaryButton.vue'
 
 export default {
+    components: {
+        PrimaryButton
+    },
     data() {
         return {
             usrStore: usrStore(),
@@ -86,13 +56,49 @@ export default {
         },
 
         salir() {
-            // metodo salir de usuario
             this.usrStore.logOut()
         }
     },
 
 }
 </script>
+
+<template>
+    <div v-if="usrStore.isLogged" class="">
+        <h1>you are already logged in</h1>
+    </div>
+
+    <div v-else class="borde_doble tamaño_xs margin_standar">
+
+        <div class="container_basic container_flex">
+
+            <div class="neon-text-container">
+                <h1 class="neon-text">INICIAR SESION</h1>
+            </div>
+
+            <div class="input_box input_login">
+                <input type="text" required v-model="this.email">
+                <span>email</span>
+            </div>
+
+            <div class="input_box input_login">
+                <input type="password" required v-model="this.contraseña">
+                <span>Contraseña</span>
+            </div>
+
+            <PrimaryButton @click="ingresar">Iniciar Sesión</PrimaryButton>
+
+
+            <div v-if="this.error" class="alert alert-danger" role="alert">
+                {{ this.msjError }}
+            </div>
+
+        </div>
+
+    </div>
+</template>
+
+
 
 <style scoped>
 .input_login {
@@ -101,13 +107,10 @@ export default {
 }
 
 .container_basic button {
-    margin: 0 auto;
-    margin: 20px 0px;
-    display: block;
+    margin: 15px 0px;
 }
 
-.container_basic h1 {
-    font-size: 40px;
-    margin: 20px;
+.neon-text-container h1{
+    margin: 10px 0px;
 }
 </style>

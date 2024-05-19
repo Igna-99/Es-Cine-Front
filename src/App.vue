@@ -34,6 +34,7 @@ onMounted(() => {
 .component {
   width: 80%;
   min-height: 95vh;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0;
   display: block;

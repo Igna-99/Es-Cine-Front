@@ -38,7 +38,7 @@ function navigateTo(ubicacion) {
   }" :coverflowEffect="{
     rotate: 1,
   }" :navigation="true" :pagination="true" :modules="modules">
-    <swiper-slide v-for="movie in movies" :key="movie.id" class="swiper-slide image-container">
+    <swiper-slide v-for="movie in movies" :key="movie.id" class="image-container swiper-slide">
       <router-link :to="`/pelicula/${movie.id}`">
         <img :src="getMoviePoster(movie.poster_path)" alt="Poster de la película" />
         <div class="overlay">
@@ -61,8 +61,6 @@ function navigateTo(ubicacion) {
 
 .image-container {
   position: relative;
-  width: 200px;
-  height: 300px;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -71,6 +69,7 @@ function navigateTo(ubicacion) {
 
 .image-container img {
   cursor: pointer;
+  aspect-ratio: 2 / 3;
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -1,42 +1,12 @@
-<template>
-    <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
-        <div class="container_basic">
-            <h1>no estas logeado</h1>
-        </div>
-    </div>
-
-    <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
-        <div class="container_basic">
-            <h1>Acesso Denegado</h1>
-        </div>
-    </div>
-
-    <div v-else class="borde_doble tamaño_xs">
-
-        <div class="container_basic container_flex header">
-            <button class="elemento_flotante btn_basic" @click="navigateTo('detallesUsuario')"> Regresar </button>
-            <h1> <b> Administracion </b> </h1>
-        </div>
-
-        <div class="container_basic container_flex">
-
-            <button class="btn_basic btn_menu_admin" @click="navigateTo('usuariosRegistrados')">Administrar Usuarios</button>
-
-            <button class="btn_basic btn_menu_admin" @click="navigateTo('funcionesProgramadas')">Administrar Funciones</button>
-
-            <button class="btn_basic btn_menu_admin" @click="navigateTo('peliculasEnCartelera')">Administrar Peliculas</button>
-
-        </div>
-
-    </div>
-</template>
-  
 <script>
 import { usrStore } from '../../components/store/usrStore'
-
 import { navigateTo } from '../../../utils/navigateTo'
+import PrimaryButton from '../../components/PrimaryButton.vue'
 
 export default {
+    components: {
+        PrimaryButton
+    },
     data() {
         return {
             usrStore: usrStore()
@@ -52,29 +22,80 @@ export default {
 }
 
 </script>
-  
+
+<template>
+
+    <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
+        <div class="container_b asic">
+            <h1>no estas logeado</h1>
+        </div>
+    </div>
+
+    <div v-else-if="!this.usrStore.isAdmin" class="container_borde borde_doble">
+        <div class="container_basic">
+            <h1>Acesso Denegado</h1>
+        </div>
+    </div>
+    
+
+    <div v-else class="borde_doble tamaño_xs">
+
+        <div class="container_basic container_flex container_tittle">
+            <div class="neon-text-container">
+                <h1 class="neon-text">Administracion</h1>
+            </div>
+        </div>
+
+        <div class="container_basic container_flex gap">
+
+            <PrimaryButton class="btn-width" @click="navigateTo('usuariosRegistrados')">
+                Administrar Usuarios
+            </PrimaryButton>
+
+            <PrimaryButton class="btn-width" @click="navigateTo('funcionesProgramadas')">
+                Administrar Funciones
+            </PrimaryButton>
+
+            <PrimaryButton class="btn-width" @click="navigateTo('peliculasEnCartelera')">
+                Administrar Peliculas A Estrenar
+            </PrimaryButton>
+
+            <PrimaryButton class="btn-width" @click="navigateTo('peliculasEnCartelera')">
+                Administrar Peliculas En Cartelera
+            </PrimaryButton>
+
+
+        </div>
+
+    </div>
+</template>
+
 <style scoped>
-
-.container_basic{
-  gap: 15px;
-}
-
-.header {
+.container_tittle {
     margin-bottom: 20px;
 }
-.container_basic h1 {
-    margin-top: 35px;
-}
-.container_basic span {
-    margin: 0px;
+
+.container_tittle h1 {
+    margin: 20px 0px;
 }
 
-.btn_menu_admin {
+.gap {
+    row-gap: 15px;
+}
+
+.btn-width {
     width: 95%;
-    height: 60px;
 }
 
-.btn_menu_admin:before {
-    width: 50%;
+@media screen and (max-width:640px) {
+    .neon-text {
+        font-size: 2.5rem;
+    }
+}
+
+@media screen and (max-width:540px) {
+    .neon-text {
+        font-size: 1.95rem;
+    }
 }
 </style>

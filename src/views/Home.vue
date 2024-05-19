@@ -1,35 +1,3 @@
-<template>
-  <section class="section-swiper" v-if="popularMovies.length != 0">
-
-    <div class="neon-text-container text-swiper">
-      <h2 class="tittles-home neon-text">Proximamente</h2>
-    </div>
-
-    <HomeSwiper :movies="popularMovies" />
-
-    <div class="neon-text-container text-cartelera">
-      <h2 class="tittles-home neon-text ">Cartelera</h2>
-    </div>
-
-    <div class="cartelera-container">
-      <router-link v-for="pelicula in peliculas" :key="pelicula.id" :to="`/pelicula/${pelicula.id}`" class="flip-card">
-
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img :src="getMoviePoster(pelicula.poster_path)" alt="">
-          </div>
-
-          <div class="flip-card-back">
-            <p class="titulomovie">{{ pelicula.title }}</p>
-          </div>
-        </div>
-
-      </router-link>
-    </div>
-
-  </section>
-</template>
-
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from "vue";
@@ -95,13 +63,39 @@ onMounted(() => {
 });
 </script>
 
+<template>
+  <section class="section-swiper" v-if="popularMovies.length != 0">
+
+    <div class="neon-text-container text-swiper">
+      <h2 class="tittles-home neon-text">Proximamente</h2>
+    </div>
+
+    <HomeSwiper :movies="popularMovies" />
+
+    <div class="neon-text-container text-cartelera">
+      <h2 class="tittles-home neon-text ">Cartelera</h2>
+    </div>
+
+    <div class="cartelera-container">
+      <router-link v-for="pelicula in peliculas" :key="pelicula.id" :to="`/pelicula/${pelicula.id}`" class="flip-card">
+
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img :src="getMoviePoster(pelicula.poster_path)" alt="">
+          </div>
+
+          <div class="flip-card-back">
+            <p class="titulomovie">{{ pelicula.title }}</p>
+          </div>
+        </div>
+
+      </router-link>
+    </div>
+
+  </section>
+</template>
 
 <style scoped>
-
-.tittles-home {
-  font-size: 3rem;
-}
-
 .text-swiper {
   margin: 20px 0;
 }
@@ -192,21 +186,23 @@ onMounted(() => {
 }
 
 @media (max-width: 700px) {
+  .neon-text {
+    font-size: 2.8rem;
+  }
+
   .cartelera-container {
     grid-template-columns: repeat(2, 1fr);
-    margin: 0px 0px;
+
   }
 }
 
 @media (max-width: 400px) {
+  .neon-text {
+    font-size: 2.4rem;
+  }
+
   .cartelera-container {
     grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-@media (max-width: 426px) {
-  .tittles-home {
-    font-size: 2.5rem;
   }
 }
 </style>

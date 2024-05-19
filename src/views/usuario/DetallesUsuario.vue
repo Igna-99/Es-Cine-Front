@@ -1,32 +1,12 @@
-<template>
-  <div v-if="!this.usrStore.isLogged" class="borde_doble">
-    <div class="container_basic">
-      <h1>no estas logeado</h1>
-    </div>
-  </div>
-
-  <div class="borde_doble tamaño_s" v-else>
-
-    <div class="container_basic container_flex">
-      <h1> <b> Detalles de Usuario </b> </h1>
-
-      <span> <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }} </span>
-
-      <span> <b b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
-
-      <button v-if="this.usrStore.isAdmin" type="submit" class="btn_basic btn_administracion"
-        @click="navegar('menuAdministracion')">Administrar</button>
-
-      <button type="submit" class="btn_basic btn_salir" @click="salir">Cerrar Sesion</button>
-    </div>
-
-  </div>
-</template>
-
 <script>
 import { usrStore } from '../../components/store/usrStore'
+import PrimaryButton from '../../components/PrimaryButton.vue'
+
 
 export default {
+  components: {
+    PrimaryButton
+  },
   data() {
     return {
       usrStore: usrStore()
@@ -61,35 +41,50 @@ export default {
 
 </script>
 
+<template>
+
+  <div v-if="!this.usrStore.isLogged" class="borde_doble">
+    <div class="container_basic">
+      <h1>no estas logeado</h1>
+    </div>
+  </div>
+
+  <div class="borde_doble tamaño_s" v-else>
+
+    <div class="container_basic container_flex">
+
+      <div class="neon-text-container">
+        <h1 class="neon-text">Detalles de Usuario</h1>
+      </div>
+
+      <span>
+        <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }} {{ this.usrStore.currentUser.apellido }}
+      </span>
+
+      <span>
+        <b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }}
+      </span>
+
+      <PrimaryButton v-if="this.usrStore.isAdmin" @click="navegar('menuAdministracion')">
+        Administrar
+      </PrimaryButton>
+
+      <PrimaryButton @click="salir">
+        Cerrar Sesion
+      </PrimaryButton>
+
+    </div>
+
+  </div>
+</template>
+
 <style scoped>
-.container_basic{
+.neon-text-container h1 {
+  margin: 10px 0px;
+}
+
+.container_basic {
   gap: 15px;
-}
-
-.container_basic h1 {
-  font-size: 40px;
-  margin: 20px;
-  text-align: center;
-}
-
-.btn_salir {
-  width: 95%;
-  max-width: 300px;
-  border: 2px solid red;
-}
-
-.btn_salir:before {
-  width: 50%;
-}
-
-.btn_administracion {
-  width: 95%;
-  max-width: 300px;
-  border: 2px solid rgb(65, 65, 255);
-}
-
-.btn_administracion:before {
-  width: 50%;
 }
 
 @media screen and (max-width:620px) {
@@ -98,5 +93,4 @@ export default {
   }
 
 }
-
 </style>
