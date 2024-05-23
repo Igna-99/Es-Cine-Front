@@ -101,16 +101,19 @@ export default {
 
 
 <style scoped>
+.neon-text {
+  margin: 30px 0px 15px 0px;
+}
+
 .input_login {
     margin: 15px 0px;
-    width: 100%;
+    width: 95%;
+    max-width: 400px;
 }
 
 .container_basic button {
     margin: 15px 0px;
 }
 
-.neon-text-container h1{
-    margin: 10px 0px;
-}
+
 </style>

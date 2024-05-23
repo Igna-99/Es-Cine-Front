@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@tabler/icons-vue':
+    specifier: ^3.1.0
+    version: 3.5.0(vue@3.4.15)
   axios:
     specifier: ^1.4.0
     version: 1.6.7
@@ -20,6 +23,9 @@ dependencies:
   vue:
     specifier: ^3.2.47
     version: 3.4.15
+  vue-awesome-paginate:
+    specifier: ^1.1.46
+    version: 1.1.46
   vue-router:
     specifier: ^4.2.1
     version: 4.2.5(vue@3.4.15)
@@ -263,6 +269,19 @@ packages:
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: false
+
+  /@tabler/icons-vue@3.5.0(vue@3.4.15):
+    resolution: {integrity: sha512-55gxPKpT8rk2SoYh82tHfTAuMah4W2cseMabKY1WchRHe4Hqd2JgKFxlvI4na2YVeByaG1KgMiIrmkDz5NRyqQ==}
+    peerDependencies:
+      vue: '>=3.0.1'
+    dependencies:
+      '@tabler/icons': 3.5.0
+      vue: 3.4.15
+    dev: false
+
+  /@tabler/icons@3.5.0:
+    resolution: {integrity: sha512-I53dC3ZSHQ2MZFGvDYJelfXm91L2bTTixS4w5jTAulLhHbCZso5Bih4Rk/NYZxlngLQMKHvEYwZQ+6w/WluKiA==}
     dev: false
 
   /@vitejs/plugin-vue@4.6.2(vite@4.5.2)(vue@3.4.15):
@@ -555,6 +574,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /vue-awesome-paginate@1.1.46:
+    resolution: {integrity: sha512-hjwAJLd2N54j0uuGgqmlTdhZw8NBFQpFiShjGrvxsA0DnvmOQjM18GEor+Ieigz6nE8VA4hQerIDBQjf4lsacg==}
+    dependencies:
+      vue: 3.4.15
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /vue-demi@0.14.7(vue@3.4.15):
     resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}

@@ -1,94 +1,160 @@
-<template>
-    <div v-if="!this.usrStore.isLogged" class="borde_doble">
-        <div class="container_basic">
-            <h1>no estas logeado</h1>
-        </div>
-    </div>
-
-    <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
-        <div class="container_basic">
-            <h1>Acesso Denegado</h1>
-        </div>
-    </div>
-
-    <div v-else class="borde_doble tamaño_l">
-
-        <div class="container_basic container_flex header">
-
-            <button class="elemento_flotante btn_basic" @click="navigateTo('menuAdministracion')"> Regresar </button>
-            <h1> <b> Usuarios Registrados </b> </h1>
-
-        </div>
-
-        <div v-if="!this.error" >
-            <ElementoListaUsuario v-for="user in this.usersInDB" :user="user" @reloadUsers="loadUsers" />
-        </div>
-
-        <div v-else="this.error" class="alert alert-danger">
-            {{ this.msjError }}
-        </div>
-
-    </div>
-</template>
-
-
 <script>
-import axios from 'axios'
-import { usrStore } from '../../components/store/usrStore'
+import axios from "axios";
+import { usrStore } from "../../components/store/usrStore";
 
-import ElementoListaUsuario from '../../components/ElementoListaUsuario.vue'
-import { navigateTo } from '../../../utils/navigateTo'
+import TrUser from "../../components/TrUser.vue";
+import { navigateTo } from "../../../utils/navigateTo";
 
 export default {
-    data() {
-        return {
-            usrStore: usrStore(),
+  data() {
+    return {
+      usrStore: usrStore(),
 
-            usersInDB: [],
+      users: [],
+      currentPage: 1,
+      itemsPerPage: 5,
+      totalUsers: 0,
+      pagesShown: 1,
 
-            error: false,
-            msjError: null,
-        }
+      error: false,
+      msjError: null,
+    };
+  },
+  components: {
+    TrUser,
+  },
+  async created() {
+    document.title = "Usuarios Registrados";
+    await this.loadUsers();
+  },
+  mounted() {
+    this.updateMaxPagesShown();
+    window.addEventListener("resize", this.updateMaxPagesShown);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateMaxPagesShown);
+  },
+  methods: {
+    navigateTo,
+    async loadUsers() {
+      const url = "http://localhost:8080/usuario/all";
+      try {
+        const response = await axios.get(url, { withCredentials: true });
+        this.users = response.data.result;
+        this.totalUsers = this.users.length;
+
+      } catch (error) {
+        this.error = true;
+        this.msjError = error.response.data.message;
+        console.error(error);
+      }
     },
-    components: {
-        ElementoListaUsuario,
+
+    handlePageChange(data) {
+      this.currentPage = data.currentPage;
     },
-    async created() {
 
-        document.title = "Usuarios Registrados";
-
-        await this.loadUsers();
+    updateMaxPagesShown() {
+      const width = window.innerWidth;
+      if (width < 500) {
+        this.pagesShown = 1; 
+      } else if (width < 750) {
+        this.pagesShown = 3; 
+      } else {
+        this.pagesShown = 5;
+      }
     },
-    methods: {
-        navigateTo,
+  },
+  computed: {
+    displayedUsers() {
+      let startIndex = this.currentPage * this.itemsPerPage - this.itemsPerPage;
+      let endIndex = startIndex + this.itemsPerPage;
 
-        async loadUsers() {
-            const url = 'http://localhost:8080/usuario/all';
-            try {
-                const response = await axios.get(url, { withCredentials: true });
-
-                this.usersInDB = response.data.result
-
-            } catch (error) {
-                this.error = true;
-                this.msjError = error.response.data.message
-
-                console.error(error)
-            }
-        },
-    }
-}
-
+      return this.users.slice(startIndex, endIndex);
+    },
+  },
+};
 </script>
+
+<template>
+  <div v-if="!this.usrStore.isLogged" class="borde_doble">
+    <div class="container_basic">
+      <h1>no estas logeado</h1>
+    </div>
+  </div>
+
+  <div v-else-if="!this.usrStore.isAdmin" class="borde_doble">
+    <div class="container_basic">
+      <h1>Acesso Denegado</h1>
+    </div>
+  </div>
+
+  <div v-else class="borde_doble tamaño_xl">
+    <div class="container_basic">
+      <div class="neon-text-container">
+        <h1 class="neon-text">Usuarios Registrados</h1>
+      </div>
+
+      <div v-if="!this.error">
+        <table>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+          <TrUser
+            v-for="(user, index) in this.displayedUsers"
+            :user="user"
+            @reloadUsers="loadUsers"
+          />
+          <tr class="autofill" v-for="n in 5 - this.displayedUsers.length" :key="'empty-' + n">
+            <td colspan="5">&nbsp;</td>
+
+          </tr>
+        </table>
+
+        <div class="pagination-container">
+          <vue-awesome-paginate
+            v-model="this.currentPage"
+            :total-items="this.totalUsers"
+            :items-per-page="this.itemsPerPage"
+            :max-pages-shown="this.pagesShown"
+            @page-clicked="this.handlePageChange"
+          >
+          </vue-awesome-paginate>
+        </div>
+      </div>
+
+      <div v-else="this.error" class="alert alert-danger">
+        {{ this.msjError }}
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 
-.container_basic span {
-    margin: 0px;
+.neon-text {
+  margin: 30px 0px;
 }
 
-.container_basic h1 {
-    margin-top: 35px;
+@media screen and (max-width: 750px) {
+  .autofill{
+    display: none;
+  }
 }
 
+@media screen and (max-width: 640px) {
+  .neon-text {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .neon-text {
+    font-size: 1.95rem;
+  }
+}
 </style>

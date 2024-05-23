@@ -1,6 +1,5 @@
 <template>
     <header>
-
         <div class="nav-links"> <router-link to="/promociones">PROMOCIONES</router-link> </div>
 
         <div class="nav-links"> <router-link to="/">CARTELERA</router-link> </div>

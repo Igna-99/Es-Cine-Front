@@ -30,7 +30,7 @@ p {
 
 .container_basic {
     margin: 0 auto;
-    padding: 20px 80px;
+    padding: 0px 10px;
     position: relative;
     overflow: hidden;
     max-width: 100%;
@@ -43,6 +43,7 @@ p {
     border-radius: 3px;
     text-align: center;
 }
+
 
 .container_flex {
     display: flex;
@@ -87,8 +88,8 @@ p {
 }
 
 .tamaño_xl {
-    width: 85%;
-    min-width: 850px;
+    width: 90%;
+    min-width: 800px;
     max-width: 980px;
     margin: 50px auto;
 }
@@ -233,20 +234,25 @@ p {
     overflow: auto;
 }
 
-/* Iconos */
+/* Tables */
 
-.container_icon {
-
-    font-size: 20px;
-    padding: 13px 17px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
 }
 
-.icon_red {
-    color: rgb(141, 2, 2);
+th,
+td {
+    padding: 0.8rem;
 }
 
-.icon_green {
-    color: rgb(2, 141, 32);
+th {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+tr:nth-of-type(2n) {
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 /* Elemento Resaltable */
@@ -319,13 +325,12 @@ p {
     .tamaño_xl {
         width: 95%;
         min-width: 315px;
-        max-width: 700px;
+        max-width: 750px;
         margin: 30px auto;
     }
 
-    .container_basic {
-        padding: 20px 25px;
-    }
+
+
 }
 
 @media screen and (max-width:800px) {
@@ -353,6 +358,32 @@ p {
 
     .btn_basic {
         font-size: 16px;
+    }
+}
+
+@media screen and (max-width:750px) {
+    table {
+        font-size: 4vw;
+        text-align: center;
+    }
+
+    td {
+        display: block;
+        padding: 0.5rem;
+    }
+
+    td::before {
+        white-space: normal;
+        content: attr(data-cell);
+        font-weight: 700;
+    }
+
+    th {
+        display: none;
+    }
+
+    .container_basic {
+        padding: 0px 10px;
     }
 }
 
@@ -483,3 +514,66 @@ p {
 }
 
 /* Navigation font end */
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-container .pagination-container {
+    column-gap: 5px;
+    align-items: center;
+    margin: 1rem;
+}
+
+.pagination-container .paginate-buttons {
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+.pagination-container .back-button,
+.pagination-container .next-button {
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    height: 45px;
+    width: 45px;
+}
+
+.pagination-container .active-page {
+    color: black;
+    background-color: #e5e5e5;
+}
+
+.pagination-container .paginate-buttons:hover {
+    color: black;
+    background-color: #f5f5f5;
+}
+
+.pagination-container .active-page:hover {
+    background-color: #e5e5e5;
+}
+
+.pagination-container .back-button svg {
+    transform: rotate(180deg) translateY(-2px);
+}
+
+.pagination-container .next-button svg {
+    transform: translateY(2px);
+}
+
+.pagination-container .back-button:hover,
+.pagination-container .next-button:hover {
+    color: #e5e5e5;
+    background-color: rgb(45, 45, 45);
+}
+
+.pagination-container .back-button:active,
+.pagination-container .next-button:active {
+    background-color: rgb(85, 85, 85);
+}
