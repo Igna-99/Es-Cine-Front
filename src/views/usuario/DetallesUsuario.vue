@@ -46,7 +46,7 @@ export default {
   <div v-else class="borde_doble tamaño_s">
     <div class="container_basic">
       <div class="neon-text-container">
-        <h1 class="neon-text">Detalles de Usuario</h1>
+        <h1 class="neon-text title-menus">Detalles de Usuario</h1>
       </div>
 
       <div class="container_flex gap">
@@ -71,10 +71,6 @@ export default {
 </template>
 
 <style scoped>
-.neon-text {
-  margin: 30px 0px;
-}
-
 .container_flex {
   gap: 15px;
   padding-bottom: 15px;

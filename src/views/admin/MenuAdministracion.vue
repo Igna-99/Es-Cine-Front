@@ -22,6 +22,7 @@ export default {
 </script>
 
 <template>
+
   <div v-if="!this.usrStore.isLogged" class="container_borde borde_doble">
     <div class="container_b asic">
       <h1>no estas logeado</h1>
@@ -37,7 +38,7 @@ export default {
   <div v-else class="borde_doble tamaño_xs">
     <div class="container_basic">
       <div class="neon-text-container">
-        <h1 class="neon-text">Administracion</h1>
+        <h1 class="neon-text title-menus">Administrar Cine</h1>
       </div>
 
       <div class="container_flex gap">
@@ -62,9 +63,6 @@ export default {
 </template>
 
 <style scoped>
-.neon-text {
-  margin: 30px 0px;
-}
 
 .gap {
   row-gap: 15px;
@@ -75,19 +73,9 @@ export default {
   width: 80%;
 }
 
-@media screen and (max-width: 640px) {
-  .neon-text {
-    font-size: 2.5rem;
-  }
-}
-
 @media screen and (max-width: 540px) {
   .btn-width {
     width: 90%;
-  }
-
-  .neon-text {
-    font-size: 1.85rem;
   }
 }
 </style>

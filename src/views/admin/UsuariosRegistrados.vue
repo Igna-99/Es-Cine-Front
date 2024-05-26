@@ -92,7 +92,7 @@ export default {
   <div v-else class="borde_doble tamaño_xl">
     <div class="container_basic">
       <div class="neon-text-container">
-        <h1 class="neon-text">Usuarios Registrados</h1>
+        <h1 class="neon-text title-menus">Usuarios Registrados</h1>
       </div>
 
       <div v-if="!this.error">
@@ -136,25 +136,9 @@ export default {
 
 <style scoped>
 
-.neon-text {
-  margin: 30px 0px;
-}
-
 @media screen and (max-width: 750px) {
   .autofill{
     display: none;
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .neon-text {
-    font-size: 2.5rem;
-  }
-}
-
-@media screen and (max-width: 540px) {
-  .neon-text {
-    font-size: 1.95rem;
   }
 }
 </style>

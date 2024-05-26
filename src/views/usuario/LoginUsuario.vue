@@ -69,11 +69,10 @@ export default {
     </div>
 
     <div v-else class="borde_doble tamaño_xs margin_standar">
-
         <div class="container_basic container_flex">
 
             <div class="neon-text-container">
-                <h1 class="neon-text">INICIAR SESION</h1>
+                <h1 class="neon-text title-menus">INICIAR SESION</h1>
             </div>
 
             <div class="input_box input_login">

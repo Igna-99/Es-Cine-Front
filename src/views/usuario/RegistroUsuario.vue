@@ -77,7 +77,7 @@ export default {
   <div v-else class="borde_doble tamaño_s">
     <div class="container_basic container_flex">
       <div class="neon-text-container">
-        <h1 class="neon-text">REGISTRO</h1>
+        <h1 class="neon-text title-menus">REGISTRO</h1>
       </div>
 
       <div class="container-responsive-inputs">
