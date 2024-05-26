@@ -23,7 +23,6 @@ const fetchPopularMovies = async () => {
   try {
     const response = await axios.request(options);
     popularMovies.value = response.data.results.slice(0, 9);
-    console.log(response.data.results);
   } catch (error) {
     console.error(error);
   }

@@ -39,7 +39,7 @@
     background-color: rgb(15, 15, 27);
     font-size: 20px;
     font-weight: 600;
-    padding: 16px 24px;
+    padding: 14px 22px;
     border-radius: 6px;
     width: 100%;
     height: 100%;
