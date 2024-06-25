@@ -10,7 +10,7 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 
-const props = defineProps(['movies'],)
+const props = defineProps(["movies"]);
 
 const modules = [EffectCoverflow, Autoplay, Keyboard, Navigation, Pagination];
 
@@ -21,25 +21,39 @@ const getMoviePoster = (posterPath) => {
 function navigateTo(ubicacion) {
   this.$router.push(`/${ubicacion}`);
 }
-
-
 </script>
 
 <template>
-  <swiper class="swiper custom-pagination" :effect="'coverflow'" :grabCursor="false" :centeredSlides="true"
-    :initialSlide="Math.floor(movies.length / 2)" :slidesPerView="2" :breakpoints="{
-    450: { slidesPerView: 3 },
-    800: { slidesPerView: 4 },
-    1200: { slidesPerView: 5 },
-    1500: { slidesPerView: 6 },
-  }" :autoplay="{
-    delay: 360000,
-    disableOnInteraction: false,
-  }" :coverflowEffect="{
-    rotate: 1,
-  }" :navigation="true" :pagination="true" :modules="modules">
-    <swiper-slide v-for="movie in movies" :key="movie.id" class="image-container swiper-slide">
-      <router-link :to="`/pelicula/${movie.id}`">
+  <swiper
+    class="swiper custom-pagination"
+    :effect="'coverflow'"
+    :grabCursor="false"
+    :centeredSlides="true"
+    :initialSlide="Math.floor(movies.length / 2)"
+    :slidesPerView="2"
+    :breakpoints="{
+      450: { slidesPerView: 3 },
+      800: { slidesPerView: 4 },
+      1200: { slidesPerView: 5 },
+      1500: { slidesPerView: 6 },
+    }"
+    :autoplay="{
+      delay: 360000,
+      disableOnInteraction: false,
+    }"
+    :coverflowEffect="{
+      rotate: 1,
+    }"
+    :navigation="true"
+    :pagination="true"
+    :modules="modules"
+  >
+    <swiper-slide
+      v-for="movie in movies"
+      :key="movie.id"
+      class="image-container swiper-slide"
+    >
+      <router-link :to="{name: 'pelicula', params: {idPelicula: movie.id}}">
         <img :src="getMoviePoster(movie.poster_path)" alt="Poster de la película" />
         <div class="overlay">
           {{ movie.title }}
@@ -47,9 +61,7 @@ function navigateTo(ubicacion) {
       </router-link>
     </swiper-slide>
   </swiper>
-
 </template>
-
 
 <style scoped>
 .swiper {
@@ -88,10 +100,7 @@ function navigateTo(ubicacion) {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,
-      0,
-      0,
-      0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   /* Color de superposición semitransparente */
   opacity: 0;
   /* Inicialmente oculto */

@@ -50,7 +50,7 @@ export default {
           this.error3 = false;
 
           alert("te has registrado exitosamente");
-          this.$router.push("/login");
+          this.$router.push({ name: "login" });
         } else {
           this.error1 = false;
           this.error2 = false;
@@ -135,7 +135,7 @@ export default {
   width: 95%;
 }
 
-.input_registro{
+.input_registro {
   width: 95%;
   margin: 15px 0px;
 }

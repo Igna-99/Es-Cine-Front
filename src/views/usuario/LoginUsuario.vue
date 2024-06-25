@@ -18,7 +18,7 @@ export default {
     mounted() {
 
         if (this.usrStore.isLogged) {
-            this.$router.push("/detallesUsuario");
+            this.$router.push({name:'usuario'});
         }
 
         document.title = "Iniciar Sesion"
@@ -26,7 +26,7 @@ export default {
     },
     updated() {
         if (this.usrStore.isLogged) {
-            this.$router.push("/detallesUsuario");
+            this.$router.push({name:'usuario'});
         }
 
     },
@@ -45,7 +45,7 @@ export default {
                 if (mensajeError == null) {
 
                     this.error = false;
-                    this.$router.push("/detallesUsuario");
+                    this.$router.push({name:'usuario'});
 
                 } else {
                     this.error = true;

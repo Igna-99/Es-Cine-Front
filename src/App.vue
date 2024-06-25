@@ -16,7 +16,7 @@ onMounted(() => {
   <Navbar />
 
   <div class="component">
-    <RouterView class="center"></RouterView>
+    <RouterView></RouterView>
   </div>
 
   <Footer />

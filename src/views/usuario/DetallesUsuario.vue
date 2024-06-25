@@ -1,7 +1,7 @@
 <script>
 import { usrStore } from "../../components/store/usrStore";
 import PrimaryButton from "../../components/PrimaryButton.vue";
-
+import { navigateTo } from "../../../utils/navigateTo";
 export default {
   components: {
     PrimaryButton,
@@ -13,24 +13,21 @@ export default {
   },
   created() {
     if (!this.usrStore.isLogged) {
-      this.$router.push("/login");
+      this.$router.push({ name: "login" });
     }
 
     document.title = "Detalles";
   },
   updated() {
     if (!this.usrStore.isLogged) {
-      this.$router.push("/login");
+      this.$router.push({ name: "login" });
     }
   },
   methods: {
+    navigateTo,
     salir() {
       this.usrStore.logOut();
-      this.$router.push("/login");
-    },
-
-    navegar(ubicacion) {
-      this.$router.push(`/${ubicacion}`);
+      this.$router.push({ name: "login" });
     },
   },
 };
@@ -59,7 +56,7 @@ export default {
 
         <PrimaryButton
           v-if="this.usrStore.isAdmin"
-          @click="navegar('menuAdministracion')"
+          @click="navigateTo('adminMenu')"
         >
           Administrar
         </PrimaryButton>

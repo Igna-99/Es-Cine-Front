@@ -110,7 +110,7 @@ export default {
             @reloadUsers="loadUsers"
           />
           <tr class="autofill" v-for="n in 5 - this.displayedUsers.length" :key="'empty-' + n">
-            <td colspan="5">&nbsp;</td>
+            <td colspan="5"></td>
 
           </tr>
         </table>
@@ -135,6 +135,10 @@ export default {
 </template>
 
 <style scoped>
+
+.autofill{
+  height: 55px;
+}
 
 @media screen and (max-width: 750px) {
   .autofill{

@@ -5,9 +5,9 @@ import { ref, onMounted } from "vue";
 import HomeSwiper from "../components/HomeSwiper.vue";
 
 const popularMovies = ref([]);
-const peliculas = ref([]);
+const movies = ref([]);
 
-document.title = "Cartelera"
+document.title = "Cartelera";
 
 const fetchPopularMovies = async () => {
   const options = {
@@ -29,21 +29,20 @@ const fetchPopularMovies = async () => {
 };
 
 const buscarPeliculas = async () => {
+  const responseMoviesId = await axios.get(`http://localhost:8080/pelicula/all`);
+  const moviesId = responseMoviesId.data.result;
 
-  const responseIdPeliculas = await axios.get(`http://localhost:8080/pelicula`);
-  const idPelciulas = responseIdPeliculas.data.result;
+  await moviesId.forEach(async (element) => {
+    const movieId = element.idPelicula;
 
-  await idPelciulas.forEach(async (elemento) => {
-    const idPelicula = elemento.idPelicula;
-
-    const url = `https://api.themoviedb.org/3/movie/${idPelicula}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=6311677ef041038470aae345cd71bb78&language=es`;
 
     try {
       let responsePelicula = await axios.get(url);
 
-      peliculas.value.push(responsePelicula.data);
+      movies.value.push(responsePelicula.data);
 
-      peliculas.value.sort(function (a, b) {
+      movies.value.sort(function (a, b) {
         return a.id - b.id;
       });
     } catch (error) {
@@ -64,7 +63,6 @@ onMounted(() => {
 
 <template>
   <section class="section-swiper" v-if="popularMovies.length != 0">
-
     <div class="neon-text-container text-swiper">
       <h2 class="tittles-home neon-text">Proximamente</h2>
     </div>
@@ -72,25 +70,27 @@ onMounted(() => {
     <HomeSwiper :movies="popularMovies" />
 
     <div class="neon-text-container text-cartelera">
-      <h2 class="tittles-home neon-text ">Cartelera</h2>
+      <h2 class="tittles-home neon-text">Cartelera</h2>
     </div>
 
     <div class="cartelera-container">
-      <router-link v-for="pelicula in peliculas" :key="pelicula.id" :to="`/pelicula/${pelicula.id}`" class="flip-card">
-
+      <router-link
+        v-for="movie in movies"
+        :key="movie.id"
+        :to="{name: 'pelicula', params: {idPelicula: movie.id}}"
+        class="flip-card"
+      >
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <img :src="getMoviePoster(pelicula.poster_path)" alt="">
+            <img :src="getMoviePoster(movie.poster_path)" alt="" />
           </div>
 
           <div class="flip-card-back">
-            <p class="titulomovie">{{ pelicula.title }}</p>
+            <p class="titulomovie">{{ movie.title }}</p>
           </div>
         </div>
-
       </router-link>
     </div>
-
   </section>
 </template>
 
@@ -191,7 +191,6 @@ onMounted(() => {
 
   .cartelera-container {
     grid-template-columns: repeat(2, 1fr);
-
   }
 }
 
