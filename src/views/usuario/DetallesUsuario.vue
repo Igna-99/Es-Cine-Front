@@ -1,10 +1,13 @@
 <script>
 import { usrStore } from "../../components/store/usrStore";
-import PrimaryButton from "../../components/PrimaryButton.vue";
 import { navigateTo } from "../../../utils/navigateTo";
+import PrimaryButton from "../../components/PrimaryButton.vue";
+import DangerButton from "../../components/DangerButton.vue";
+
 export default {
   components: {
     PrimaryButton,
+    DangerButton
   },
   data() {
     return {
@@ -42,11 +45,8 @@ export default {
 
   <div v-else class="borde_doble tamaño_s">
     <div class="container_basic">
-      <div class="neon-text-container">
+      <div class="container_flex gap_standar">
         <h1 class="neon-text title-menus">Detalles de Usuario</h1>
-      </div>
-
-      <div class="container_flex gap">
         <span>
           <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }}
           {{ this.usrStore.currentUser.apellido }}
@@ -54,24 +54,18 @@ export default {
 
         <span> <b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
 
-        <PrimaryButton
-          v-if="this.usrStore.isAdmin"
-          @click="navigateTo('adminMenu')"
-        >
-          Administrar
+        <PrimaryButton v-if="this.usrStore.isAdmin" @click="navigateTo('adminMenu')"
+          >Administrar
         </PrimaryButton>
 
-        <PrimaryButton @click="salir"> Cerrar Sesion </PrimaryButton>
+        <DangerButton @click="salir"> Cerrar Sesion </DangerButton>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container_flex {
-  gap: 15px;
-  padding-bottom: 15px;
-}
+
 
 @media screen and (max-width: 620px) {
   .b_tag {

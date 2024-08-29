@@ -35,7 +35,7 @@ p {
 .container_basic {
     margin: 0 auto;
     padding: 0px 10px;
-    position: relative;
+
     overflow: hidden;
     max-width: 100%;
     z-index: 1;
@@ -65,37 +65,42 @@ p {
     justify-content: center;
 }
 
+.gap_standar {
+    gap: 15px;
+    padding: 15px;
+}
+
 /* Tamaños para Containers */
 
 .tamaño_xs {
     width: 30%;
     min-width: 550px;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
 .tamaño_s {
     width: 40%;
     min-width: 550px;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
 .tamaño_m {
     width: 55%;
     min-width: 700px;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
 .tamaño_l {
     width: 60%;
     min-width: 750px;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
 .tamaño_xl {
     width: 90%;
     min-width: 780px;
     max-width: 980px;
-    margin: 50px auto;
+    margin: 30px auto;
 }
 
 /* Estilos De Botones */
@@ -357,7 +362,7 @@ th {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-tr:nth-of-type(2n) {
+tr:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.15);
 }
 
@@ -365,19 +370,18 @@ tr:nth-of-type(2n) {
 
 .pagination-container {
     display: flex;
+    align-items: center;
     justify-content: center;
+    user-select: none;
+    column-gap: 5px;
+    margin: 15px 0px 0px;
 }
 
-.pagination-container .pagination-container {
-    column-gap: 5px;
-    align-items: center;
-    margin: 1rem;
-}
+
 
 .pagination-container .paginate-buttons {
     height: 35px;
     width: 35px;
-    cursor: pointer;
     border-radius: 4px;
     background-color: transparent;
     border: none;
@@ -389,8 +393,8 @@ tr:nth-of-type(2n) {
     background-color: black;
     color: white;
     border-radius: 8px;
-    height: 45px;
-    width: 45px;
+    height: 46px;
+    width: 46px;
 }
 
 .pagination-container .active-page {
@@ -462,51 +466,51 @@ tr:nth-of-type(2n) {
         0px 0px 35px rgba(254, 254, 254, 0.5);
 }
 
-.title-menus{
-    font-size: 3rem;
-    margin: 30px 0px;
+.title-menus {
+    font-size: 48px;
+    margin: 0px;
 }
 
 
 @media screen and (max-width:1000px) {
 
-    .title-menus{
-        font-size: 2.4rem;
+    .title-menus {
+        font-size: 38px;
     }
 
     .tamaño_xs {
         width: 75%;
         min-width: 315px;
         max-width: 500px;
-        margin: 30px auto;
+        margin: 20px auto;
     }
 
     .tamaño_s {
         width: 60%;
         min-width: 315px;
         max-width: 500px;
-        margin: 30px auto;
+        margin: 20px auto;
     }
 
     .tamaño_m {
         width: 73%;
         min-width: 315px;
         max-width: 650px;
-        margin: 30px auto;
+        margin: 20px auto;
     }
 
     .tamaño_l {
         width: 95%;
         min-width: 315px;
         max-width: 700px;
-        margin: 30px auto;
+        margin: 20px auto;
     }
 
     .tamaño_xl {
         width: 95%;
         min-width: 315px;
         max-width: 750px;
-        margin: 30px auto;
+        margin: 20px auto;
     }
 }
 
@@ -541,7 +545,7 @@ tr:nth-of-type(2n) {
 @media screen and (max-width:750px) {
 
     table {
-        font-size: 4vw;
+        font-size: 16px;
         text-align: center;
     }
 
@@ -560,14 +564,20 @@ tr:nth-of-type(2n) {
         display: none;
     }
 
-    .container_basic {
-        padding: 0px 10px;
+    .gap_standar {
+        gap: 20px;
+        padding: 20px 0px;
     }
+
+    .pagination-container .pagination-container {
+        margin: 20px 0px 0px;
+    }
+    
 }
 
 @media screen and (max-width:650px) {
-    .title-menus{
-        font-size: 2.2rem;
+    .title-menus {
+        font-size: 35px;
     }
 }
 
@@ -589,5 +599,13 @@ tr:nth-of-type(2n) {
         100% {
             text-shadow: 0px 0px 15px rgba(254, 254, 254, 0.4);
         }
+    }
+}
+
+@media (max-width: 355px) {
+
+
+    .pagination-container .pagination-container {
+        column-gap: 2px;
     }
 }

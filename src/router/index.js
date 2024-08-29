@@ -11,7 +11,6 @@ import ReservasUsuario from '../views/usuario/ReservasUsuario.vue';
 import MenuAdministracion from '../views/admin/MenuAdministracion.vue';
 import UsuariosRegistrados from '../views/admin/UsuariosRegistrados.vue'
 import FuncionesProgramadas from '../views/admin/FuncionesProgramadas.vue';
-import ProgramarFunciones from '../views/admin/ProgramarFunciones.vue';
 import PeliculasEnCartelera from '../views/admin/PeliculasEnCartelera.vue';
 import CargarPelicula from '../views/admin/CargarPelicula.vue';
 
@@ -96,11 +95,6 @@ const routes = [
         component: FuncionesProgramadas,
     },
     {
-        path: "/admin/programarFunciones",
-        name: 'programarFunciones',
-        component: ProgramarFunciones,
-    },
-    {
         path: "/admin/peliculasEnCartelera",
         name: 'peliculasEnCartelera',
         component: PeliculasEnCartelera,
@@ -110,8 +104,6 @@ const routes = [
         name: 'cargarPelicula',
         component: CargarPelicula,
     },
-
-
 
 
     { path: "/peliculasxgenero/:id", component: PeliculaGenero, }, //to delete

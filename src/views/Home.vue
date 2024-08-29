@@ -62,22 +62,23 @@ onMounted(() => {
 </script>
 
 <template>
+  
   <section class="section-swiper" v-if="popularMovies.length != 0">
     <div class="neon-text-container text-swiper">
-      <h2 class="tittles-home neon-text">Proximamente</h2>
+      <h2 class="neon-text tittles-home">Proximamente</h2>
     </div>
 
     <HomeSwiper :movies="popularMovies" />
 
     <div class="neon-text-container text-cartelera">
-      <h2 class="tittles-home neon-text">Cartelera</h2>
+      <h2 class="neon-text tittles-home2">Cartelera</h2>
     </div>
 
     <div class="cartelera-container">
       <router-link
         v-for="movie in movies"
         :key="movie.id"
-        :to="{name: 'pelicula', params: {idPelicula: movie.id}}"
+        :to="{ name: 'pelicula', params: { idPelicula: movie.id } }"
         class="flip-card"
       >
         <div class="flip-card-inner">
@@ -95,21 +96,23 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.text-swiper {
-  margin: 20px 0;
-}
-
-.text-cartelera {
+.tittles-home {
+  font-size: 40px;
   margin: 30px 0;
 }
 
+.tittles-home2 {
+  font-size: 40px;
+  margin: 10px 0px 30px 0px;
+}
+
 .cartelera-container {
-  margin: 50px 0px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   justify-items: center;
   row-gap: 40px;
   column-gap: 25px;
+  margin-bottom: 40px;
 }
 
 .flip-card-front img {
@@ -185,20 +188,12 @@ onMounted(() => {
 }
 
 @media (max-width: 700px) {
-  .neon-text {
-    font-size: 2.8rem;
-  }
-
   .cartelera-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 400px) {
-  .neon-text {
-    font-size: 2.4rem;
-  }
-
   .cartelera-container {
     grid-template-columns: repeat(1, 1fr);
   }

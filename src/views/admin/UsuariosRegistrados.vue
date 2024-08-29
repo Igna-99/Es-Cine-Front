@@ -1,9 +1,10 @@
 <script>
 import axios from "axios";
 import { usrStore } from "../../components/store/usrStore";
+import { navigateTo } from "../../../utils/navigateTo";
 
 import TrUser from "../../components/TrUser.vue";
-import { navigateTo } from "../../../utils/navigateTo";
+import DangerButton from "../../components/DangerButton.vue";
 
 export default {
   data() {
@@ -22,6 +23,7 @@ export default {
   },
   components: {
     TrUser,
+    DangerButton,
   },
   async created() {
     document.title = "Usuarios Registrados";
@@ -42,7 +44,7 @@ export default {
         const response = await axios.get(url, { withCredentials: true });
         this.users = response.data.result;
         this.totalUsers = this.users.length;
-
+        
       } catch (error) {
         this.error = true;
         this.msjError = error.response.data.message;
@@ -57,9 +59,9 @@ export default {
     updateMaxPagesShown() {
       const width = window.innerWidth;
       if (width < 500) {
-        this.pagesShown = 1; 
+        this.pagesShown = 1;
       } else if (width < 750) {
-        this.pagesShown = 3; 
+        this.pagesShown = 3;
       } else {
         this.pagesShown = 5;
       }
@@ -90,29 +92,36 @@ export default {
   </div>
 
   <div v-else class="borde_doble tamaño_xl">
-    <div class="container_basic">
-      <div class="neon-text-container">
+    <div class="container_basic container_flex gap_standar">
+      <div class="neon-text-container margin">
         <h1 class="neon-text title-menus">Usuarios Registrados</h1>
       </div>
 
-      <div v-if="!this.error">
-        <table>
-          <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Estado</th>
-            <th></th>
-          </tr>
-          <TrUser
-            v-for="(user, index) in this.displayedUsers"
-            :user="user"
-            @reloadUsers="loadUsers"
-          />
-          <tr class="autofill" v-for="n in 5 - this.displayedUsers.length" :key="'empty-' + n">
-            <td colspan="5"></td>
-
-          </tr>
+      <div style="width: 100%" v-if="!this.error">
+        <table style="table-layout: fixed">
+          <thead>
+            <tr>
+              <th style="width: 20%">Nombre</th>
+              <th style="width: 40%">Email</th>
+              <th style="width: 11%">Rol</th>
+              <th style="width: 13%">Estado</th>
+              <th style="width: 17%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <TrUser
+              v-for="(user, index) in this.displayedUsers"
+              :user="user"
+              @reloadUsers="loadUsers"
+            />
+            <tr
+              class="autofill"
+              v-for="n in this.itemsPerPage - this.displayedUsers.length"
+              :key="'empty-' + n"
+            >
+              <td colspan="5"></td>
+            </tr>
+          </tbody>
         </table>
 
         <div class="pagination-container">
@@ -130,18 +139,19 @@ export default {
       <div v-else="this.error" class="alert alert-danger">
         {{ this.msjError }}
       </div>
+
+      <DangerButton @click="navigateTo('adminMenu')"> Regresar </DangerButton>
     </div>
   </div>
 </template>
 
 <style scoped>
-
-.autofill{
-  height: 55px;
+.autofill {
+  height: 74px;
 }
 
 @media screen and (max-width: 750px) {
-  .autofill{
+  .autofill {
     display: none;
   }
 }

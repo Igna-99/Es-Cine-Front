@@ -11,10 +11,10 @@
 <style scoped>
 .button-64 {
     align-items: center;
-    background-image: linear-gradient(92.88deg, #2f407c 9.16%, #3e3196 43.89%, #4a2d9b 64.72%);
+    background-image: linear-gradient(92.88deg, #7c2f2f 9.16%, #963131 43.89%, #9b2d2d 64.72%);
     border: 0;
     border-radius: 8px;
-    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-shadow: rgba(252, 65, 65, 0.2) 0 15px 30px -5px;
     box-sizing: border-box;
     color: #FFFFFF;
     display: flex;
@@ -36,7 +36,7 @@
 }
 
 .button-64 span {
-    background-color: rgb(15, 15, 27);
+    background-color: rgb(27, 15, 15);
     font-size: 20px;
     font-weight: 600;
     padding: 14px 22px;

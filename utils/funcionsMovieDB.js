@@ -21,7 +21,7 @@ function formatDate(dateString) {
 async function loadMoviesFromDB() {
 
     const moviesInDB = []
-    const urlEsCineApi = 'http://localhost:8080/pelicula'
+    const urlEsCineApi = 'http://localhost:8080/pelicula/all'
 
     try {
 
