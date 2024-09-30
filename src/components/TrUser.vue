@@ -1,16 +1,76 @@
 <script>
 import axios from "axios";
 import { usrStore } from "../components/store/usrStore";
+import { Modal } from "flowbite";
+
+import DangerButtonModal from "./buttons/DangerButtonModal.vue";
+import PrimaryButtonModal from "./buttons/PrimaryButtonModal.vue";
 
 export default {
   data() {
     return {
       usrStore: usrStore(),
+
+      modalInstances: {},
+      scrollbarWidth: 0,
+
+      disenabledButtons: false,
     };
+  },
+  components: {
+    PrimaryButtonModal,
+    DangerButtonModal,
   },
   emits: ["reloadUsers"],
   props: ["user"],
   methods: {
+    initializeModals() {
+      const options = {
+        placement: "top-center",
+        backdrop: "dynamic",
+        backdropClasses: "bg-gray-950/50 fixed inset-0 z-40 backdrop-blur-sm",
+        closable: true,
+        onHide: () => {
+          document.body.style.marginRight = "";
+        },
+        onShow: () => {
+          document.body.style.marginRight = `${this.scrollbarWidth}px`;
+        },
+      };
+
+      const instanceOptions = {
+        override: true,
+      };
+
+      this.modalInstances.editModal = new Modal(
+        this.$refs.editModal,
+        options,
+        instanceOptions
+      );
+      this.modalInstances.enableDisableModal = new Modal(
+        this.$refs.enableDisableModal,
+        options,
+        instanceOptions
+      );
+    },
+    openModal(modalName) {
+      if (this.modalInstances[modalName]) {
+        this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        this.modalInstances[modalName].toggle();
+      }
+    },
+    closeModal(modalName) {
+      if (this.modalInstances[modalName]) {
+        this.modalInstances[modalName].hide();
+      }
+    },
+    closeAllModals() {
+      Object.values(this.modalInstances).forEach((modalInstance) => {
+        if (modalInstance && !modalInstance._isHidden) {
+          modalInstance.hide();
+        }
+      });
+    },
     capitalizeFirstLetter(string) {
       if (string) {
         string = string.charAt(0).toUpperCase() + string.slice(1);
@@ -18,236 +78,291 @@ export default {
       return string;
     },
     async enableUser(userId) {
+      this.disenabledButtons = true;
       const url = "http://localhost:8080/usuario/enableUser";
       const data = {
         idUsuario: userId,
       };
       try {
-        document.getElementById("btn_cerrar_habilitar" + userId).click();
         await axios.post(url, data, { withCredentials: true });
-
-        alert("El Usuario A sido Habilitado Correctamente");
         this.$emit("reloadUsers");
+        alert("El Usuario a sido habilitado correctamente");
+
+        this.closeModal("enableDisableModal");
       } catch (error) {
         console.log(error);
       }
+      this.disenabledButtons = false;
     },
-
     async disableUser(userId) {
+      this.disenabledButtons = true;
       const url = "http://localhost:8080/usuario/disableUser";
       const data = {
         idUsuario: userId,
       };
       try {
-        document.getElementById("btn_cerrar_habilitar" + userId).click();
         await axios.post(url, data, { withCredentials: true });
-
-        alert("El Usuario A sido Desabilitado Correctamente");
         this.$emit("reloadUsers");
+        alert("El usuario a sido desabilitado correctamente");
+
+        this.closeModal("enableDisableModal");
       } catch (error) {
         console.log(error);
       }
+      this.disenabledButtons = false;
     },
     async removeAdminRole(userId) {
+      this.disenabledButtons = true;
       const url = "http://localhost:8080/usuario/removeAdmin";
       const data = {
         idUsuario: userId,
       };
       try {
-        document.getElementById("btn_cerrar_detalles_" + userId).click();
         await axios.post(url, data, { withCredentials: true });
-
-        alert("Rol De Administrador Revocado");
+        alert("Rol de administrador revocado");
         this.$emit("reloadUsers");
+
+        this.closeModal("editModal");
       } catch (error) {
         console.log(error);
       }
+      this.disenabledButtons = false;
     },
     async grantAdminRole(userId) {
+      this.disenabledButtons = true;
       const url = "http://localhost:8080/usuario/grantAdmin";
       const data = {
         idUsuario: userId,
       };
-
       try {
-        document.getElementById("btn_cerrar_detalles_" + userId).click();
         await axios.post(url, data, { withCredentials: true });
-
-        alert("Rol De Administrador Concedido");
+        alert("Rol de administrador concedido");
         this.$emit("reloadUsers");
+
+        this.closeModal("editModal");
       } catch (error) {
         console.log(error);
       }
+      this.disenabledButtons = false;
     },
+  },
+  mounted() {
+    this.initializeModals();
+  },
+  beforeUnmount() {
+    this.closeAllModals();
   },
 };
 </script>
 
 <template>
-  <tr style="height: 74px; width: 100%;" >
-    <td class="name" data-cell="Nombre: ">{{ user.nombre }} {{ user.apellido }}</td>
-    <td class="email" data-cell="Email: ">{{ user.email }}</td>
-    <td class="rol" data-cell="Rol: ">
+  <tr class="w-full h-[74px]">
+    <td class="data-cell" data-cell="Nombre: ">{{ user.nombre }} {{ user.apellido }}</td>
+    <td class="data-cell" data-cell="Email: ">{{ user.email }}</td>
+    <td class="data-cell" data-cell="Rol: ">
       {{ this.capitalizeFirstLetter(user.Rol.rol) }}
     </td>
-    <td class="state" data-cell="Estado: ">
+    <td class="data-cell" data-cell="Estado: ">
       <span class="green" v-if="user.habilitado"> Activo </span>
       <span class="red" v-else> Inactivo </span>
     </td>
-    <td class="extra">
-      <div
-        class="icon icon_resaltable"
-        data-bs-toggle="modal"
-        :data-bs-target="'#modal' + user.idUsuario"
-      >
+    <td class="text-center">
+      <div class="icon icon_resaltable mr-0.5" @click="openModal('editModal')">
         <i class="bi bi-pencil-square"></i>
       </div>
 
       <div
         v-if="user.habilitado && user.idUsuario != this.usrStore.currentUser.idUsuario"
-        class="icon icon_resaltable red"
-        data-bs-toggle="modal"
-        :data-bs-target="'#modalHabilitar' + user.idUsuario"
+        class="icon icon_resaltable red ml-0.5"
+        @click="openModal('enableDisableModal')"
       >
         <i class="bi bi-trash3-fill"></i>
       </div>
 
       <div
         v-else-if="!user.habilitado"
-        class="icon icon_resaltable green"
-        data-bs-toggle="modal"
-        :data-bs-target="'#modalHabilitar' + user.idUsuario"
+        class="icon icon_resaltable green ml-0.5"
+        @click="openModal('enableDisableModal')"
       >
         <i class="bi bi-check"></i>
       </div>
 
-      <div v-else-if="user.idUsuario == this.usrStore.currentUser.idUsuario" class="icon">
+      <div
+        v-else-if="user.idUsuario == this.usrStore.currentUser.idUsuario"
+        class="icon ml-0.5"
+      >
         <i class="bi bi-person-circle"></i>
       </div>
     </td>
   </tr>
 
-  <!-- MODALS -->
-
-  <!-- Detalles -->
+  <!-- Edit Modal -->
   <div
-    class="modal fade"
-    :id="'modal' + user.idUsuario"
+    ref="editModal"
+    id="editModal"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    data-bs-theme="dark"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
   >
-    <div class="modal-dialog">
-      <div class="modal-content text-light">
-        <div class="modal-header">
-          <h1
-            v-if="user.idUsuario == this.usrStore.currentUser.idUsuario"
-            class="modal-title fs-5"
-            id="exampleModalLabel"
-          >
-            <b> {{ user.nombre }} {{ user.apellido }} </b> (tu usuario)
-          </h1>
-          <h1
-            v-else-if="user.idUsuario != this.usrStore.currentUser.idUsuario"
-            class="modal-title fs-5"
-            id="exampleModalLabel"
-          >
-            <b> {{ user.nombre }} {{ user.apellido }} </b>
-          </h1>
+    <div class="relative p-4 w-full max-w-xl max-h-full mt-12 md:mt-20">
+      <div class="relative rounded-lg shadow bg-zinc-800">
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Detalles De Usuario
+          </h3>
+
           <button
-            :id="'btn_cerrar_detalles_' + user.idUsuario"
             type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            @click="closeModal('editModal')"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
         </div>
-        <div class="modal-body">
-          <b>ID de Usuario</b> {{ user.idUsuario }} <br />
-          <b>Email</b> {{ user.email }} <br />
-          <b>Rol</b> {{ user.Rol.rol }} <br />
-          <br />
-          <b v-if="!user.habilitado"> El Usuario se encuentra Inhabilitado </b>
+        <hr class="h-px bg-zinc-700 border-0" />
+        <div class="p-4 md:p-5 space-y-1">
+          <p class="text-base leading-relaxed text-gray-400">
+            <b>Nombre:</b> {{ user.nombre }} {{ user.apellido }}
+            <span v-if="user.idUsuario == this.usrStore.currentUser.idUsuario">
+              (tu usuario)
+            </span>
+          </p>
+          <p class="text-base leading-relaxed text-gray-400">
+            <b>ID de Usuario:</b> {{ user.idUsuario }}
+          </p>
+          <p class="text-base leading-relaxed text-gray-400">
+            <b>Email:</b> {{ user.email }}
+          </p>
+          <p class="text-base leading-relaxed text-gray-400">
+            <b>Rol:</b> {{ user.Rol.rol }} <br />
+          </p>
+          <p
+            class="text-base leading-relaxed text-gray-400 pt-2 font-semibold"
+            v-if="!user.habilitado"
+          >
+            El usuario se encuentra inhabilitado
+          </p>
         </div>
-        <div class="modal-footer">
-          <button
+
+        <div
+          class="flex justify-center p-4 md:p-5 border-t rounded-b border-gray-600 md:justify-start"
+        >
+          <DangerButtonModal
+            :disabled="this.disenabledButtons"
+            @click="removeAdminRole(user.idUsuario)"
             v-if="
               user.Rol.rol == 'admin' &&
               user.idUsuario != this.usrStore.currentUser.idUsuario
             "
-            type="button"
-            class="btn btn-danger"
-            @click="removeAdminRole(user.idUsuario)"
           >
             Quitar Privilegios de Admin
-          </button>
+          </DangerButtonModal>
 
-          <button
+          <PrimaryButtonModal
+            :disabled="this.disenabledButtons"
             v-else-if="user.Rol.rol == 'user'"
-            type="button"
-            class="btn btn-success"
             @click="grantAdminRole(user.idUsuario)"
           >
             Conceder Privilegios de Admin
-          </button>
+          </PrimaryButtonModal>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Enable/Disable Modal -->
   <div
-    v-if="user.idUsuario != this.usrStore.currentUser.idUsuario"
-    class="modal fade"
-    :id="'modalHabilitar' + user.idUsuario"
+    ref="enableDisableModal"
+    id="enableDisableModal"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    data-bs-theme="dark"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
   >
-    <div class="modal-dialog">
-      <div class="modal-content text-light">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">
+    <div
+      v-if="user.idUsuario != this.usrStore.currentUser.idUsuario"
+      class="relative p-4 w-full max-w-xl max-h-full mt-12 md:mt-20"
+    >
+      <div class="relative rounded-lg shadow bg-zinc-800">
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">
             <b v-if="user.habilitado"> Deshabilitar Usuario </b>
             <b v-else-if="!user.habilitado"> Habilitar Usuario </b>
-          </h1>
+          </h3>
+
           <button
-            :id="'btn_cerrar_habilitar' + user.idUsuario"
             type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            @click="closeModal('enableDisableModal')"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <hr class="h-px bg-zinc-700 border-0" />
+        <div class="p-4 md:p-5 space-y-4">
+          <p
+            class="text-pretty text-base leading-relaxed text-gray-500 dark:text-gray-400"
+          >
+            <span v-if="user.habilitado">
+              Deseas deshabilitar la cuenta de este usuario?
+            </span>
+            <span v-else-if="!user.habilitado">
+              Deseas habilitar la cuenta de este usuario?
+            </span>
+          </p>
         </div>
 
-        <div class="modal-body">
-          <span v-if="user.habilitado">
-            Deseas Deshabilitar la cuenta de este Usuario?
-          </span>
-          <span v-else-if="!user.habilitado">
-            Deseas Habilitar la cuenta de este Usuario?
-          </span>
-        </div>
-
-        <div class="modal-footer">
-          <button
+        <div
+          class="flex justify-center p-4 md:p-5 border-t rounded-b border-gray-600 md:justify-start"
+        >
+          <DangerButtonModal
+            :disabled="this.disenabledButtons"
             v-if="user.habilitado"
-            type="button"
-            class="btn btn-danger"
             @click="disableUser(user.idUsuario)"
           >
             Deshabilitar
-          </button>
+          </DangerButtonModal>
 
-          <button
+          <PrimaryButtonModal
+            :disabled="this.disenabledButtons"
             v-else-if="!user.habilitado"
-            type="button"
-            class="btn btn-success"
             @click="enableUser(user.idUsuario)"
           >
             Habilitar
-          </button>
+          </PrimaryButtonModal>
         </div>
       </div>
     </div>
@@ -255,19 +370,17 @@ export default {
 </template>
 
 <style scoped>
-
-.name,
-.email{
+.data-cell {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 .icon {
+  height: 100%;
   display: inline;
-  font-size: 20px;
+  font-size: 19px;
   padding: 6px 6px 4px 6px;
-  margin: 0px 5px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -284,14 +397,4 @@ export default {
 .green {
   color: rgb(2, 141, 32);
 }
-
-.element {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  text-align: center;
-}
-
 </style>

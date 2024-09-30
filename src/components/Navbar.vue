@@ -45,7 +45,9 @@ export default {
       >
     </div>
 
-    <div class="logo"><img src="../assets/svgs/CineLogo.svg" alt="Logo" /></div>
+    <div class="logo">
+      <img class="w-8" src="../assets/svgs/CineLogo.svg" alt="Logo" />
+    </div>
 
     <div v-if="!usrStore.isLogged" class="nav-links">
       <router-link :to="{ name: 'registro' }"> REGISTRARSE </router-link>
@@ -64,8 +66,12 @@ export default {
     </div>
     <div v-else class="nav-links">
       <router-link
-       :to="{ name: 'usuario' }"
-       :class="{ 'router-link-active': isRouteActive('/usuario') , 'router-link-active': isRouteActive('/admin')  }">
+        :to="{ name: 'usuario' }"
+        :class="{
+          'router-link-active': isRouteActive('/usuario'),
+          'router-link-active': isRouteActive('/admin'),
+        }"
+      >
         {{ usrStore.currentUser.nombre }}
       </router-link>
     </div>
@@ -110,7 +116,10 @@ export default {
           </router-link>
           <router-link
             :to="{ name: 'usuario' }"
-            :class="{ 'router-link-active': isRouteActive('/usuario') , 'router-link-active': isRouteActive('/admin')  }"
+            :class="{
+              'router-link-active': isRouteActive('/usuario'),
+              'router-link-active': isRouteActive('/admin'),
+            }"
             @click="closeNavMenu"
           >
             {{ usrStore.currentUser.nombre }}</router-link
@@ -130,6 +139,7 @@ header {
   transition: 1s;
   width: 80%;
   max-width: 1400px;
+  min-width: 770px;
 
   margin: 0 auto;
 
@@ -177,14 +187,8 @@ header .nav-links a {
 }
 
 .logo {
-  margin: auto 0;
-  text-align: center;
-  border-radius: 50%;
-}
-
-.logo img {
-  height: auto;
-  width: 35px;
+  display: flex;
+  justify-content: center;
 }
 
 .btn-menu {
@@ -218,7 +222,7 @@ header .nav-links a {
   text-align: center;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 768px) {
   header {
     width: 100%;
     min-width: 1pc;
@@ -287,7 +291,7 @@ header .overlay .overlay-option {
 
 header .overlay a {
   padding: 15px;
-  font-size: 36px;
+  font-size: 33px;
   display: block;
   transition: all 0.3s ease 0s;
   font-weight: 700;

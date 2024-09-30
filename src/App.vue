@@ -6,16 +6,15 @@ import { usrStore } from './components/store/usrStore'
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  let store = usrStore()
-  store.reiniciarSesion()
-})
-
+  let store = usrStore();
+  store.reiniciarSesion();
+});
 </script>
 
 <template>
   <Navbar />
 
-  <div class="component">
+  <div class="w-full px-2 component min-h-screen max-w-[1400px] md:w-4/5">
     <RouterView></RouterView>
   </div>
 
@@ -32,18 +31,9 @@ onMounted(() => {
 }
 
 .component {
-  width: 80%;
-  min-height: 95vh;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0;
+
   display: block;
   overflow-x: hidden;
 }
 
-@media screen and (max-width:1000px) {
-  .component {
-    width: 100%;
-  }
-}
 </style>

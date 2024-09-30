@@ -1,13 +1,13 @@
 <script>
 import { usrStore } from "../../components/store/usrStore";
 import { navigateTo } from "../../../utils/navigateTo";
-import PrimaryButton from "../../components/PrimaryButton.vue";
-import DangerButton from "../../components/DangerButton.vue";
+import PrimaryButton from "../../components/buttons/PrimaryButton.vue";
+import DangerButton from "../../components/buttons/DangerButton.vue";
 
 export default {
   components: {
     PrimaryButton,
-    DangerButton
+    DangerButton,
   },
   data() {
     return {
@@ -43,17 +43,20 @@ export default {
     </div>
   </div>
 
-  <div v-else class="borde_doble tamaño_s">
-    <div class="container_basic">
-      <div class="container_flex gap_standar">
-        <h1 class="neon-text title-menus">Detalles de Usuario</h1>
+  <div v-else class="menus-border max-w-lg">
+    <div class="container_basic gap-y-5 py-5">
+      <h1 class="neon-text text-4xl text-center pb-2">Detalles de Usuario</h1>
+
+      <div class="flex flex-col gap-y-2 sm"> 
         <span>
-          <b class="b_tag"> Nombre: </b> {{ this.usrStore.currentUser.nombre }}
+          <b class="block mb-1 sm:inline sm:mb-0"> Nombre: </b> {{ this.usrStore.currentUser.nombre }}
           {{ this.usrStore.currentUser.apellido }}
         </span>
 
-        <span> <b class="b_tag"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
+        <span> <b class="block mb-1 sm:inline sm:mb-0"> Email: </b> {{ this.usrStore.currentUser.email }} </span>
+      </div>
 
+      <div class="flex flex-col gap-y-3"> 
         <PrimaryButton v-if="this.usrStore.isAdmin" @click="navigateTo('adminMenu')"
           >Administrar
         </PrimaryButton>
@@ -65,11 +68,7 @@ export default {
 </template>
 
 <style scoped>
-
-
-@media screen and (max-width: 620px) {
-  .b_tag {
-    display: block;
-  }
+span {
+  color: #fff;
 }
 </style>

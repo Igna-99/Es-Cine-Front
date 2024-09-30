@@ -1,5 +1,3 @@
-import "bootstrap/dist/css/bootstrap.css"
-
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
@@ -17,6 +15,4 @@ createApp(App)
 .use(router)
 .use(VueAwesomePaginate)
 .mount('#app');
-
-import "bootstrap/dist/js/bootstrap.js"
 

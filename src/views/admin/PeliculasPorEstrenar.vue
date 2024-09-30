@@ -2,18 +2,18 @@
 import { usrStore } from "../../components/store/usrStore";
 
 import { navigateTo } from "../../../utils/navigateTo";
-import { getMoviesInTheaterFromTMDB } from "../../../utils/funcionsMovieDB";
+import { getMoviesToReleaseFromTMDB } from "../../../utils/funcionsMovieDB";
 
-import MovieCard from "../../components/MovieCard.vue";
+import MoviePremiereCard from "../../components/MoviePremiereCard.vue";
 import DangerButton from "../../components/buttons/DangerButton.vue";
-import AddMovieToTheaterModal from "../../components/AddMovieToTheaterModal.vue";
+import AddMovieToReleaseModal from "../../components/AddMovieToReleaseModal.vue";
 
 export default {
   data() {
     return {
       usrStore: usrStore(),
 
-      moviesInTheater: [],
+      moviesToRelease: [],
       currentPage: 1,
       itemsPerPage: 6,
       totalMovies: 0,
@@ -24,16 +24,16 @@ export default {
     };
   },
   components: {
-    MovieCard,
+    MoviePremiereCard,
     DangerButton,
-    AddMovieToTheaterModal,
+    AddMovieToReleaseModal,
   },
   computed: {
     displayedMovies() {
       let startIndex = this.currentPage * this.itemsPerPage - this.itemsPerPage;
       let endIndex = startIndex + this.itemsPerPage;
-      
-      return this.moviesInTheater.slice(startIndex, endIndex);
+
+      return this.moviesToRelease.slice(startIndex, endIndex);
     },
   },
   methods: {
@@ -41,10 +41,8 @@ export default {
 
     async loadMovies() {
       try {
-        this.moviesInTheater = await getMoviesInTheaterFromTMDB();
-
-        this.totalMovies = this.moviesInTheater.length;
-
+        this.moviesToRelease = await getMoviesToReleaseFromTMDB();
+        this.totalMovies = this.moviesToRelease.length;
         if (this.displayedMovies.length === 0 && this.currentPage > 1) {
           this.currentPage--;
         }
@@ -105,11 +103,11 @@ export default {
   <div v-else class="menus-border max-w-6xl mb-10">
     <div class="container_basic py-5">
       <h1 class="neon-text text-4xl text-center pb-5">
-        Administrar Peliculas En Cartelera
+        Administrar Peliculas Por Estrenar
       </h1>
 
-      <div   class="movies_grid">
-        <MovieCard
+      <div class="movies_grid">
+        <MoviePremiereCard
           v-for="movie in this.displayedMovies"
           :movie="movie"
           @reloadMovies="this.loadMovies()"
@@ -134,7 +132,7 @@ export default {
 
       <div class="flex flex-col-reverse gap-3 sm:flex-row">
         <DangerButton @click="navigateTo('adminMenu')"> Regresar </DangerButton>
-        <AddMovieToTheaterModal @reloadMovies="loadMovies()" />
+        <AddMovieToReleaseModal @reloadMovies="loadMovies()" />
       </div>
     </div>
   </div>
@@ -150,6 +148,7 @@ export default {
   grid-template-columns: 1fr;
   gap: 10px;
   justify-items: center;
+  width: 98%;
 }
 
 .activado {
@@ -163,6 +162,7 @@ export default {
   .movies_grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    width: 92%;
   }
 }
 </style>

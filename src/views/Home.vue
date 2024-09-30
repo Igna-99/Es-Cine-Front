@@ -1,4 +1,5 @@
 <script setup>
+
 import axios from "axios";
 import { ref, onMounted } from "vue";
 
@@ -62,17 +63,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <section v-if="popularMovies.length != 0">
   
-  <section class="section-swiper" v-if="popularMovies.length != 0">
-    <div class="neon-text-container text-swiper">
-      <h2 class="neon-text tittles-home">Proximamente</h2>
-    </div>
+    <h2 class="neon-text text-4xl my-8 text-center">Proximamente</h2>
 
     <HomeSwiper :movies="popularMovies" />
 
-    <div class="neon-text-container text-cartelera">
-      <h2 class="neon-text tittles-home2">Cartelera</h2>
-    </div>
+    <h2 class="neon-text text-4xl mb-8 mt-3 text-center">Cartelera</h2>
 
     <div class="cartelera-container">
       <router-link
@@ -96,16 +93,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.tittles-home {
-  font-size: 40px;
-  margin: 30px 0;
-}
-
-.tittles-home2 {
-  font-size: 40px;
-  margin: 10px 0px 30px 0px;
-}
-
 .cartelera-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);

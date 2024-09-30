@@ -1,6 +1,6 @@
 <script>
 import { usrStore } from "../../components/store/usrStore";
-import PrimaryButton from "../../components/PrimaryButton.vue";
+import PrimaryButton from "../../components/buttons/PrimaryButton.vue";
 
 export default {
   components: {
@@ -74,13 +74,11 @@ export default {
     <h1>you are already logged in</h1>
   </div>
 
-  <div v-else class="borde_doble tamaño_s">
-    <div class="container_basic container_flex">
-      <div class="neon-text-container">
-        <h1 class="neon-text title-menus">REGISTRO</h1>
-      </div>
+  <div v-else class="menus-border max-w-lg">
+    <div class="container_basic gap-y-4 py-5">
+      <h1 class="neon-text text-4xl text-center pb-2">REGISTRARSE</h1>
 
-      <div class="container-responsive-inputs">
+      <div class="container-responsive-inputs ">
         <div class="input_box input_registro">
           <input type="text" required v-model="this.nombre" />
           <span>Nombre</span>
@@ -109,47 +107,54 @@ export default {
 
       <PrimaryButton @click="registrse">Iniciar Sesión</PrimaryButton>
 
-      <div v-if="this.error1" class="alert alert-danger" role="alert">
-        <span class="errorSpam"> debe completar todos los campos </span>
+      <div
+        v-if="this.error1"
+        class="p-4 mb-4 text-md text-red-800 rounded-lg dark:bg-red-200"
+        role="alert"
+      >
+        <span class="font-semibold">debe completar todos los campos</span>
       </div>
-      <div v-if="this.error2" class="alert alert-danger" role="alert">
-        <span class="errorSpam"> las contraseñas no coinciden </span>
+
+      <div
+        v-if="this.error2"
+        class="p-4 mb-4 text-md text-red-800 rounded-lg dark:bg-red-200"
+        role="alert"
+      >
+        <span class="font-semibold">las contraseñas no coinciden</span>
       </div>
-      <div v-if="this.error3" class="alert alert-danger" role="alert">
-        <span class="errorSpam"> {{ this.msjError3 }} </span>
+
+      <div
+        v-if="this.error3"
+        class="p-4 mb-4 text-md text-red-800 rounded-lg dark:bg-red-200"
+        role="alert"
+      >
+        <span class="font-semibold">{{ this.msjError3 }}</span>
       </div>
+
     </div>
   </div>
 </template>
 
 <style scoped>
-.neon-text {
-  margin: 30px 0px 15px 0px;
-}
-
 .container-responsive-inputs {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  column-gap: 20px;
-  width: 95%;
+  width: 100%;
+  max-width: 420px;
+  flex-direction: column;
+  column-gap: 0px;
+  row-gap: 16px;
 }
 
 .input_registro {
-  width: 95%;
-  margin: 15px 0px;
+  width: 100%;
+  max-width: 420px;
 }
 
-.container_basic button {
-  margin: 15px 0px;
-}
-
-@media (max-width: 750px) {
+@media (min-width: 768px) {
   .container-responsive-inputs {
-    display: flex;
-    flex-direction: column;
-    column-gap: 0px;
-    width: 100%;
+    flex-direction: row;
+    column-gap: 20px;
   }
 }
 </style>

@@ -1,8 +1,8 @@
 <script>
 import { usrStore } from "../../components/store/usrStore";
 import { navigateTo } from "../../../utils/navigateTo";
-import PrimaryButton from "../../components/PrimaryButton.vue";
-import DangerButton from "../../components/DangerButton.vue";
+import PrimaryButton from "../../components/buttons/PrimaryButton.vue";
+import DangerButton from "../../components/buttons/DangerButton.vue";
 
 export default {
   components: {
@@ -36,44 +36,28 @@ export default {
     </div>
   </div>
 
-  <div v-else class="borde_doble tamaño_xs">
-    <div class="container_basic">
-      <div class="container_flex gap_standar">
-        <div class="neon-text-container">
-          <h1 class="neon-text title-menus">Administrar Cine</h1>
-        </div>
+  <div v-else class="menus-border max-w-lg">
+    <div class="container_basic gap-y-4 py-5">
 
-        <PrimaryButton class="btn-width" @click="navigateTo('usuariosRegistrados')">
-          Administrar Usuarios
+        <h1 class="neon-text text-4xl text-center pb-2">Administrar</h1>
+
+        <PrimaryButton class="w-11/12 sm:w-4/5" @click="navigateTo('usuariosRegistrados')">
+          Usuarios Registrados
         </PrimaryButton>
 
-        <PrimaryButton class="btn-width" @click="navigateTo('funcionesProgramadas')">
+        <PrimaryButton class="w-11/12 sm:w-4/5" @click="navigateTo('administrarFunciones')">
           Administrar Funciones
         </PrimaryButton>
 
-        <PrimaryButton class="btn-width" @click="navigateTo('peliculasEnCartelera')">
-          Administrar Peliculas A Estrenar
+        <PrimaryButton class="w-11/12 sm:w-4/5" @click="navigateTo('PeliculasPorEstrenar')">
+          Administrar Peliculas Por Estrenar
         </PrimaryButton>
 
-        <PrimaryButton class="btn-width" @click="navigateTo('peliculasEnCartelera')">
+        <PrimaryButton class="w-11/12 sm:w-4/5" @click="navigateTo('peliculasEnCartelera')">
           Administrar Peliculas En Cartelera
         </PrimaryButton>
 
-        <DangerButton class="btn-width" @click="navigateTo('usuario')"> Regresar </DangerButton>
-      </div>
+        <DangerButton class="w-11/12 sm:w-4/5" @click="navigateTo('usuario')"> Regresar </DangerButton>
     </div>
   </div>
 </template>
-
-<style scoped>
-
-.btn-width {
-  width: 80%;
-}
-
-@media screen and (max-width: 540px) {
-  .btn-width {
-    width: 90%;
-  }
-}
-</style>

@@ -2,20 +2,19 @@
 import axios from "axios";
 import { usrStore } from "../../components/store/usrStore";
 
-import PrimaryButton from "../../components/PrimaryButton.vue";
-import DangerButton from "../../components/DangerButton.vue";
+import DangerButton from "../../components/buttons/DangerButton.vue";
 import TrFuncion from "../../components/TrFuncion.vue";
-import ModalCreateScreening from "../../components/ModalCreateScreening.vue";
+import CreateScreeningModal from "../../components/CreateScreeningModal.vue";
 
 import { navigateTo } from "../../../utils/navigateTo";
-import { loadMoviesFromDB } from "../../../utils/funcionsMovieDB";
+import { getMoviesInTheaterFromTMDB } from "../../../utils/funcionsMovieDB";
 
 export default {
   data() {
     return {
       usrStore: usrStore(),
 
-      moviesInDB: [],
+      moviesInTheater: [],
       screeningsInDB: [],
 
       selectedDate: null,
@@ -30,24 +29,10 @@ export default {
       msjError: null,
     };
   },
-  async created() {
-    document.title = "Administrar Funciones";
-
-    if (sessionStorage.getItem("preSelectedDate") == null) {
-      this.initializeDate();
-    } else {
-      this.selectedDate = sessionStorage.getItem("preSelectedDate");
-    }
-    await this.loadFunctionsFromDB();
-    await this.loadMovies();
-
-    this.selectDate();
-  },
   components: {
     DangerButton,
-    PrimaryButton,
     TrFuncion,
-    ModalCreateScreening,
+    CreateScreeningModal,
   },
   computed: {
     displayedShows() {
@@ -78,17 +63,10 @@ export default {
     },
 
     async loadMovies() {
-      this.moviesInDB = await loadMoviesFromDB();
-    },
-
-    async loadCinemasRooms() {
-      const url = "http://localhost:8080/sala/all";
-
       try {
-        const response = await axios.get(url, { withCredentials: true });
-        this.cinemaRoomsInDB = response.data.result;
+        this.moviesInTheater = await getMoviesInTheaterFromTMDB();
       } catch (error) {
-        console.log(error);
+        console.error(error.message || error);
       }
     },
 
@@ -114,9 +92,9 @@ export default {
       let encontrado = false;
       let resultado = "null";
 
-      while (index < this.moviesInDB.length && !encontrado) {
-        if (this.moviesInDB[index].id == id) {
-          resultado = this.moviesInDB[index].title;
+      while (index < this.moviesInTheater.length && !encontrado) {
+        if (this.moviesInTheater[index].id == id) {
+          resultado = this.moviesInTheater[index].title;
           encontrado = true;
         } else {
           index++;
@@ -133,7 +111,7 @@ export default {
       this.selectDate();
     },
 
-    async reloadFunctions() {
+    async reloadScreenings() {
       await this.loadFunctionsFromDB();
       await this.selectDate();
     },
@@ -152,6 +130,20 @@ export default {
         this.pagesShown = 5;
       }
     },
+  },
+  async created() {
+    document.title = "Administrar Funciones";
+
+    if (sessionStorage.getItem("preSelectedDate") == null) {
+      this.initializeDate();
+    } else {
+      this.selectedDate = sessionStorage.getItem("preSelectedDate");
+    }
+
+    await this.loadMovies();
+    await this.loadFunctionsFromDB();
+  
+    this.selectDate();
   },
   mounted() {
     this.updateMaxPagesShown();
@@ -176,11 +168,9 @@ export default {
     </div>
   </div>
 
-  <div v-else class="tamaño_l borde_doble">
-    <div class="container_basic container_flex gap_standar">
-      <div class="neon-text-container">
-        <h1 class="neon-text title-menus">Administrar Funciones</h1>
-      </div>
+  <div v-else class="menus-border max-w-4xl">
+    <div class="container_basic py-5">
+      <h1 class="neon-text text-4xl text-center pb-5">Administrar Funciones</h1>
 
       <div class="container_date_menu">
         <button class="button-date-back" @click="changeDate(-1)">
@@ -207,20 +197,20 @@ export default {
         <button class="btn_basic btn_previous" @click="changeDate(1)">Siguente</button>
       </div>
 
-      <div style="width: 100%" v-if="!this.error">
-        <table style="table-layout: fixed">
+      <div class="text-white w-full" v-if="!this.error">
+        <table class="table-fixed">
           <thead>
             <tr>
-              <th style="width: 70%">Pelicula</th>
-              <th style="width: 10%">Sala</th>
-              <th style="width: 10%">Horario</th>
-              <th style="width: 10%"></th>
+              <th class="w-[63%]">Pelicula</th>
+              <th class="w-[10%]">Sala</th>
+              <th class="w-[15%]">Horario</th>
+              <th class="w-[11%]"></th>
             </tr>
           </thead>
           <tbody>
             <TrFuncion
               v-for="funcion in this.displayedShows"
-              @reloadFunctions="reloadFunctions()"
+              @reloadScreenings="reloadScreenings()"
               :function="funcion"
               :tittle="this.movieTitle(funcion.idPelicula)"
             />
@@ -256,16 +246,15 @@ export default {
       <div v-else="this.error" class="alert alert-danger">
         {{ this.msjError }}
       </div>
-      <div style="display: flex; gap: 20px">
+
+      <div class="flex flex-col-reverse gap-3 sm:flex-row">
         <DangerButton @click="navigateTo('adminMenu')"> Regresar </DangerButton>
-        <PrimaryButton data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Nueva Funcion</PrimaryButton
-        >
+        <CreateScreeningModal
+          :moviesInTheater="this.moviesInTheater"
+          @reloadScreenings="reloadScreenings()"
+        />
       </div>
     </div>
-
-    <ModalCreateScreening :moviesInDB="this.moviesInDB" />
-
   </div>
 </template>
 
@@ -348,7 +337,7 @@ export default {
   padding: 5px 15px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
   .container_date_btn_small .btn_basic {
     width: 100%;
     padding: 1.5em 1.2em;
@@ -374,7 +363,7 @@ export default {
   height: 74px;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
   .autofill {
     display: none;
   }

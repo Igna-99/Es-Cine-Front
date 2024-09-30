@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import { usrStore } from "../components/store/usrStore";
+import { usrStore } from "./store/usrStore";
 import { Modal } from "flowbite";
 import { getMoviePoster, formatRuntime, formatDate } from "../../utils/funcionsMovieDB";
 
@@ -8,19 +8,17 @@ import PrimaryButtonModal from "./buttons/PrimaryButtonModal.vue";
 import SecondaryButtonModal from "./buttons/SecondaryButtonModal.vue";
 import DangerButtonModal from "./buttons/DangerButtonModal.vue";
 
-
 export default {
   emits: ["reloadMovies"],
   props: ["movie"],
   data() {
     return {
       usrStore: usrStore(),
-      moviefunctions: null,
 
       modalInstances: {},
       scrollbarWidth: 0,
 
-      disenabledButtons: false
+      disenabledButtons: false,
     };
   },
   components: {
@@ -85,22 +83,11 @@ export default {
       });
     },
 
-    async loadMovieFunctions() {
-      const url = `http://localhost:8080/funcion/cantidad/pelicula/${this.movie.id}`;
-
-      try {
-        const response = await axios.get(url, { withCredentials: true });
-        this.moviefunctions = response.data.result;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     async deleteMovie() {
-      const url = "http://localhost:8080/pelicula/delete";
+      const url = "http://localhost:8080/peliculaPorEstrenar/delete";
       const data = {
         idPelicula: this.movie.id,
-      };  
+      };
 
       this.disenabledButtons = true
 
@@ -109,15 +96,33 @@ export default {
         this.$emit("reloadMovies");
         alert("Se ha eliminado la pelicula")
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
-      this.closeModal('ConfirmModal')
+      this.closeModal("ConfirmModal");
+      this.disenabledButtons = false
+    },
+
+    async releaseMovie() {
+      const url = "http://localhost:8080/peliculaPorEstrenar/release";
+      const data = {
+        idPelicula: this.movie.id,
+      };
+      this.disenabledButtons = true
+
+      try {
+        await axios.post(url, data, { withCredentials: true });
+
+        this.$emit("reloadMovies");
+        alert("Se ha estrenado la pelicula")
+      } catch (error) {
+        console.log(error);
+      }
+      this.closeModal("movieDetailsModal");
       this.disenabledButtons = false
     },
   },
   mounted() {
     this.initializeModals();
-    this.loadMovieFunctions();
   },
   beforeUnmount() {
     this.closeAllModals();
@@ -200,17 +205,20 @@ export default {
           <p class="text-base leading-relaxed text-gray-400">
             <b>Duracion: </b> {{ formatRuntime(movie.runtime) }}
           </p>
-          <p class="text-base leading-relaxed text-gray-400">
-            <b>Funciones Programadas: </b>
-            <span v-if="this.moviefunctions > 0"> {{ this.moviefunctions }} </span>
-            <span v-else> N/A </span>
-          </p>
         </div>
         <!-- Modal footer -->
         <div
           class="flex justify-center p-4 md:p-5 border-t rounded-b border-gray-600 md:justify-start"
         >
-          <DangerButtonModal @click="closeModal('movieDetailsModal'); openModal('ConfirmModal');"> Eliminar Pelicula De Cartelera </DangerButtonModal>
+          <PrimaryButtonModal :disabled="disenabledButtons" @click="releaseMovie()"> Estrenar Pelicula </PrimaryButtonModal>
+          <DangerButtonModal
+            @click="
+              closeModal('movieDetailsModal');
+              openModal('ConfirmModal');
+            "
+          >
+            Eliminar Pelicula</DangerButtonModal
+          >
         </div>
       </div>
     </div>
@@ -269,17 +277,15 @@ export default {
           <p class="text-sm mb-5 leading-relaxed text-gray-500">
             Las funciones de esta pelicula seran eliminadas junto a la misma
           </p>
-          <DangerButtonModal :disabled="this.disenabledButtons" @click="deleteMovie()">
-            Si, estoy Seguro
-          </DangerButtonModal>
+          <DangerButtonModal :disabled="disenabledButtons" @click="deleteMovie()"> Si, estoy Seguro </DangerButtonModal>
 
           <SecondaryButtonModal @click="this.closeModal('ConfirmModal')">
             No, cancelar
           </SecondaryButtonModal>
-
         </div>
       </div>
     </div>
   </div>
 </template>
 
+<style scoped></style>

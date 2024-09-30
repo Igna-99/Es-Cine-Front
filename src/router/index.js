@@ -10,9 +10,9 @@ import ReservasUsuario from '../views/usuario/ReservasUsuario.vue';
 
 import MenuAdministracion from '../views/admin/MenuAdministracion.vue';
 import UsuariosRegistrados from '../views/admin/UsuariosRegistrados.vue'
-import FuncionesProgramadas from '../views/admin/FuncionesProgramadas.vue';
+import AdministrarFunciones from '../views/admin/AdministrarFunciones.vue';
 import PeliculasEnCartelera from '../views/admin/PeliculasEnCartelera.vue';
-import CargarPelicula from '../views/admin/CargarPelicula.vue';
+import PeliculasPorEstrenar from '../views/admin/PeliculasPorEstrenar.vue';
 
 import Promociones from '../views/Promociones.vue';
 import Pelicula from '../views/peliculas/Pelicula.vue';
@@ -90,9 +90,9 @@ const routes = [
         component: UsuariosRegistrados,
     },
     {
-        path: "/admin/funcionesProgramadas",
-        name: 'funcionesProgramadas',
-        component: FuncionesProgramadas,
+        path: "/admin/administrarFunciones",
+        name: 'administrarFunciones',
+        component: AdministrarFunciones,
     },
     {
         path: "/admin/peliculasEnCartelera",
@@ -100,9 +100,9 @@ const routes = [
         component: PeliculasEnCartelera,
     },
     {
-        path: "/admin/cargarPelicula",
-        name: 'cargarPelicula',
-        component: CargarPelicula,
+        path: "/admin/PeliculasPorEstrenar",
+        name: 'PeliculasPorEstrenar',
+        component: PeliculasPorEstrenar,
     },
 
 

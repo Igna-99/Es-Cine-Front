@@ -4,7 +4,7 @@ import { usrStore } from "../../components/store/usrStore";
 import { navigateTo } from "../../../utils/navigateTo";
 
 import TrUser from "../../components/TrUser.vue";
-import DangerButton from "../../components/DangerButton.vue";
+import DangerButton from "../../components/buttons/DangerButton.vue";
 
 export default {
   data() {
@@ -25,26 +25,14 @@ export default {
     TrUser,
     DangerButton,
   },
-  async created() {
-    document.title = "Usuarios Registrados";
-    await this.loadUsers();
-  },
-  mounted() {
-    this.updateMaxPagesShown();
-    window.addEventListener("resize", this.updateMaxPagesShown);
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.updateMaxPagesShown);
-  },
   methods: {
     navigateTo,
     async loadUsers() {
       const url = "http://localhost:8080/usuario/all";
       try {
-        const response = await axios.get(url, { withCredentials: true });
+        const response = await axios.get(url, { withCredentials: true });    
         this.users = response.data.result;
         this.totalUsers = this.users.length;
-        
       } catch (error) {
         this.error = true;
         this.msjError = error.response.data.message;
@@ -68,12 +56,32 @@ export default {
     },
   },
   computed: {
+    sortedUsers() {
+      let currentUserId = this.usrStore.currentUser.idUsuario;
+      const loggedInUserArray = this.users.filter(
+        (user) => user.idUsuario === currentUserId
+      );
+      const otherUsers = this.users.filter((user) => user.idUsuario !== currentUserId);
+
+      return [...loggedInUserArray, ...otherUsers];
+    },
     displayedUsers() {
       let startIndex = this.currentPage * this.itemsPerPage - this.itemsPerPage;
       let endIndex = startIndex + this.itemsPerPage;
 
-      return this.users.slice(startIndex, endIndex);
+      return this.sortedUsers.slice(startIndex, endIndex);
     },
+  },
+  async created() {
+    document.title = "Usuarios Registrados";
+    await this.loadUsers();
+  },
+  mounted() {
+    this.updateMaxPagesShown();
+    window.addEventListener("resize", this.updateMaxPagesShown);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.updateMaxPagesShown);
   },
 };
 </script>
@@ -91,21 +99,19 @@ export default {
     </div>
   </div>
 
-  <div v-else class="borde_doble tamaño_xl">
-    <div class="container_basic container_flex gap_standar">
-      <div class="neon-text-container margin">
-        <h1 class="neon-text title-menus">Usuarios Registrados</h1>
-      </div>
+  <div v-else class="menus-border max-w-4xl">
+    <div class="container_basic py-5">
+      <h1 class="neon-text text-4xl text-center pb-5">Usuarios Registrados</h1>
 
-      <div style="width: 100%" v-if="!this.error">
-        <table style="table-layout: fixed">
+      <div class="text-white w-full" v-if="!this.error">
+        <table class="table-fixed">
           <thead>
             <tr>
               <th style="width: 20%">Nombre</th>
-              <th style="width: 40%">Email</th>
-              <th style="width: 11%">Rol</th>
-              <th style="width: 13%">Estado</th>
-              <th style="width: 17%"></th>
+              <th style="width: 37%">Email</th>
+              <th style="width: 12%">Rol</th>
+              <th style="width: 14%">Estado</th>
+              <th style="width: 15%"></th>
             </tr>
           </thead>
           <tbody>
@@ -150,7 +156,7 @@ export default {
   height: 74px;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
   .autofill {
     display: none;
   }

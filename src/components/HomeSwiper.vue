@@ -32,10 +32,10 @@ function navigateTo(ubicacion) {
     :initialSlide="Math.floor(movies.length / 2)"
     :slidesPerView="2"
     :breakpoints="{
-      450: { slidesPerView: 3 },
-      800: { slidesPerView: 4 },
-      1200: { slidesPerView: 5 },
-      1500: { slidesPerView: 6 },
+      650: { slidesPerView: 3 },
+      768: { slidesPerView: 4 },
+      1024: { slidesPerView: 5 },
+      1280: { slidesPerView: 6 },
     }"
     :autoplay="{
       delay: 360000,
